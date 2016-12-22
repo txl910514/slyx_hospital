@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="renderer" content="webkit">
+  <title></title>
+  <link rel="stylesheet" href="css/main.css">
+  <script type="text/javascript" src="jslib/jquery.min.js"></script>
+  <script type="text/javascript" src="jslib/underscore.js"></script>
+  <script type="text/javascript" src="jslib/echarts.js"></script>
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="jslib/html5shiv.js"></script>
+  <script src="jslib/respond.js"></script>
+  <![endif]-->
+  <script type="text/javascript">
+    GVR = {
+      URL: {},
+      ECHARTS: {},
+      JSON: {}
+    };
+  </script>
+</head>
+<body>
+  <div class="content position-absolute" id="init-url" url="/s/vyunying/all">
+    <div class="position-absolute">
+      <canvas  id="small-bg"></canvas>
+    </div>
+    <div class="header">
+      <div class="slyx-log">
+        <img src="images/slxy_logo.png" alt="">
+      </div>
+      <div class="header-title">成都肿瘤医院</div>
+      <div class="time-box">
+        <div class="time-square">
+          <div class="hour-text" id="js-hour-text">
+
+          </div>
+          <div class="time-border-top-left"></div>
+          <div class="time-border-left-top"></div>
+          <div class="time-border-top-right"></div>
+          <div class="time-border-right-top"></div>
+          <div class="time-border-left-bottom"></div>
+          <div class="time-border-bottom-left"></div>
+          <div class="time-border-right-bottom"></div>
+          <div class="time-border-bottom-right"></div>
+        </div>
+        <div class="time-colon">：</div>
+        <div class="time-square">
+          <div class="hour-text" id="js-min-text">
+
+          </div>
+          <div class="time-border-top-left"></div>
+          <div class="time-border-left-top"></div>
+          <div class="time-border-top-right"></div>
+          <div class="time-border-right-top"></div>
+          <div class="time-border-left-bottom"></div>
+          <div class="time-border-bottom-left"></div>
+          <div class="time-border-right-bottom"></div>
+          <div class="time-border-bottom-right"></div>
+        </div>
+        <div class="time-square time-long-square">
+          <div class="hour-text" id="js-year-text">
+
+          </div>
+          <div class="time-border-top-left"></div>
+          <div class="time-border-left-top"></div>
+          <div class="time-border-top-right"></div>
+          <div class="time-border-right-top"></div>
+          <div class="time-border-left-bottom"></div>
+          <div class="time-border-bottom-left"></div>
+          <div class="time-border-right-bottom"></div>
+          <div class="time-border-bottom-right"></div>
+        </div>
+      </div>
+    </div>
+    <div class="body-content position-absolute">
+
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="journal_js/canvas_js.js"></script>
+<script type="text/javascript" src="journal_js/common.js"></script>
+<script type="text/javascript" src="journal_js/echarts_js.js"></script>
+<script type="text/javascript" src="journal_js/index.js"></script>
+</html>
