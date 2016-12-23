@@ -117,7 +117,7 @@
         width: 100%;
         height: $width1;
         top: 0;
-        background: linear-gradient(to right, rgba(107,216,234,0) 0%, rgba(107,216,234,0.8) 14px, rgba(107,216,234,0) 40%, rgba(107,216,234,0) 100%);
+        background: linear-gradient(to right, rgba(107,216,234,0) 0%, rgba(107,216,234,0.8) 50%, rgba(107,216,234,0) 100%);
       }  @else if $d == bottom {
         width: 100%;
         height: $width1;

@@ -23,7 +23,6 @@ var COMMON_FUNC = {
   ready_init: function() {
     var self = this;
     self.get_time();
-/*    self.animate_num(2, 111101011);*/
   },
 
   get_time: function() {
@@ -46,101 +45,6 @@ var COMMON_FUNC = {
       setTimeout(getTime_func, 1000);
     }
     getTime_func();
-  },
-
-  num_init: function(num) {
-    var self = this;
-    var $div = $('<div></div>');
-    num = num.toString();
-    if (num.length >= 3) {
-      num = num.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-    }
-    _.each(num,function(index, key) {
-      if (index === ',' ) {
-        index = 'split';
-      }
-      var single_num_tpl = self.single_num_tpl({index:index});
-      $div.append(single_num_tpl);
-    });
-    return $div;
-  },
-
-  animate_num: function($dom,startNum, endNum) {
-    var self = this;
-    var time = 10;
-    if (startNum > endNum) {
-      console.info('数据顺序不对');
-      return false;
-    }
-    var length = (endNum - startNum).toString().length - 2;
-    var add = 0;
-    var $div;
-    if (length > 0) {
-      for (i = 0; i < length; i++) {
-        add += Math.pow(10,i);
-      }
-    }
-    else {
-      add = 1;
-    }
-    var num_setInterval = setInterval(function() {
-      if( startNum <= endNum) {
-        $div = self.num_init(startNum);
-        startNum += add;
-        $dom.html($div);
-      }
-      else {
-        $div = self.num_init(endNum);
-        $dom.html($div);
-        clearInterval(num_setInterval);
-      }
-    }, time);
-  },
-
-  area_map: function($obj) {
-    var alt = $obj.attr('id');
-    var $body = $('body');
-    var $meter_arrow = $('.meter-arrow');
-    var $meter_num = $('#meter-num');
-    var area_echarts = GVR.ECHARTS.AREA_MAP;
-    var name;
-    switch (alt) {
-      case 'palaver' :
-        name = '洽谈中';
-        break;
-      case 'purpose' :
-        name = '确定意向';
-        break;
-      case 'arrange' :
-        name = '部署中';
-        break;
-      case 'train' :
-        name = '培训中';
-        break;
-      case 'use' :
-        name = '使用中';
-        break;
-      default :
-        name = '部署中';
-        break;
-    }
-    $body.find('.hospital-alert').remove();
-    $('.img-rotate').each(function(index, dom) {
-      $meter_arrow.removeClass('meter-arrow-'+ (index + 1));
-      $meter_num.removeClass('meter-num-' + (index + 1));
-    });
-    $meter_arrow.addClass('meter-arrow-' + ($obj.index() + 1) );
-    $meter_num.addClass('meter-num-' + ($obj.index() + 1));
-    $('.' + alt + '-img').addClass('active').siblings().removeClass('active');
-    if (GVR.JSON.hospital_num) {
-      $('#meter-num').text(GVR.JSON.hospital_num[alt+'_num']);
-    }
-    if (area_echarts) {
-      area_echarts.dispatchAction({
-        type:'legendSelect',
-        name: name
-      });
-    }
   },
 
   ajax_get: function($obj, data, url, error_callback, callback){
