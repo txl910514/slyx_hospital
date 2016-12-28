@@ -1,56 +1,38 @@
 $body-bg: #070f17;
-$map-bg: #1a3741;
 
-$color1: #6bd8ea;
-$color2: #1a2330;
-$color3: #9d9d9e;
-$color4: #1d3c46;
-$color5: #0e1d25;
-$color6: #fff;
-$color7: #00c2eb;
-$color8: #0094d2;
-$color9: #2a5863;
-$color10: #1e2734;
-$color11: #bed6d2;
-$color12: #55ABBA;
-$meter-num: (1: #f1635e, 2: #ffc528, 3: #6bd8ea, 4: #00d991, 5: #939fdf);
+$color1: #5dc3dc;
+$color2: #9d9d9e;
+$color3: #c9caca;
+$color4: #1e2122;
+$color5: #0e0d15;
+$color6: #cfeaf0;
 
+$rgba1: rgba(23,41,135,.1);
+$rgba2: rgba(113,119,217,.2);
+$rgba3: rgba(113,119,217,.4);
 
-$header-height: 80px;
-$header-half-height: 40px;
-$progress-height : 20px;
-$select-height: 30px;
-$alert-line-height: 30px;
-
-$min-progress-width: 200px;
-$select-title-width : 70px;
-$select-arrow-width : 7px;
-$hospital-alert-width: 285px;
+$header-height: 60px;
+$header-half-height: 30px;
 
 $long: 6px;
 $width : 2px;
-$width1 : 1px;
-$apart-long: 12px;
-$apart-width: 1px;
+$width1: 1px;
+$width3 : 3px;
+$width50: 50px;
 
 $fs12: 12px;
 $fs14: 14px;
 $fs16: 16px;
-$fs18: 18px;
 $fs20: 20px;
 $fs22: 22px;
 $fs28: 28px;
 $fs32: 32px;
-$fs40: 40px;
 
-$padding20: 20px;
+$padding3: 3px;
+$padding5: 5px;
 $padding10: 10px;
+$padding20: 20px;
 $margin20: 20px;
-$margin6: 6px;
 
-$manage-border: 10px;
-
-$num-total: 9 !default;
-
-$border-radius50: 50px;
-$radius4: 4px;
+$top30: 30px;
+$top35: 35px;

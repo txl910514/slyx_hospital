@@ -153,7 +153,7 @@ gulp.task('build-dist-sass', function () {
 			errorHandler: pkg.notify.onError('Error: <%= error.message %>')
 		}))
 		.pipe(pkg.autoprefixer({
-			browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
+			browsers: [ 'last 3 versions', '> 1%',  'Firefox ESR', 'Opera 12.1']
 		}))
 		.pipe(pkg.revReplace({
 			manifest: gulp.src("./rev/manifest.img.json")
