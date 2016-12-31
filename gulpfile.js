@@ -27,7 +27,7 @@ var gulp = require('gulp'),
 	Q = require('q'),
 	del = require('del'),
 	pathConfig = {
-		dist: 'slyx_dist/',
+		dist: 'hospital_dp/',
 		src: 'src/',
 		rev: 'rev'
 	},

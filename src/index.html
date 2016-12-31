@@ -83,11 +83,11 @@
               <div class="device-name display-middle">
                 设备总数
               </div>
-              <div class="device-num display-middle">
-                <div class="device-num-bg display-middle">5</div>
-                <div class="device-num-bg display-middle">9</div>
+              <div class="device-num display-middle" id="total-device-num">
                 <div class="device-num-bg display-middle">0</div>
-                <div class="device-num-bg display-middle">7</div>
+                <div class="device-num-bg display-middle">0</div>
+                <div class="device-num-bg display-middle">0</div>
+                <div class="device-num-bg display-middle">0</div>
               </div>
               <div class="device-unit display-middle">
                 台
@@ -102,11 +102,11 @@
               <div class="device-name display-middle">
                 在用设备数
               </div>
-              <div class="device-num display-middle">
-                <div class="device-num-bg display-middle">5</div>
-                <div class="device-num-bg display-middle">9</div>
+              <div class="device-num display-middle" id="using-count">
                 <div class="device-num-bg display-middle">0</div>
-                <div class="device-num-bg display-middle">7</div>
+                <div class="device-num-bg display-middle">0</div>
+                <div class="device-num-bg display-middle">0</div>
+                <div class="device-num-bg display-middle">0</div>
               </div>
               <div class="device-unit display-middle">
                 台
@@ -119,13 +119,13 @@
           <div class="status-flex-border table no-border">
             <div class="table-cell">
               <div class="device-name display-middle">
-                报修设备数
+                月完修设备
               </div>
-              <div class="device-num display-middle">
-                <div class="device-num-bg display-middle">5</div>
-                <div class="device-num-bg display-middle">9</div>
+              <div class="device-num display-middle" id="fix-count">
                 <div class="device-num-bg display-middle">0</div>
-                <div class="device-num-bg display-middle">7</div>
+                <div class="device-num-bg display-middle">0</div>
+                <div class="device-num-bg display-middle">0</div>
+                <div class="device-num-bg display-middle">0</div>
               </div>
               <div class="device-unit display-middle">
                 台
@@ -137,13 +137,12 @@
         <div class="display-middle status-flex">
           <div class="display-middle device-status-pie" id="wait-status"></div>
           <div class="display-middle device-status-pie" id="repair-status"></div>
-          <div class="display-middle device-status-pie" id="closure-status"></div>
           <div class="display-middle device-status-pie" id="overtime-status"></div>
         </div>
       </div>
       <div class="chart-content">
         <div class="left-chart-content position-absolute">
-          <div class="left-half-content padding-content">
+          <div class="left-half-content padding-content" id="highValue" url="/s/yybd/eqp">
             <div class="chart-title display-middle">
               <i class="display-middle img-icon gaozhi-icon"></i>
               <span class="display-middle">高值设备在用统计</span>
@@ -170,8 +169,7 @@
             <div class="center-position center-position-right position-absolute padding-content">
               <div class="chart-title display-middle">
                 <i class="display-middle img-icon guzhang-icon"></i>
-                <span class="display-inline">故障率</span>
-
+                <span class="display-inline">月完修统计</span>
               </div>
               <div class="content-bg position-absolute" id="hitch-echarts"></div>
             </div>
@@ -187,38 +185,12 @@
                 <div class="display-middle message-device ellipsis">设备名</div>
                 <div class="display-middle message-device ellipsis">科室</div>
                 <div class="display-middle message-name ellipsis">报修人</div>
-                <div class="display-middle message-time ellipsis">报修时间</div>
+                <div class="display-middle message-time ellipsis">更新时间</div>
                 <div class="display-middle message-name ellipsis">接修人</div>
                 <div class="display-middle message-name ellipsis">状态</div>
               </div>
-              <div class="message-content position-absolute">
-                <div class="message-line">
-                  <div class="display-middle message-code ellipsis">123456789</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-time ellipsis">2016-05-14 05:43</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-name ellipsis">报修</div>
-                </div>
-                <div class="message-line">
-                  <div class="display-middle message-code ellipsis">123456789</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-time ellipsis">2016-05-14 05:43</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-name ellipsis">报修</div>
-                </div>
-                <div class="message-line">
-                  <div class="display-middle message-code ellipsis">123456789</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-time ellipsis">2016-05-14 05:43</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-name ellipsis">报修</div>
-                </div>
+              <div class="message-content position-absolute" id="update-info" url="/s/yybd/fix">
+
               </div>
             </div>
           </div>
@@ -237,34 +209,8 @@
                 <div class="display-middle message-name ellipsis">接修人</div>
                 <div class="display-middle message-name ellipsis">状态</div>
               </div>
-              <div class="message-content position-absolute">
-                <div class="message-line">
-                  <div class="display-middle message-code ellipsis">123456789</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-time ellipsis">2016-05-14 05:43</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-name ellipsis">超时12小时</div>
-                </div>
-                <div class="message-line">
-                  <div class="display-middle message-code ellipsis">123456789</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-time ellipsis">2016-05-14 05:43</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-name ellipsis">超时12小时</div>
-                </div>
-                <div class="message-line">
-                  <div class="display-middle message-code ellipsis">123456789</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-device ellipsis">设备名设备名设备名设备名</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-time ellipsis">2016-05-14 05:43</div>
-                  <div class="display-middle message-name ellipsis">王大川</div>
-                  <div class="display-middle message-name ellipsis">超时12小时</div>
-                </div>
+              <div class="message-content position-absolute" id="overdue_info">
+
               </div>
             </div>
           </div>
@@ -275,7 +221,7 @@
               <i class="display-middle img-icon keshizaiyong-icon"></i>
               <span class="display-middle">科室在用率</span>
             </div>
-            <div class="content-bg position-absolute" id="offices-use"></div>
+            <div class="content-bg position-absolute" id="offices-use" url="/s/yybd/dpt"></div>
           </div>
           <div class="right-chart-three position-absolute two padding-content">
             <div class="chart-title display-middle">
@@ -289,40 +235,77 @@
               <i class="display-middle img-icon yigong-icon"></i>
               <span class="display-middle">医工展示</span>
             </div>
-            <div class="content-bg position-absolute">
-              <div class="display-middle medical-portrait">
-                <div class="medical_head">
+            <div class="content-bg position-absolute" id="medical_info_box">
 
-                </div>
-                <div class="medical_name">
-                  王大炮
-                </div>
-                <div class="linear-height"></div>
-              </div>
-              <div class="display-middle medical-chart">
-                <div class="triangle-line">
-                  <div class="display-middle triangle-border">
-                    <div class="arrow-triangle"></div>
-                    月维修次数 <span class="time-num">50</span>次
-                  </div>
-                  <div class="display-middle triangle-border">
-                    <div class="arrow-triangle"></div>
-                    正在维修 <span class="time-num">50</span> 台
-                  </div>
-                </div>
-                <div class="status-charts">
-                  <div class="triangle-echarts display-middle" id="total-degree"></div>
-                  <div class="triangle-echarts display-middle" id="mean-answer"></div>
-                  <div class="triangle-echarts display-middle" id="mean-servicing"></div>
-                </div>
-              </div>
-              <div class="display-height"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <script type="text/html" id="message_line_tpl">
+    <div class="message-line">
+      <div class="display-middle message-code ellipsis"><%- code %></div>
+      <div class="display-middle message-device ellipsis"><%- standard_categories_name %></div>
+      <div class="display-middle message-device ellipsis"><%- departments_name %></div>
+      <div class="display-middle message-name ellipsis"><%- contact_name %></div>
+      <div class="display-middle message-time ellipsis">
+        <% if(status) { %>
+          <%- updated_at %>
+        <% } else { %>
+          <%- created_at %>
+        <% } %>
+
+      </div>
+      <div class="display-middle message-name ellipsis"><%- users_name %></div>
+      <div class="display-middle message-name ellipsis
+      <% if(status) { %>
+        <%- status_color %>
+      <% } %>
+      ">
+        <% if(status) { %>
+          <%- status_name %>
+        <% } else { %>
+        超时<span class="over_color"><%- over_due_time %>小时</span>
+        <% } %>
+      </div>
+    </div>
+  </script>
+  <script type="text/html" id="medical_tpl">
+    <div class="medical-info-line">
+      <div class="display-middle medical-portrait">
+        <div class="medical_head">
+
+        </div>
+        <div class="medical_name">
+          <%- users_name %>
+        </div>
+        <div class="linear-height"></div>
+      </div>
+      <div class="display-middle medical-chart">
+        <div class="table">
+          <div class="table-cell">
+            <div class="triangle-line">
+              <div class="display-middle triangle-border">
+                <div class="arrow-triangle"></div>
+                月维修次数 <span class="time-num"><%- month_fix_count %></span>次
+              </div>
+              <div class="display-middle triangle-border">
+                <div class="arrow-triangle"></div>
+                正在维修 <span class="time-num"><%- using_count %></span> 台
+              </div>
+            </div>
+            <div class="status-charts">
+              <div class="triangle-echarts display-middle" id="total-degree<%- id_index  %>"></div>
+              <div class="triangle-echarts display-middle" id="mean-answer<%- id_index  %>"></div>
+              <div class="triangle-echarts display-middle" id="mean-servicing<%- id_index  %>"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="display-height"></div>
+    </div>
+  </script>
 </body>
 <script type="text/javascript" src="journal_js/canvas_js.js"></script>
 <script type="text/javascript" src="journal_js/common.js"></script>
