@@ -140,6 +140,143 @@ var COMMON_FUNC = {
       });
     }
     return false;
+  },
+
+  ajax_post: function ($obj, data, form, action, error_callback, callback){
+    /*
+     ajax post通用方法
+     参数：
+     $obj: form 表单内的一个元素对象，一般为提交按钮或输入框。
+     data (可选): 要提交的内容， 不传时会以form序列化内容为准。
+     form (可选): form 表单对象，不传时会从$obj找最近的父级form元数
+     action (可选): POST请求的url路径，不传时会用form的action属性。
+     error_callback (可选): 异常时的回调函数
+     callback: 成功时的回调函数
+     */
+    var self = this;
+    var args = Array.prototype.slice.call(arguments);
+    var _callback = args.slice(-1)[0];
+    error_callback = null;
+    call_back = null;
+    if(_.isFunction(_callback)){
+      var callback = args.pop();
+      var _error_callback = args.slice(-1)[0];
+      if(_.isFunction(_error_callback)){
+        error_callback = args.pop();
+      }
+      $obj = args[0];
+      data = args[1];
+      form = args[2];
+      action = args[3];
+    }
+    return self._ajax_post($obj, data, form, action, {}, error_callback, callback)
+  },
+
+  _ajax_post: function($obj, data, form, action, ajax_options, error_callback, callback){
+    var self = this;
+    var args = Array.prototype.slice.call(arguments);
+    var _callback = args.slice(-1)[0];
+    error_callback = null;
+    call_back = null;
+    if(_.isFunction(_callback)){
+      var callback = args.pop();
+      var _error_callback = args.slice(-1)[0];
+      if(_.isFunction(_error_callback)){
+        error_callback =  args.pop();
+      }
+      $obj = args[0];
+      data = args[1];
+      form = args[2];
+      action = args[3];
+      ajax_options= args[4];
+    }
+    if($obj.hasClass('disabled')){
+      self.full_loading("hide");
+    }
+    else{
+      var $form = form || $obj.closest('form');
+      console.log($form);
+      var action = action || $form.attr("url") || $form.attr('action');
+      var empty = false;
+      $form.find(".necessary[disabled!='disabled']").each(function(){
+        if(!($(this).val())){
+          var label = $(this).attr('placeholder')
+            || $(this).prev('label').text()
+            || $(this).prev('.pl').text()
+            || $(this).closest('.control-group').find('label').text();
+          label = label.replace(/[：:]/g, "");
+          alertify.error(label + '不能为空');
+          empty = true;
+        }
+      });
+      if(!empty){
+        $obj.addClass('disabled');
+        var data = data || $form.serialize();
+        var options = {
+          type: 'POST',
+          url: action,
+          data: data,
+          headers: {"X-CSRFToken": $.cookie("csrftoken")},
+          success: function(result){
+            if(result.msg){
+              alertify[result.stat](result.msg)
+            }
+            $obj.removeClass('disabled');
+            if(_.isFunction(callback)){
+              callback(result);
+            }
+            if(result.reload === 1){
+              self._reload();
+            }
+            else if(result.reload === 2){
+              self.reload();
+            }
+            else if(result.reload === 3){
+              self._reload(0);
+            }
+            else if(result.redirect){
+              self.redirect(result.redirect);
+            }
+            else if(result.close_modal){
+              $(".modal").modal("hide");
+            }
+            self.full_loading("hide");
+          },
+          error: function(xhr, msg, error) {
+            if(msg === "error"){
+              if(xhr.status === 404){
+                alertify.error("无效的数据");
+              }
+              else if(xhr.status === 500){
+                alertify.error("服务器异常，请联系管理员");
+              }
+              else if(xhr.status === 403){
+                alertify.error("登录已过期或没有访问权限");
+                self._reload();
+              }
+              else{
+                alertify.error("网络异常，请稍后再试");
+              }
+            }
+            else{
+              if(msg){
+                alertify.error(msg);
+              }
+            }
+            if(_.isFunction(error_callback)){
+              error_callback();
+            }
+            $obj.removeClass('disabled');
+            self.full_loading("hide");
+          }
+        }
+        if(_.isObject(ajax_options)){
+          _.extend(options, ajax_options);
+        }
+        return $.ajax(options);
+      }
+    }
+    return false;
   }
 
 };

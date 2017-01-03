@@ -6,19 +6,26 @@ var index = {
   medical_tpl: _.template($('#medical_tpl').html()),
   ready_init:function() {
     var self = this;
+    var $init_url = $('#form_data');
+    var url = '<%=base%>' + $init_url.attr('url');
+    var data = {"usersId": 5000, "users_name": "数联医信展博", "role": 5, "union_id": 407, "hospitals_id": 407};
     self.highValue_ajax();
     self.dpt_ajax();
     self.info_ajax();
+/*    COMMON_FUNC.ajax_post($init_url, data, $init_url, url, function(result) {
+      console.log(result);
+    });*/
   },
 
   highValue_ajax: function() {
     var self = this;
     var $highValue = $('#highValue');
-    var url = '<%=base%>' + $highValue.attr('url');
+    var url = '<%=base%>' + $highValue.attr('url') + '/1';
     COMMON_FUNC.ajax_get($highValue, {}, url, function(result) {
       self.device_num_total($('#total-device-num'), result.eqpCount[0].total_count);
       self.device_num_total($('#using-count'), result.eqpCount[0].using_count);
       self.device_num_total($('#fix-count'), result.eqpCount[1].finish_count);
+      $('#header-title').text(result.eqpCount[1].hospitals_name);
       var data = {
         y:[],
         x1:[],
@@ -60,19 +67,29 @@ var index = {
     var self = this;
     var $update_info = $('#update-info').html('');
     var $overdue_info = $('#overdue_info').html('');
-    var url = '<%=base%>' + $update_info.attr('url');
+    var url = '<%=base%>' + $update_info.attr('url') + '/1';
     var update_line_height = $update_info.height() / 6 - 2;
-    var overdue_line_height = $overdue_info.height() / 3 - 2;
+    var overdue_line_height = $overdue_info.height() / 4 - 2;
+    var body_width  = $(window).width();
+    if (body_width <= 1366) {
+      update_line_height = $update_info.height() / 3 - 2;
+      overdue_line_height = $overdue_info.height() / 2 - 2;
+    }
+    clearInterval(GVR.INTERVAL.message_setInterval);
     COMMON_FUNC.ajax_get($update_info, {}, url, function(result) {
       var month_check_data = {
         x: [],
-        y:[]
+        y:[],
+        unit:'次',
+        name: '月巡检次数'
       };
       var fix_pct_data = {
         status: 'line',
         x: [],
         y1:[],
-        y2:[]
+        y2:[],
+        legend_data: ['当月报修', '当月完修'],
+        unit: '次'
       };
       _.each(result.month_check, function(check) {
         month_check_data.x.unshift(check.month + '月');
@@ -140,7 +157,7 @@ var index = {
         $overdue_info.append($overdue_tpl);
       });
 
-      setInterval(function() {
+      GVR.INTERVAL.message_setInterval = setInterval(function() {
         var $update_line = $update_info.find('.message-line');
         var $overdue_line = $overdue_info.find('.message-line');
         var $update_first = $update_line.first();
@@ -164,14 +181,17 @@ var index = {
   dpt_ajax: function() {
     var self = this;
     var $offices_use = $('#offices-use').html('');
-    var url = '<%=base%>' + $offices_use.attr('url');
+    var url = '<%=base%>' + $offices_use.attr('url') + '/1';
     var total_dptfix = 0, other_dptfix = 0, dptfix_num = 0, interval_num = 0;
     var $medical_info_box = $('#medical_info_box').html('');
+    clearInterval(GVR.INTERVAL.info_setInterval);
     COMMON_FUNC.ajax_get($offices_use, {}, url, function(result) {
       var dptuse_data = {
         x:[],
         y1:[],
-        y2:[]
+        y2:[],
+        legend_data: ['科室在用率'],
+        unit: '%'
       };
       var dptfix_data = {
         name:'科室报修占比',
@@ -272,7 +292,7 @@ var index = {
       ECHARTS_FUNC.status_pie('overtime-status', overdue_data);
       ECHARTS_FUNC.bar_status('offices-use', dptuse_data);
       ECHARTS_FUNC.pie_echarts('offices-repair', dptfix_data);
-      setInterval(function() {
+      GVR.INTERVAL.info_setInterval = setInterval(function() {
         var $medical_info_line = $('.medical-info-line');
         var $parent = $medical_info_line.parent();
         var height = $parent.height();
@@ -342,7 +362,7 @@ var index = {
 $(function(){
   index.ready_init();
   $(window).resize(function() {
-
+    index.ready_init();
   });
 })
 ;

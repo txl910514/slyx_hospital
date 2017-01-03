@@ -19,19 +19,21 @@
     GVR = {
       URL: {},
       ECHARTS: {},
-      JSON: {}
+      JSON: {},
+      INTERVAL: {}
     };
   </script>
 </head>
 <body>
-  <div class="content position-absolute" id="init-url" url="/s/vyunying/all">
+<form action="javascript:;" id="form_data" url="/s/savet/ousers"></form>
+  <div class="content position-absolute" id="init-url" >
     <div class="header">
       <div class="border-gradient-top"></div>
       <div class="border-gradient-bottom"></div>
       <div class="slyx-log">
         <img src="images/slxy_logo.png" alt="">
       </div>
-      <div class="header-title">成都肿瘤医院</div>
+      <div class="header-title" id="header-title"></div>
       <div class="time-box">
         <div class="time-square">
           <div class="hour-text" id="js-hour-text">
@@ -142,7 +144,7 @@
       </div>
       <div class="chart-content">
         <div class="left-chart-content position-absolute">
-          <div class="left-half-content padding-content" id="highValue" url="/s/yybd/eqp">
+          <div class="left-half-content padding-content" id="highValue" url="/s/yybd/eqp" jsonp-callback="success_jsonpCallback1">
             <div class="chart-title display-middle">
               <i class="display-middle img-icon gaozhi-icon"></i>
               <span class="display-middle">高值设备在用统计</span>
@@ -189,7 +191,7 @@
                 <div class="display-middle message-name ellipsis">接修人</div>
                 <div class="display-middle message-name ellipsis">状态</div>
               </div>
-              <div class="message-content position-absolute" id="update-info" url="/s/yybd/fix">
+              <div class="message-content position-absolute" id="update-info" url="/s/yybd/fix" jsonp-callback="success_jsonpCallback1">
 
               </div>
             </div>
@@ -221,7 +223,7 @@
               <i class="display-middle img-icon keshizaiyong-icon"></i>
               <span class="display-middle">科室在用率</span>
             </div>
-            <div class="content-bg position-absolute" id="offices-use" url="/s/yybd/dpt"></div>
+            <div class="content-bg position-absolute" id="offices-use" url="/s/yybd/dpt" jsonp-callback="success_jsonpCallback1"></div>
           </div>
           <div class="right-chart-three position-absolute two padding-content">
             <div class="chart-title display-middle">

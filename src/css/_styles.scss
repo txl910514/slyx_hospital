@@ -326,13 +326,27 @@ img{
               .triangle-line {
                 text-align: center;
                 .triangle-border{
-                  border: solid $width3 $rgba3;
+                  border: solid $width3 $color11;
                   padding: $padding5;
                   border-radius: $padding5;
                   font-size: $fs12;
                   position: relative;
                   &:last-child{
                     margin-left: $padding5;
+                  }
+                  &:after {
+                    position: absolute;
+                    display: block;
+                    top:-4*$width1;
+                    left: $width1;
+                    width: 0;
+                    height: 3*$long / 2;
+                    border-color: transparent;
+                    border-style: solid;
+                    border-width: $width3;
+                    content: " ";
+                    border-right-color: $color11;
+                    transform:rotate(-135deg);
                   }
                   .arrow-triangle{
                     position: absolute;
@@ -344,8 +358,8 @@ img{
                     border-width: 11px;
                     top:-$width3;
                     left: -$width3;
-                    border-top-color: $rgba1;
-                    border-left-color: $rgba1;
+                    border-top-color: $rgba4;
+                    border-left-color: $rgba4;
                     border-bottom-width: 0;
                     border-left-width: 0;
                     &:after {
@@ -357,7 +371,7 @@ img{
                       border-style: solid;
                       bottom: 1px;
                       content: " ";
-                      border-right-color: $rgba1;
+                      border-right-color: $rgba4;
                       border-bottom-width: 0;
                     }
                   }
@@ -374,7 +388,7 @@ img{
                   height: 100%;
                   margin-top: $padding10;
                 }
-                height: 50%;
+                height: 55%;
               }
             }
             .display-height{
@@ -440,6 +454,22 @@ img{
       }
       .chart-content {
         height: 85%;
+        .right-chart-content {
+          .right-chart-three {
+            &.three {
+              .medical-chart {
+                .triangle-line  {
+                  .triangle-border {
+                    padding: $padding5 $padding10;
+                    &:last-child {
+                      margin-left: $top30;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

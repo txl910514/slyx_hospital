@@ -16,8 +16,9 @@ var ECHARTS_FUNC = {
         orient: 'vertical',
         x: 'right',
         y: 'bottom',
-        itemWidth: 14,
-        itemGap: 5,
+        itemWidth: 13,
+        itemHeight: 13,
+        itemGap: 4,
         align:'left',
         textStyle: {
           color: '#fff'
@@ -54,11 +55,16 @@ var ECHARTS_FUNC = {
       ],
       color:['#71c7d3', '#5fb384', '#89b663', '#b0bb57', '#d9bb44', '#f8b623']
     };
+    var body_width  = $(window).width();
+    if (body_width <= 1366) {
+      option.legend.itemGap = 1;
+    }
     myChart.setOption(option);
   },
 
   status_pie: function(dom_id, data) {
     var myChart = echarts.init(document.getElementById(dom_id));
+    var title_top;
     function getData() {
       return [{
         value: data.percent,
@@ -84,7 +90,7 @@ var ECHARTS_FUNC = {
           color: '#fff',
           fontSize: 12
         },
-        left:'center'
+        left:'center',
       },
       series: [{
         type: 'pie',
@@ -104,14 +110,13 @@ var ECHARTS_FUNC = {
               show: true,
               textStyle: {
                 fontSize: '12',
-                fontWeight: 'bold',
                 color: '#fff'
               }
             }
           },
           itemStyle: {
             normal: {
-              color: 'transparent',
+              color: 'transparent'
             }
           }
         }],
@@ -120,7 +125,7 @@ var ECHARTS_FUNC = {
 
       },{
         type: 'pie',
-        radius: ['0%', '55%'],
+        radius: ['0%', '50%'],
         silent: true,
         label: {
           normal: {
@@ -141,7 +146,7 @@ var ECHARTS_FUNC = {
 
         {
           type: 'pie',
-          radius: ['65%', '70%'],
+          radius: ['60%', '65%'],
           silent: true,
           label: {
             normal: {
@@ -164,7 +169,7 @@ var ECHARTS_FUNC = {
     var one_json =  {
       name: 'main',
       type: 'pie',
-      radius: ['65%', '70%'],
+      radius: ['60%', '65%'],
       label: {
         normal: {
           show: true,
@@ -183,7 +188,7 @@ var ECHARTS_FUNC = {
       var two_json = {
         name: 'main_two',
         type: 'pie',
-        radius: ['65%', '70%'],
+        radius: ['60%', '65%'],
         label: {
           normal: {
             show: false
@@ -211,17 +216,30 @@ var ECHARTS_FUNC = {
       option.series.push(two_json);
     }
     option.series.push(one_json);
+    var body_width  = $(window).width();
+    if (body_width <= 1366) {
+      option.title.top = '-6%';
+      if (data.two_percent) {
+        option.title.top = '-10%';
+        option.series[0].center = ['50%', '110%'];
+      }
+    }
     myChart.setOption(option);
   },
 
   bar_status: function(dom_id, data) {
     var label_bon = false;
     var max = 100;
+    var grid_top = '10%';
+    var body_width  = $(window).width();
+    if (body_width <= 1366) {
+      grid_top = '15%'
+    }
     if (data.status) {
       label_bon = true;
       max = 'auto';
       var legend = {
-        data: ['搜索引擎', '直接访问'],
+        data: data.legend_data,
         align: 'left',
         left:'right',
         textStyle: {
@@ -240,7 +258,7 @@ var ECHARTS_FUNC = {
         }
       },
       grid: {
-        top:'10%',
+        top:grid_top,
         left: '3%',
         right: '4%',
         bottom: '3%',
@@ -272,6 +290,11 @@ var ECHARTS_FUNC = {
       yAxis : [
         {
           type : 'value',
+          name: data.unit,
+          nameTextStyle:{
+            color:'#9fa0a0'
+          },
+          nameGap:5,
           min: 0,
           max: max,
           axisTick: {
@@ -299,7 +322,7 @@ var ECHARTS_FUNC = {
       ]
     };
     var bar1_json = {
-      name:'直问',
+      name:data.legend_data[0],
       type:'bar',
       barWidth: '30%',
       itemStyle: {
@@ -323,7 +346,7 @@ var ECHARTS_FUNC = {
       data:data.y1
     };
     var bar2_json = {
-      name:'直接访问',
+      name:data.legend_data[0],
       type:'bar',
       barWidth: '30%',
       barGap:'-100%',
@@ -341,9 +364,8 @@ var ECHARTS_FUNC = {
       data:data.y2
     };
     var line_json = {
-      name:'搜索引擎',
+      name:data.legend_data[0],
       type:'line',
-      stack: '总量',
       symbol: 'circle',
       symbolSize:5,
       label: {
@@ -369,8 +391,19 @@ var ECHARTS_FUNC = {
     if(data.status) {
       option.series.push(line_json);
       option.legend = legend;
+      bar2_json.name = data.legend_data[1];
     }
     else {
+      var tooltip = {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        },
+        formatter: function(params) {
+          return params[1].name + '<br/>' + params[1].seriesName + ':' + params[1].value;
+        }
+      };
+      option.tooltip = tooltip;
       option.series.push(bar1_json);
     }
     option.series.push(bar2_json);
@@ -379,6 +412,11 @@ var ECHARTS_FUNC = {
 
   accumulate_echarts: function(dom_id, data) {
     var myChart = echarts.init(document.getElementById(dom_id));
+    var grid_top = '10%';
+    var body_width  = $(window).width();
+    if (body_width <= 1366) {
+      grid_top = '15%'
+    }
     var option = {
       backgroundColor: 'rgba(23,41,135,.1)',
       color: ['#71c8d9'],
@@ -386,7 +424,7 @@ var ECHARTS_FUNC = {
         trigger: 'axis'
       },
       grid: {
-        top: '10%',
+        top: grid_top,
         left: '3%',
         right: '4%',
         bottom: '3%',
@@ -418,6 +456,11 @@ var ECHARTS_FUNC = {
       yAxis : [
         {
           type : 'value',
+          name: data.unit,
+          nameTextStyle:{
+            color:'#9fa0a0'
+          },
+          nameGap:5,
           axisTick: {
             show:false
           },
@@ -439,9 +482,8 @@ var ECHARTS_FUNC = {
       ],
       series : [
         {
-          name:'搜索引擎',
+          name: data.name,
           type:'line',
-          stack: '总量',
           symbol: 'circle',
           symbolSize:5,
           label: {
