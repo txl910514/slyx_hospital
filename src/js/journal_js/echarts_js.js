@@ -64,7 +64,10 @@ var ECHARTS_FUNC = {
 
   status_pie: function(dom_id, data) {
     var myChart = echarts.init(document.getElementById(dom_id));
-    var title_top;
+    var center_font = 12;
+    if (!data.name) {
+      center_font = 14;
+    }
     function getData() {
       return [{
         value: data.percent,
@@ -136,7 +139,7 @@ var ECHARTS_FUNC = {
         data: [{
           itemStyle: {
             normal: {
-              color: 'rgba(14,22, 28, 0.7)'
+              color: 'rgba(14, 22, 28, 0.8)'
             }
           }
         }],
@@ -172,7 +175,10 @@ var ECHARTS_FUNC = {
       radius: ['60%', '65%'],
       label: {
         normal: {
-          show: true,
+          show: false,
+          textStyle: {
+            fontSize: 16
+          },
           position: 'center',
           formatter: function (a) {
             return data.num + data.unit;
@@ -180,6 +186,35 @@ var ECHARTS_FUNC = {
         }
       },
       data: getData(),
+
+      animationEasingUpdate: 'cubicInOut',
+      animationDurationUpdate: 500
+    };
+    var text_json =  {
+      name: 'text',
+      type: 'pie',
+      radius: ['0%', '100%'],
+      label: {
+        normal: {
+          show: true,
+          textStyle: {
+            color:'#70c8c9',
+            fontSize: center_font
+          },
+          position: 'center',
+          formatter: function (a) {
+            return data.num + data.unit;
+          }
+        }
+      },
+      data:[{
+        value: 1,
+        itemStyle: {
+          normal: {
+            color: 'transparent'
+          }
+        }
+      }],
 
       animationEasingUpdate: 'cubicInOut',
       animationDurationUpdate: 500
@@ -216,12 +251,19 @@ var ECHARTS_FUNC = {
       option.series.push(two_json);
     }
     option.series.push(one_json);
+    option.series.push(text_json);
     var body_width  = $(window).width();
     if (body_width <= 1366) {
       option.title.top = '-6%';
       if (data.two_percent) {
-        option.title.top = '-10%';
+        option.title.top = '6%';
         option.series[0].center = ['50%', '110%'];
+      }
+    }
+    else {
+      if (data.two_percent) {
+        option.title.top = '18%';
+        option.series[0].center = ['50%', '80%'];
       }
     }
     myChart.setOption(option);
@@ -231,6 +273,7 @@ var ECHARTS_FUNC = {
     var label_bon = false;
     var max = 100;
     var grid_top = '10%';
+    var grid_left = '3%';
     var body_width  = $(window).width();
     if (body_width <= 1366) {
       grid_top = '15%'
@@ -244,8 +287,12 @@ var ECHARTS_FUNC = {
         left:'right',
         textStyle: {
           color:'#9fa0a0'
-        }
+        },
+        itemHeight: 9
       }
+    }
+    else {
+      grid_left = '0%';
     }
     var myChart = echarts.init(document.getElementById(dom_id));
     var option = {
@@ -259,7 +306,7 @@ var ECHARTS_FUNC = {
       },
       grid: {
         top:grid_top,
-        left: '3%',
+        left: grid_left,
         right: '4%',
         bottom: '3%',
         containLabel: true
@@ -336,7 +383,7 @@ var ECHARTS_FUNC = {
           show: true,
           position: 'top',
           formatter: function(params) {
-            return data.y2[params.dataIndex];
+            return data.y2[params.dataIndex] + '%';
           },
           textStyle: {
             color:'#9fa0a0'
@@ -383,9 +430,11 @@ var ECHARTS_FUNC = {
       },
       lineStyle: {
         normal: {
+          color:'rgba(113, 200, 217,1)',
           width: 1
         }
       },
+      smooth: true,
       data:data.y1
     };
     if(data.status) {
@@ -513,6 +562,7 @@ var ECHARTS_FUNC = {
               }], false)
             }
           },
+          smooth: true,
           data:data.y
         }
       ]
@@ -522,9 +572,14 @@ var ECHARTS_FUNC = {
 
   horizontal_bar_echarts: function(dom_id, data) {
     var myChart = echarts.init(document.getElementById(dom_id));
+    var label_bon = true;
+    if(data.status) {
+      label_bon = false;
+    }
     var option = {
       backgroundColor: 'rgba(23,41,135,.1)',
       tooltip : {
+        show: false,
         trigger: 'axis',
         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
           type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
@@ -563,15 +618,16 @@ var ECHARTS_FUNC = {
       xAxis : [
         {
           type : 'value',
-          name: '台',
+          name: data.unit,
           nameTextStyle:{
             color:'#9fa0a0'
           },
-          position: 'top',
+          position: 'bottom',
           axisTick: {
             show:false
           },
           axisLabel: {
+            show:label_bon,
             textStyle: {
               color:'#9fa0a0'
             }
@@ -582,17 +638,17 @@ var ECHARTS_FUNC = {
         },
         {
           type: 'value',
-          name: '%',
           nameTextStyle:{
             color:'#9fa0a0'
           },
           min: 0,
           max: 100,
-          position: 'bottom',
+          position: 'top',
           axisTick: {
             show:false
           },
           axisLabel: {
+            show:false,
             textStyle: {
               color:'#9fa0a0'
             }
@@ -622,7 +678,10 @@ var ECHARTS_FUNC = {
           label: {
             normal: {
               show: false,
-              position: 'top',
+              position: 'right',
+              formatter: function(params) {
+                return data.x2[params.dataIndex] + '%';
+              },
               textStyle: {
                 color:'#9fa0a0'
               }
@@ -652,14 +711,13 @@ var ECHARTS_FUNC = {
           name:'在用设备比例',
           type:'line',
           symbol: 'circle',
-          symbolSize:10,
-          xAxisIndex: 1,
+          symbolSize:5,
           label: {
             normal: {
               show: true,
               position: 'right',
               formatter: function(params) {
-                return params.value + '%'
+                return data.x3[params.dataIndex] + '%';
               },
               textStyle: {
                 color:'#9fa0a0'
@@ -678,7 +736,7 @@ var ECHARTS_FUNC = {
               width: 0
             }
           },
-          data:data.x3
+          data:data.label
         }
       ]
     };

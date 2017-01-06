@@ -47,7 +47,7 @@ var COMMON_FUNC = {
     getTime_func();
   },
 
-  ajax_get: function($obj, data, url, error_callback, callback){
+  ajax_get: function($obj, data, url, jsonp_name, error_callback, callback){
     /*
      ajax get通用方法
      参数：
@@ -71,6 +71,7 @@ var COMMON_FUNC = {
       $obj = args[0];
       data = args[1];
       url = args[2];
+      jsonp_name = args[3];
     }
     if($obj.hasClass('disabled')){
 /*      self.full_loading("hide");*/
@@ -81,13 +82,14 @@ var COMMON_FUNC = {
       data = data || {};
 /*      $.extend(data, {time: my_date.getTime()});*/
       var url= url || $obj.attr('url') || '.';
+      jsonp_name = jsonp_name || $obj.attr('jsonp-callback');
       return $.ajax({
         type: 'GET',
         url: url,
         data: data,
         dataType:'JSONP',
         jsonp: 'callback',
-        jsonpCallback:'success_jsonpCallback',
+        jsonpCallback:jsonp_name,
         success: function(result){
           if(result.msg){
             console.log(result.msg);

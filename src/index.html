@@ -39,41 +39,17 @@
           <div class="hour-text" id="js-hour-text">
 
           </div>
-          <div class="time-border-top-left"></div>
-          <div class="time-border-left-top"></div>
-          <div class="time-border-top-right"></div>
-          <div class="time-border-right-top"></div>
-          <div class="time-border-left-bottom"></div>
-          <div class="time-border-bottom-left"></div>
-          <div class="time-border-right-bottom"></div>
-          <div class="time-border-bottom-right"></div>
         </div>
-        <div class="time-colon">：</div>
+        <div class="time-colon">:</div>
         <div class="time-square">
           <div class="hour-text" id="js-min-text">
 
           </div>
-          <div class="time-border-top-left"></div>
-          <div class="time-border-left-top"></div>
-          <div class="time-border-top-right"></div>
-          <div class="time-border-right-top"></div>
-          <div class="time-border-left-bottom"></div>
-          <div class="time-border-bottom-left"></div>
-          <div class="time-border-right-bottom"></div>
-          <div class="time-border-bottom-right"></div>
         </div>
         <div class="time-square time-long-square">
           <div class="hour-text" id="js-year-text">
 
           </div>
-          <div class="time-border-top-left"></div>
-          <div class="time-border-left-top"></div>
-          <div class="time-border-top-right"></div>
-          <div class="time-border-right-top"></div>
-          <div class="time-border-left-bottom"></div>
-          <div class="time-border-bottom-left"></div>
-          <div class="time-border-right-bottom"></div>
-          <div class="time-border-bottom-right"></div>
         </div>
       </div>
     </div>
@@ -102,7 +78,7 @@
           <div class="status-flex-border table">
             <div class="table-cell">
               <div class="device-name display-middle">
-                在用设备数
+                在用设备
               </div>
               <div class="device-num display-middle" id="using-count">
                 <div class="device-num-bg display-middle">0</div>
@@ -189,9 +165,9 @@
                 <div class="display-middle message-name ellipsis">报修人</div>
                 <div class="display-middle message-time ellipsis">更新时间</div>
                 <div class="display-middle message-name ellipsis">接修人</div>
-                <div class="display-middle message-name ellipsis">状态</div>
+                <div class="display-middle message-status ellipsis">状态</div>
               </div>
-              <div class="message-content position-absolute" id="update-info" url="/s/yybd/fix" jsonp-callback="success_jsonpCallback1">
+              <div class="message-content position-absolute" id="update-info" url="/s/yybd/fix" jsonp-callback="success_jsonpCallback2">
 
               </div>
             </div>
@@ -209,7 +185,7 @@
                 <div class="display-middle message-name ellipsis">报修人</div>
                 <div class="display-middle message-time ellipsis">报修时间</div>
                 <div class="display-middle message-name ellipsis">接修人</div>
-                <div class="display-middle message-name ellipsis">状态</div>
+                <div class="display-middle message-status ellipsis">状态</div>
               </div>
               <div class="message-content position-absolute" id="overdue_info">
 
@@ -223,15 +199,15 @@
               <i class="display-middle img-icon keshizaiyong-icon"></i>
               <span class="display-middle">科室在用率</span>
             </div>
-            <div class="content-bg position-absolute" id="offices-use" url="/s/yybd/dpt" jsonp-callback="success_jsonpCallback1"></div>
+            <div class="content-bg position-absolute" id="offices-use" url="/s/yybd/dpt" jsonp-callback="success_jsonpCallback3"></div>
           </div>
-          <div class="right-chart-three position-absolute two padding-content">
+<!--          <div class="right-chart-three position-absolute two padding-content">
             <div class="chart-title display-middle">
               <i class="display-middle img-icon keshibaoxiu-icon"></i>
               <span class="display-middle">科室报修占比</span>
             </div>
             <div class="content-bg position-absolute" id="offices-repair"></div>
-          </div>
+          </div>-->
           <div class="right-chart-three position-absolute three padding-content">
             <div class="chart-title display-middle">
               <i class="display-middle img-icon yigong-icon"></i>
@@ -248,7 +224,9 @@
   <script type="text/html" id="message_line_tpl">
     <div class="message-line">
       <div class="display-middle message-code ellipsis"><%- code %></div>
-      <div class="display-middle message-device ellipsis"><%- standard_categories_name %></div>
+      <div class="display-middle message-device ellipsis">
+        <%- categories_name %>
+      </div>
       <div class="display-middle message-device ellipsis"><%- departments_name %></div>
       <div class="display-middle message-name ellipsis"><%- contact_name %></div>
       <div class="display-middle message-time ellipsis">
@@ -260,7 +238,7 @@
 
       </div>
       <div class="display-middle message-name ellipsis"><%- users_name %></div>
-      <div class="display-middle message-name ellipsis
+      <div class="display-middle message-status ellipsis
       <% if(status) { %>
         <%- status_color %>
       <% } %>
@@ -268,7 +246,7 @@
         <% if(status) { %>
           <%- status_name %>
         <% } else { %>
-        超时<span class="over_color"><%- over_due_time %>小时</span>
+        超时<span class="over_color"><%- over_due_time %></span>
         <% } %>
       </div>
     </div>
@@ -277,7 +255,7 @@
     <div class="medical-info-line">
       <div class="display-middle medical-portrait">
         <div class="medical_head">
-
+          <%- last_name %>
         </div>
         <div class="medical_name">
           <%- users_name %>
@@ -306,6 +284,14 @@
         </div>
       </div>
       <div class="display-height"></div>
+    </div>
+  </script>
+  <script type="text/html" id="no-bx-tpl">
+    <div class="no_bx display-middle"></div>
+    <div class="display-middle no_bx_text">
+      <div class="table">
+        <div class="table-cell">暂无科室报修占比</div>
+      </div>
     </div>
   </script>
 </body>

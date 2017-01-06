@@ -95,15 +95,19 @@ img{
     padding-left:$padding20;
   }
   .message-device{
-    width: 18%;
+    width: 16%;
     padding-left:$padding10;
   }
   .message-name{
     width: 10%;
     padding-left:$padding10;
   }
+  .message-status {
+    width: 11%;
+    padding-left:$padding10;
+  }
   .message-time{
-    width: 18%;
+    width: 20%;
     padding-left:$padding10;
   }
   .repair_color {
@@ -168,9 +172,6 @@ img{
       right: 0;
       line-height: normal;
       .time-square{
-        width: $header-half-height;
-        height: $header-half-height;
-        border: solid $width1 $color1;
         display: inline-block;
         vertical-align: middle;
         position: relative;
@@ -181,12 +182,11 @@ img{
       .time-colon{
         display: inline-block;
         vertical-align: middle;
-        margin:0;
-        font-size: $fs28;
+        margin:0 $width;
+        line-height: $header-half-height;
       }
       .time-long-square{
-        min-width: $header-height;
-        margin-left: $header-half-height;
+        margin-left: $padding5;
         padding:0 $padding10;
         width: auto;
       }
@@ -278,7 +278,7 @@ img{
       .right-chart-content{
         left:75%;
         .right-chart-three{
-          height: 1/3 * 100%;
+          height: 1/2 * 100%;
           &.one{
             top: 0;
           }
@@ -286,7 +286,8 @@ img{
             top:1/3 * 100%;
           }
           &.three{
-            top:2/3 * 100%;
+            top:1/2 * 100%;
+            height: 1/2 * 100%;
             .medical-info-line {
               width: 100%;
               height: 100%;
@@ -302,6 +303,10 @@ img{
                 border-radius: 100%;
                 border: solid $padding5 $rgba2;
                 margin: auto;
+                color: $color2;
+                font-size: $fs16;
+                line-height: 3*$width50/4;
+                text-align: center;
               }
               .medical_name {
                 color: $color1;
@@ -409,7 +414,7 @@ img{
 .xunjian-icon {
   background: url("../images/xunjian.png") no-repeat;
 }
-.guzhang-icon-icon {
+.guzhang-icon {
   background: url("../images/guzhang.png") no-repeat;
 }
 .gengxin-icon {
@@ -430,6 +435,23 @@ img{
 .gaozhi-icon {
   background: url("../images/gaozhi.png") no-repeat;
 }
+.no_bx {
+  background-image: url("../images/no_bx.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 50%;
+  height: 80%;
+  background-position: center;
+}
+.no_bx_text {
+  text-align: center;
+  height: 100%;
+  width: 48%;
+  color: #9fa0a0;
+  .table{
+    height: 100%;
+  }
+}
 .img-icon {
   width: 20px;
   height: 20px;
@@ -437,7 +459,7 @@ img{
   margin-right: $padding5;
 }
 
-@media screen and (min-width: 1367px) {
+@media screen and (min-width: 1370px) {
   .content {
     .body-content {
       .device-content {
@@ -462,7 +484,7 @@ img{
                   .triangle-border {
                     padding: $padding5 $padding10;
                     &:last-child {
-                      margin-left: $top30;
+                      margin-left: $padding10;
                     }
                   }
                 }
