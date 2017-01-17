@@ -15,19 +15,20 @@ var index = {
       self.highValue_ajax();
       self.dpt_ajax();
       self.info_ajax();
-    }, 30*60* 1000)
+    }, 3*60*60*1000)
   },
 
   highValue_ajax: function() {
     var self = this;
     var $highValue = $('#highValue');
-    var url = '<%=base%>' + $highValue.attr('url') + '/71';
+    var url = '<%=base%>' + $highValue.attr('url');
     var jsonp_name = $highValue.attr('jsonp-callback');
     COMMON_FUNC.ajax_get($highValue, {}, url, jsonp_name, function(result) {
       self.device_num_total($('#total-device-num'), result.eqpCount[0].total_count);
       self.device_num_total($('#using-count'), result.eqpCount[0].using_count);
       self.device_num_total($('#fix-count'), result.eqpCount[1].finish_count);
       $('#header-title').text(result.eqpCount[1].hospitals_name);
+      document.title = result.eqpCount[1].hospitals_name;
       var data = {
         y:[],
         x1:[],
@@ -141,7 +142,7 @@ var index = {
     var self = this;
     var $update_info = $('#update-info').html('');
     var $overdue_info = $('#overdue_info').html('');
-    var url = '<%=base%>' + $update_info.attr('url') + '/71';
+    var url = '<%=base%>' + $update_info.attr('url');
     var update_line_height = $update_info.height() / 6 - 2;
     var overdue_line_height = $overdue_info.height() / 4 - 2;
     var body_width  = $(window).width();
@@ -202,6 +203,7 @@ var index = {
             break;
           case 7:
             update.status_name = '已留观';
+            update.status_color = 'receive_color';
             break;
           case 8:
             update.status_name = '外修开始';
@@ -258,7 +260,7 @@ var index = {
   dpt_ajax: function() {
     var self = this;
     var $offices_use = $('#offices-use').html('');
-    var url = '<%=base%>' + $offices_use.attr('url') + '/71';
+    var url = '<%=base%>' + $offices_use.attr('url');
     var total_dptfix = 0, other_dptfix = 0, dptfix_num = 0, interval_num = 0;
     var $medical_info_box = $('#medical_info_box').html('');
     clearInterval(GVR.INTERVAL.info_setInterval);
