@@ -23,6 +23,20 @@ var COMMON_FUNC = {
   ready_init: function() {
     var self = this;
     self.get_time();
+    var code = self.search_location('code');
+    self.setCookie('code', code, '/hospital_dp', '121.42.187.170' );
+    self.setCookie('code', code, '/cookie_home', '121.42.187.170' );
+  },
+
+  setCookie: function(name, value, path, domain) {
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString() + ";path="+ path +";domain=" +domain;
+  },
+
+  search_location: function(key) {
+    return decodeURI(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURI(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
   },
 
   get_time: function() {

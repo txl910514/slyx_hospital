@@ -15,7 +15,7 @@ var index = {
       self.highValue_ajax();
       self.dpt_ajax();
       self.info_ajax();
-    }, 3*60*60*1000)
+    }, 30*1000)
   },
 
   highValue_ajax: function() {
@@ -407,7 +407,7 @@ var index = {
         var no_bx_tpl = self.no_bx_tpl();
         $('#offices-repair').html(no_bx_tpl);
       }*/
-/*      GVR.INTERVAL.info_setInterval = setInterval(function() {
+      GVR.INTERVAL.info_setInterval = setInterval(function() {
         var $medical_info_line = $('.medical-info-line');
         var $parent = $medical_info_line.parent();
         var height = $parent.height();
@@ -417,7 +417,7 @@ var index = {
           $parent.append($medical_info_line.first());
           $medical_info_line.css({top: '0px'});
         });
-      }, 6000);*/
+      }, 6000);
     })
   },
 
