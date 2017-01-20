@@ -24,7 +24,7 @@ var COMMON_FUNC = {
     var self = this;
     self.get_time();
     var code = self.search_location('code');
-    self.setCookie('code', code, '/hospital_dp', '121.42.187.170' );
+    self.setCookie('code', code, '/s/yybd', '121.42.187.170' );
     self.setCookie('code', code, '/cookie_home', '121.42.187.170' );
   },
 
