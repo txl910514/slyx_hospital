@@ -7,6 +7,7 @@
   <meta name="renderer" content="webkit">
   <title></title>
   <link rel="stylesheet" href="css/main.css">
+  <link rel="shortcut icon" href="images/favicon.png">
   <script type="text/javascript" src="jslib/jquery.min.js"></script>
   <script type="text/javascript" src="jslib/underscore.js"></script>
   <script type="text/javascript" src="jslib/echarts.js"></script>
@@ -78,7 +79,7 @@
           <div class="status-flex-border table">
             <div class="table-cell">
               <div class="device-name display-middle">
-                在用设备
+                可用设备
               </div>
               <div class="device-num display-middle" id="using-count">
                 <div class="device-num-bg display-middle">0</div>
@@ -123,14 +124,14 @@
           <div class="left-half-content padding-content" id="highValue" url="/s/yybd/eqp" jsonp-callback="success_jsonpCallback1">
             <div class="chart-title display-middle">
               <i class="display-middle img-icon gaozhi-icon"></i>
-              <span class="display-middle">高值设备在用统计</span>
+              <span class="display-middle">高值设备可用统计</span>
             </div>
             <div class="content-bg position-absolute" id="high-value-echarts"></div>
           </div>
           <div class="left-half-content padding-content">
             <div class="chart-title display-middle">
               <i class="display-middle img-icon shengming-icon"></i>
-              <span class="display-middle">生命支持设备在用统计</span>
+              <span class="display-middle">生命支持设备可用统计</span>
             </div>
             <div class="content-bg position-absolute" id="life-echarts"></div>
           </div>
@@ -197,7 +198,7 @@
           <div class="right-chart-three position-absolute one padding-content">
             <div class="chart-title display-middle">
               <i class="display-middle img-icon keshizaiyong-icon"></i>
-              <span class="display-middle">科室在用率</span>
+              <span class="display-middle">科室可用率</span>
             </div>
             <div class="content-bg position-absolute" id="offices-use" url="/s/yybd/dpt" jsonp-callback="success_jsonpCallback3"></div>
           </div>
