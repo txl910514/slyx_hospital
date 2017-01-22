@@ -220,6 +220,13 @@ var ECHARTS_FUNC = {
       animationDurationUpdate: 500
     };
     if(data.two_percent) {
+      var two_number;
+      if(isNaN(Number(data.two_percent))) {
+        two_number = 0;
+      }
+      else {
+        two_number = data.two_percent;
+      }
       var two_json = {
         name: 'main_two',
         type: 'pie',
@@ -230,14 +237,14 @@ var ECHARTS_FUNC = {
           }
         },
         data: [{
-          value: data.two_percent,
+          value: two_number,
           itemStyle: {
             normal: {
               color: '#284651'
             }
           }
         }, {
-          value: 1 - data.two_percent,
+          value: 1 - two_number,
           itemStyle: {
             normal: {
               color: 'transparent'
@@ -343,7 +350,6 @@ var ECHARTS_FUNC = {
           },
           nameGap:5,
           min: 0,
-          max: max,
           axisTick: {
             show:false
           },

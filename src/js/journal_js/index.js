@@ -15,7 +15,7 @@ var index = {
       self.highValue_ajax();
       self.dpt_ajax();
       self.info_ajax();
-    }, 5*60*1000)
+    }, 30*60*1000)
   },
 
   highValue_ajax: function() {
@@ -80,7 +80,7 @@ var index = {
       var dot_color = '#71c8d9';
       var add = 0;
       _.each(life_data.x3, function(value, index) {
-        if(value === life_min) {
+        if(value === life_min && value !== 100) {
           min_color = '#f39800';
           dot_color = '#f39800';
         }
@@ -107,7 +107,7 @@ var index = {
         });
       });
       _.each(data.x3, function(value, index) {
-        if(value === high_min) {
+        if(value === high_min && value !== 100) {
           min_color = '#f39800';
           dot_color = '#f39800';
         }
@@ -191,7 +191,7 @@ var index = {
             break;
           case 3:
             update.status_name = '待确认';
-            update.status_color = 'finish_color';
+            update.status_color = 'receive_color';
             break;
           case 4:
             update.status_name = '已结束';
@@ -199,7 +199,7 @@ var index = {
             break;
           case 5:
             update.status_name = '误报已结束';
-            update.status_color = 'receive_color';
+            update.status_color = 'finish_color';
             break;
           case 7:
             update.status_name = '已留观';
@@ -211,10 +211,10 @@ var index = {
             break;
           case 9:
             update.status_name = '外修结束';
-            update.status_color = 'receive_color';
+            update.status_color = 'finish_color';
             break;
           default :
-            update.status_name = '外修结束';
+            update.status_name = '-';
             update.status_color = '';
             break;
         }
@@ -290,7 +290,7 @@ var index = {
       var dptuse_min = _.min(dptuse_data.x2);
       var dptuse_color = '#9fa0a0';
       _.each(dptuse_data.x2, function(value) {
-        if(value === dptuse_min) {
+        if(value === dptuse_min && value !== 100) {
           dptuse_color = '#f39800';
         }
         else {
@@ -334,23 +334,23 @@ var index = {
         var $medical_tpl = $(self.medical_tpl(me_info_first));
         $medical_info_box.append($medical_tpl);
         var hos_total_fix_count = result.me_info[1][0].hos_total_fix_count;
-        var degree_percent = me_info_first.total_fix_count / hos_total_fix_count*2;
+        var degree_percent = me_info_first.total_fix_count / hos_total_fix_count;
         var hos_resp_avg = result.me_info[1][0].hos_resp_avg;
-        var answer_percent = me_info_first.resp_avg / hos_resp_avg*2;
+        var answer_percent = me_info_first.resp_avg / (hos_resp_avg*2);
         var hos_fix_avg = result.me_info[1][0].hos_fix_avg;
-        var servicing_percent = me_info_first.fix_avg / hos_resp_avg*2;
+        var servicing_percent = me_info_first.fix_avg / (hos_resp_avg*2);
         hos_resp_avg = parseFloat(hos_resp_avg.toFixed(2));
         hos_fix_avg = parseFloat(hos_fix_avg.toFixed(2));
         var degree_data = {
           status_name: hos_total_fix_count + '次',
           name: '总维修次数',
-          percent: degree_percent < 1 ? degree_percent: 0.3,
+          percent: degree_percent,
           num: me_info_first.total_fix_count,
-          two_percent: 0.5,
+          two_percent: 'transparent',
           unit: '次'
         };
         var answer_data = {
-          status_name: '平均-'+ hos_resp_avg + 'h',
+          status_name: '平均 '+ hos_resp_avg + 'h',
           name: '平均响应时长',
           percent: answer_percent < 1 ? answer_percent: 1,
           num:parseFloat(me_info_first.resp_avg.toFixed(2)),
@@ -358,7 +358,7 @@ var index = {
           unit: 'h'
         };
         var servicing_data = {
-          status_name: '平均-' + hos_fix_avg + 'h',
+          status_name: '平均' + hos_fix_avg + 'h',
           name: '平均维修时长',
           percent: servicing_percent < 1 ? servicing_percent: 1,
           num:parseFloat(me_info_first.fix_avg.toFixed(2)),
@@ -442,7 +442,7 @@ var index = {
         });
         return false;
       }
-      start = parseInt(start) + 20 ;
+      start = parseInt(start) + 80;
       str_num = self.switch_num(start);
       $ele.find('.device-num-bg').each(function(index, dom) {
         var html_num = str_num.slice(index, index + 1);
