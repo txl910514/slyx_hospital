@@ -34,9 +34,9 @@ var index = {
         x1:[],
         name1: '设备总数',
         x2:[],
-        name2: '在用设备',
+        name2: '可用设备',
         x3:[],
-        name3: '在用设备比例',
+        name3: '可用设备比例',
         label:[],
         unit:'台'
       };
@@ -45,9 +45,9 @@ var index = {
         x1:[],
         name1: '设备总数',
         x2:[],
-        name2: '在用设备',
+        name2: '可用设备',
         x3:[],
-        name3: '在用设备比例',
+        name3: '可用设备比例',
         label:[],
         unit:'台'
       };
@@ -271,9 +271,9 @@ var index = {
         x1:[],
         name1: '总比例',
         x2:[],
-        name2: '在用比例',
+        name2: '可用比例',
         x3:[],
-        name3: '在用设备比例',
+        name3: '可用设备比例',
         label:[],
         unit:'',
         status:'dptuse'

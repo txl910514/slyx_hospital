@@ -588,7 +588,7 @@ var ECHARTS_FUNC = {
       grid: {
         top:'5%',
         left: '3%',
-        right: '10%',
+        right: '12%',
         bottom: '3%',
         containLabel: true
       },
