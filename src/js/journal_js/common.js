@@ -105,8 +105,9 @@ var COMMON_FUNC = {
         jsonp: 'callback',
         jsonpCallback:jsonp_name,
         success: function(result){
-          if(result.msg){
-            console.log(result.msg);
+          if(result.url){
+            window.location.href = result.url;
+            return false;
           }
           $obj.removeClass('disabled');
           if(_.isFunction(callback)){
@@ -127,6 +128,9 @@ var COMMON_FUNC = {
 /*          self.full_loading("hide");*/
         },
         error: function(xhr, msg, error){
+          console.log(xhr);
+          console.log(msg);
+          console.log(error);
           if(msg === "error"){
             if(xhr.status === 404){
               console.info("无效的数据");
@@ -234,56 +238,35 @@ var COMMON_FUNC = {
           data: data,
           headers: {"X-CSRFToken": $.cookie("csrftoken")},
           success: function(result){
-            if(result.msg){
-              alertify[result.stat](result.msg)
-            }
             $obj.removeClass('disabled');
             if(_.isFunction(callback)){
               callback(result);
             }
-            if(result.reload === 1){
-              self._reload();
-            }
-            else if(result.reload === 2){
-              self.reload();
-            }
-            else if(result.reload === 3){
-              self._reload(0);
-            }
-            else if(result.redirect){
-              self.redirect(result.redirect);
-            }
-            else if(result.close_modal){
-              $(".modal").modal("hide");
-            }
-            self.full_loading("hide");
           },
           error: function(xhr, msg, error) {
             if(msg === "error"){
               if(xhr.status === 404){
-                alertify.error("无效的数据");
+                console.log("无效的数据");
               }
               else if(xhr.status === 500){
-                alertify.error("服务器异常，请联系管理员");
+                console.log("服务器异常，请联系管理员");
               }
               else if(xhr.status === 403){
-                alertify.error("登录已过期或没有访问权限");
-                self._reload();
+                console.log("登录已过期或没有访问权限");
               }
               else{
-                alertify.error("网络异常，请稍后再试");
+                console.log("网络异常，请稍后再试");
               }
             }
             else{
               if(msg){
-                alertify.error(msg);
+                console.log(msg);
               }
             }
             if(_.isFunction(error_callback)){
               error_callback();
             }
             $obj.removeClass('disabled');
-            self.full_loading("hide");
           }
         }
         if(_.isObject(ajax_options)){
