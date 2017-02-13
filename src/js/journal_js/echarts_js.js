@@ -723,7 +723,18 @@ var ECHARTS_FUNC = {
               show: true,
               position: 'right',
               formatter: function(params) {
-                return data.x3[params.dataIndex] + '%';
+                if (dom_id === 'high-value-echarts' || dom_id === 'life-echarts') {
+                  if (data.x1[params.dataIndex]) {
+                    return data.x3[params.dataIndex] + '%';
+                  }
+                  else {
+                    return '';
+                  }
+                }
+                else {
+                  return data.x3[params.dataIndex] + '%';
+                }
+
               },
               textStyle: {
                 color:'#9fa0a0'

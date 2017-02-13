@@ -51,9 +51,11 @@ var index = {
         label:[],
         unit:'台'
       };
-      _.each(result.highValue, function(high_Value) {
+      var highValue_sort = _.sortBy(result.highValue, 'using_count');
+      _.each(highValue_sort, function(high_Value) {
         var perent = (high_Value.using_count / high_Value.total_num) * 100;
-        perent = parseInt(perent);
+        perent = high_Value.total_num ? parseInt(perent) : 0;
+        high_Value.standard_categories_name = high_Value.total_num ? high_Value.standard_categories_name : '';
         if (high_Value.standard_categories_name.length > 5) {
           high_Value.standard_categories_name = high_Value.standard_categories_name.slice(0,5);
         }
@@ -64,6 +66,7 @@ var index = {
       });
       var lifeSupport_sort = _.sortBy(result.lifeSupport, 'use_count');
       _.each(lifeSupport_sort, function(lifeSupport) {
+        lifeSupport.category = lifeSupport.total_count ? lifeSupport.category : '';
         if (lifeSupport.category.length > 5) {
           lifeSupport.category = lifeSupport.category.slice(0,5);
         }
@@ -83,6 +86,9 @@ var index = {
         if(value === life_min && value !== 100) {
           min_color = '#f39800';
           dot_color = '#f39800';
+          if (!life_data.x1[index]) {
+            dot_color = 'transparent';
+          }
         }
         else {
           min_color = '#9fa0a0';
@@ -110,6 +116,9 @@ var index = {
         if(value === high_min && value !== 100) {
           min_color = '#f39800';
           dot_color = '#f39800';
+          if (!data.x1[index]) {
+            dot_color = 'transparent';
+          }
         }
         else {
           min_color = '#9fa0a0';
