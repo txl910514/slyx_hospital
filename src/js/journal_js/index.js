@@ -15,7 +15,7 @@ var index = {
       self.highValue_ajax();
       self.dpt_ajax();
       self.info_ajax();
-    }, 30*60*1000)
+    }, 30*60*1000);
   },
 
   highValue_ajax: function() {
@@ -360,6 +360,16 @@ var index = {
         }
       });*/
       _.each(result.me_info[0], function(me_info_first, index) {
+        if (me_info_first.fix_avg < 0 || me_info_first.resp_avg < 0) {
+          var url = '<%=base%>' + '/err/insert';
+          var error = me_info_first.users_name + ',' + me_info_first.resp_avg + ',' + me_info_first.fix_avg;
+          var data = {
+            error: error
+          };
+          COMMON_FUNC.ajax_get($('body'), data, url, 'err_insert', function(result) {
+
+          });
+        }
         me_info_first.id_index = index;
         me_info_first.last_name = me_info_first.users_name[me_info_first.users_name.length-1];
         var $medical_tpl = $(self.medical_tpl(me_info_first));
@@ -367,9 +377,11 @@ var index = {
         var hos_total_fix_count = result.me_info[1][0].hos_total_fix_count;
         var degree_percent = me_info_first.total_fix_count / hos_total_fix_count;
         var hos_resp_avg = result.me_info[1][0].hos_resp_avg;
-        var answer_percent = me_info_first.resp_avg / (hos_resp_avg*2);
+        var resp_avg = me_info_first.resp_avg < 0 ? 0 : me_info_first.resp_avg;
+        var answer_percent = resp_avg / (hos_resp_avg*2);
         var hos_fix_avg = result.me_info[1][0].hos_fix_avg;
-        var servicing_percent = me_info_first.fix_avg / (hos_resp_avg*2);
+        var fix_avg = me_info_first.fix_avg < 0 ? 0 : me_info_first.fix_avg;
+        var servicing_percent = fix_avg / (hos_resp_avg*2);
         hos_resp_avg = parseFloat(hos_resp_avg.toFixed(2));
         hos_fix_avg = parseFloat(hos_fix_avg.toFixed(2));
         var degree_data = {
@@ -384,7 +396,7 @@ var index = {
           status_name: '平均 '+ hos_resp_avg + 'h',
           name: '平均响应时长',
           percent: answer_percent < 1 ? answer_percent: 1,
-          num:parseFloat(me_info_first.resp_avg.toFixed(2)),
+          num:parseFloat(resp_avg.toFixed(2)),
           two_percent: 0.5,
           unit: 'h'
         };
@@ -392,7 +404,7 @@ var index = {
           status_name: '平均' + hos_fix_avg + 'h',
           name: '平均维修时长',
           percent: servicing_percent < 1 ? servicing_percent: 1,
-          num:parseFloat(me_info_first.fix_avg.toFixed(2)),
+          num:parseFloat(fix_avg.toFixed(2)),
           two_percent: 0.5,
           unit: 'h'
         };
