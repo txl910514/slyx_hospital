@@ -56,8 +56,8 @@ var index = {
         var perent = (high_Value.using_count / high_Value.total_num) * 100;
         perent = high_Value.total_num ? parseInt(perent) : 0;
         high_Value.standard_categories_name = high_Value.total_num ? high_Value.standard_categories_name : '';
-        if (high_Value.standard_categories_name.length > 5) {
-          high_Value.standard_categories_name = high_Value.standard_categories_name.slice(0,5);
+        if (high_Value.standard_categories_name.length > 6) {
+          high_Value.standard_categories_name = high_Value.standard_categories_name.slice(0,6);
         }
         data.y.push(high_Value.standard_categories_name);
         data.x1.push(high_Value.total_num);
@@ -67,8 +67,8 @@ var index = {
       var lifeSupport_sort = _.sortBy(result.lifeSupport, 'use_count');
       _.each(lifeSupport_sort, function(lifeSupport) {
         lifeSupport.category = lifeSupport.total_count ? lifeSupport.category : '';
-        if (lifeSupport.category.length > 5) {
-          lifeSupport.category = lifeSupport.category.slice(0,5);
+        if (lifeSupport.category.length > 6) {
+          lifeSupport.category = lifeSupport.category.slice(0,6);
         }
         life_data.y.push(lifeSupport.category);
         life_data.x1.push(lifeSupport.total_count);
@@ -166,7 +166,7 @@ var index = {
         x: [],
         y:[],
         unit:'次',
-        name: '月巡检次数'
+        name: '月质控统计'
       };
       var fix_pct_data = {
         status: 'line',
@@ -189,6 +189,7 @@ var index = {
       ECHARTS_FUNC.bar_status('hitch-echarts', fix_pct_data);
       _.each(result.update_info, function(update) {
         update.categories_name = update.categories_name || '-';
+        update.users_name = update.users_name || '-';
         switch (update.status) {
           case 1:
             update.status_name = '报修';
@@ -292,21 +293,42 @@ var index = {
         data:[],
         series_data:[]
       };
-      _.each(result.dptuse_pct, function(dptuse_pct) {
+      if (result.dptuse_pct.length < 5) {
+        var lack_length = 5 -  result.dptuse_pct.length;
+        _(lack_length).times(function(n){
+          result.dptuse_pct.push({
+            departments_name: '',
+            use_percent: 0
+          });
+        });
+      }
+      var dptusePct_sort = _.sortBy(result.dptuse_pct, 'departments_name');
+      _.each(dptusePct_sort, function(dptuse_pct) {
+        if (dptuse_pct.departments_name.length > 6) {
+          dptuse_pct.departments_name = dptuse_pct.departments_name.slice(0,6);
+        }
         dptuse_data.y.push(dptuse_pct.departments_name);
         dptuse_data.x2.push(parseInt(dptuse_pct.use_percent*100));
       });
       var dptuse_min = _.min(dptuse_data.x2);
       var dptuse_color = '#9fa0a0';
-      _.each(dptuse_data.x2, function(value) {
+      var x1_value = 100;
+      _.each(dptuse_data.x2, function(value, index) {
         if(value === dptuse_min && value !== 100) {
           dptuse_color = '#f39800';
         }
         else {
-          dptuse_color = '#9fa0a0'
+          dptuse_color = '#9fa0a0';
+        }
+        if(!dptuse_data.y[index]) {
+          dptuse_color = 'transparent';
+          x1_value = 0;
+        }
+        else {
+          x1_value = 100;
         }
         dptuse_data.x1.push({
-          value: 100,
+          value: x1_value,
           label: {
             normal: {
               show: true,
