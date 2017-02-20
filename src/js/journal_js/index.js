@@ -155,9 +155,30 @@ var index = {
     var update_line_height = $update_info.height() / 6 - 2;
     var overdue_line_height = $overdue_info.height() / 4 - 2;
     var body_width  = $(window).width();
-    if (body_width <= 1366) {
-      update_line_height = $update_info.height() / 3 - 2;
+    var screen_height = window.screen.height;
+    //if (body_width <= 1366) {
+    //  update_line_height = $update_info.height() / 3 - 2;
+    //  overdue_line_height = $overdue_info.height() / 2 - 2;
+    //}
+    if (screen_height >= 1200) {
+      update_line_height = $update_info.height() / 7 - 2;
+      overdue_line_height = $overdue_info.height() / 5 - 2;
+    }
+    else if (screen_height >= 1024) {
+      update_line_height = $update_info.height() / 6 - 2;
+      overdue_line_height = $overdue_info.height() / 4 - 2;
+    }
+    else if (screen_height >= 864) {
+      update_line_height = $update_info.height() / 5 - 2;
+      overdue_line_height = $overdue_info.height() / 3 - 2;
+    }
+    else if (screen_height >= 768) {
+      update_line_height = $update_info.height() / 4 - 2;
       overdue_line_height = $overdue_info.height() / 2 - 2;
+    }
+    else if (screen_height >= 600) {
+      update_line_height = $update_info.height() / 3 - 2;
+      overdue_line_height = $overdue_info.height() / 1 - 2;
     }
     clearInterval(GVR.INTERVAL.message_setInterval);
     var jsonp_name = $update_info.attr('jsonp-callback');
@@ -273,6 +294,11 @@ var index = {
     var url = '<%=base%>' + $offices_use.attr('url');
     var total_dptfix = 0, other_dptfix = 0, dptfix_num = 0, interval_num = 0;
     var $medical_info_box = $('#medical_info_box').html('');
+    var $medical_info_hidden = $('#medical_info_box:hidden').length;
+    if ($medical_info_hidden) {
+      $medical_info_box = $('#min_info_box').html('');
+    }
+    console.log($medical_info_hidden);
     clearInterval(GVR.INTERVAL.info_setInterval);
     var jsonp_name = $offices_use.attr('jsonp-callback');
     COMMON_FUNC.ajax_get($offices_use, {}, url, jsonp_name, function(result) {

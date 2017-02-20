@@ -1,3 +1,4 @@
+
 html, body,.content{
   background: $body-bg;
   font-family: "Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -195,7 +196,7 @@ img{
     top:$header-height;
     margin: 0 $margin20 $margin20 $margin20;
     .device-content {
-      height: 20%;
+      height: 15%;
       .status-flex {
         width: 25%;
         text-align: center;
@@ -219,7 +220,7 @@ img{
             margin-left: $padding10;
             margin-right: $padding5;
             .device-num-bg {
-              font-size: $fs28;
+              font-size: $fs40;
               margin-right: $padding5;
               background: $color4;
               padding: $padding5;
@@ -241,7 +242,7 @@ img{
       }
     }
     .chart-content {
-      height: 80%;
+      height: 85%;
       position: relative;
       .left-chart-content{
         width: 25%;
@@ -263,6 +264,9 @@ img{
             &.center-position-right {
               left: 50%;
             }
+          }
+          #yigong-box {
+            display: none;
           }
         }
         .center-middle-content{
@@ -287,117 +291,7 @@ img{
           &.three{
             top:1/2 * 100%;
             height: 1/2 * 100%;
-            .medical-info-line {
-              width: 100%;
-              height: 100%;
-              font-size: 0;
-              position: relative;
-            }
-            .medical-portrait {
-              width: 1/4 * 100%;
-              position: relative;
-              .medical_head {
-                width: $width50;
-                height: $width50;
-                border-radius: 100%;
-                border: solid $padding5 $rgba2;
-                margin: auto;
-                color: $color2;
-                font-size: $fs16;
-                line-height: 3*$width50/4;
-                text-align: center;
-              }
-              .medical_name {
-                color: $color1;
-                font-size: $fs16;
-                margin: auto;
-                margin-top: $padding10;
-                text-align: center;
-              }
-            }
-            .medical-chart {
-              width: 3/4 * 100%;
-              position: relative;
-              height:100%;
-              .table{
-                width: 100%;
-                height: 100%;
-                .table-cell{
-                  width: 100%;
-                  text-align: center;
-                }
-              }
-              .triangle-line {
-                text-align: center;
-                .triangle-border{
-                  border: solid $width3 $color11;
-                  padding: $padding5;
-                  border-radius: $padding5;
-                  font-size: $fs12;
-                  position: relative;
-                  &:last-child{
-                    margin-left: $padding5;
-                  }
-                  &:after {
-                    position: absolute;
-                    display: block;
-                    top:-4*$width1;
-                    left: $width1;
-                    width: 0;
-                    height: 3*$long / 2;
-                    border-color: transparent;
-                    border-style: solid;
-                    border-width: $width3;
-                    content: " ";
-                    border-right-color: $color11;
-                    transform:rotate(-135deg);
-                  }
-                  .arrow-triangle{
-                    position: absolute;
-                    display: block;
-                    width: 0;
-                    height: 0;
-                    border-color: transparent;
-                    border-style: solid;
-                    border-width: 11px;
-                    top:-$width3;
-                    left: -$width3;
-                    border-top-color: $rgba4;
-                    border-left-color: $rgba4;
-                    border-bottom-width: 0;
-                    border-left-width: 0;
-                    &:after {
-                      position: absolute;
-                      display: block;
-                      width: 0;
-                      height: 0;
-                      border-color: transparent;
-                      border-style: solid;
-                      bottom: 1px;
-                      content: " ";
-                      border-right-color: $rgba4;
-                      border-bottom-width: 0;
-                    }
-                  }
-                  .time-num {
-                    font-size: $fs16;
-                    color: $color1;
-                    margin: 0 $padding5;
-                  }
-                }
-              }
-              .status-charts {
-                .triangle-echarts {
-                  width: 1/3 * 100%;
-                  height: 100%;
-                  margin-top: $padding10;
-                }
-                height: 55%;
-              }
-            }
-            .display-height{
-              margin-left: -$width1;
-            }
+            @import "reset";
           }
         }
       }
@@ -458,16 +352,57 @@ img{
   margin-right: $padding5;
 }
 
-@media screen and (min-width: 1370px) {
+@media screen and (min-width: 1365px) and (max-width: 1369px) {
+  .content {
+    .body-content {
+      .device-content {
+        height: 20%;
+        .status-flex {
+          font-size: $fs18;
+          .status-flex-border {
+            .device-num {
+              .device-num-bg {
+                font-size: $fs28;
+              }
+            }
+          }
+        }
+      }
+      .chart-content {
+        height: 80%;
+        .right-chart-content {
+          .right-chart-three {
+            &.three {
+              .medical-chart {
+                .triangle-line  {
+                  .triangle-border {
+                    padding: $padding5 $padding10;
+                    &:last-child {
+                      margin-left: $padding10;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media screen and (min-width: 1280px) and (max-width: 1360px) {
   .content {
     .body-content {
       .device-content {
         height: 15%;
         .status-flex {
+          font-size: $fs18;
           .status-flex-border {
             .device-num {
               .device-num-bg {
-                font-size: $fs40;
+                font-size: $fs28;
               }
             }
           }
@@ -481,9 +416,113 @@ img{
               .medical-chart {
                 .triangle-line  {
                   .triangle-border {
-                    padding: $padding5 $padding10;
+                    padding: $padding3 $padding5;
                     &:last-child {
-                      margin-left: $padding10;
+                      margin-left: $padding5;
+                    }
+                    .time-num {
+                      margin: 0 $padding3;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .content {
+    .header{
+      height: $min-header-height;
+      line-height: $min-header-height;
+      .slyx-log{
+        height: $min-header-half-height + $padding5;
+        margin-top: ($min-header-half-height - $padding5) / 2;
+        img {
+          max-height: 100%;
+        }
+      }
+      .header-title{
+        font-size: $fs18;
+      }
+      .time-box{
+        font-size: $fs12;
+        height: $min-header-half-height + $padding5;
+        line-height: $min-header-half-height + $padding5;
+        top: ($min-header-half-height - $padding5) / 2;
+        .time-square{
+          line-height: $min-header-half-height - $padding5;
+        }
+        .time-colon{
+          line-height: $min-header-half-height - $padding5;
+        }
+      }
+    }
+    .body-content {
+      top: $min-header-height;
+      margin: 0 $padding10 $padding10;
+      .device-content {
+        height: 16%;
+        .status-flex {
+          font-size: $fs14;
+          width: 1/3 * 80%;
+          &.device-status-flex {
+            width: 20%;
+            padding: 10px 0;
+          }
+          .status-flex-border {
+            .device-num {
+              .device-num-bg {
+                font-size: $fs24;
+              }
+            }
+          }
+        }
+      }
+      .chart-content {
+        height: 84%;
+        .left-chart-content {
+          width: 26.6667%;
+          padding-right: $padding10;
+        }
+        .center-chart-content {
+          left: 26.6667%;
+          width: 75%;
+          padding-right: $padding10;
+          .center-top-content {
+            .center-position {
+              &#inspection-none {
+                display: none;
+              }
+              &#hitch-left {
+                left: 0;
+              }
+            }
+            #yigong-box {
+              width: 50%;
+              left: 50%;
+              display: block;
+              @import "reset";
+            }
+          }
+        }
+        .right-chart-content {
+          display: none;
+          .right-chart-three {
+            &.three {
+              .medical-chart {
+                .triangle-line  {
+                  .triangle-border {
+                    padding: $padding3 $padding5;
+                    &:last-child {
+                      margin-left: $padding5;
+                    }
+                    .time-num {
+                      margin: 0 $padding3;
                     }
                   }
                 }

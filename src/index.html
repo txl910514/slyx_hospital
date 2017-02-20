@@ -113,7 +113,7 @@
             <div class="linear-height no-border"></div>
           </div>
         </div>
-        <div class="display-middle status-flex">
+        <div class="display-middle status-flex device-status-flex">
           <div class="display-middle device-status-pie" id="wait-status"></div>
           <div class="display-middle device-status-pie" id="repair-status"></div>
           <div class="display-middle device-status-pie" id="overtime-status"></div>
@@ -138,19 +138,28 @@
         </div>
         <div class="center-chart-content position-absolute">
           <div class="center-top-content">
-            <div class="center-position position-absolute padding-content">
+            <div class="center-position position-absolute padding-content" id="inspection-none">
               <div class="chart-title display-middle">
                 <i class="display-middle img-icon xunjian-icon"></i>
                 <span class="display-middle">月质控统计</span>
               </div>
               <div class="content-bg position-absolute" id="inspection-echarts"></div>
             </div>
-            <div class="center-position center-position-right position-absolute padding-content">
+            <div class="center-position center-position-right position-absolute padding-content" id="hitch-left">
               <div class="chart-title display-middle">
                 <i class="display-middle img-icon guzhang-icon"></i>
                 <span class="display-inline">月完修统计</span>
               </div>
               <div class="content-bg position-absolute" id="hitch-echarts"></div>
+            </div>
+            <div class="right-chart-three position-absolute three padding-content" id="yigong-box">
+              <div class="chart-title display-middle">
+                <i class="display-middle img-icon yigong-icon"></i>
+                <span class="display-middle">医工展示</span>
+              </div>
+              <div class="content-bg position-absolute" id="min_info_box">
+
+              </div>
             </div>
           </div>
           <div class="center-middle-content padding-content">
@@ -269,11 +278,11 @@
             <div class="triangle-line">
               <div class="display-middle triangle-border">
                 <div class="arrow-triangle"></div>
-                月完修次数 <span class="time-num"><%- month_fix_count %></span>次
+                月完修<span class="time-num"><%- month_fix_count %></span>次
               </div>
               <div class="display-middle triangle-border">
                 <div class="arrow-triangle"></div>
-                正在维修 <span class="time-num"><%- using_count %></span> 台
+                在修<span class="time-num"><%- using_count %></span>台
               </div>
             </div>
             <div class="status-charts">

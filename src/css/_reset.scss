@@ -1,0 +1,111 @@
+.medical-info-line {
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+  position: relative;
+}
+.medical-portrait {
+  width: 1/4 * 100%;
+  position: relative;
+  .medical_head {
+    width: $width50;
+    height: $width50;
+    border-radius: 100%;
+    border: solid $padding5 $rgba2;
+    margin: auto;
+    color: $color2;
+    font-size: $fs16;
+    line-height: 3*$width50/4;
+    text-align: center;
+  }
+  .medical_name {
+    color: $color1;
+    font-size: $fs16;
+    margin: auto;
+    margin-top: $padding10;
+    text-align: center;
+  }
+}
+.medical-chart {
+  width: 3/4 * 100%;
+  position: relative;
+  height:100%;
+  .table{
+    width: 100%;
+    height: 100%;
+    .table-cell{
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .triangle-line {
+    text-align: center;
+    .triangle-border{
+      border: solid $width3 $color11;
+      padding: $padding5;
+      border-radius: $padding5;
+      font-size: $fs12;
+      position: relative;
+      &:last-child{
+        margin-left: $padding5;
+      }
+      &:after {
+        position: absolute;
+        display: block;
+        top:-4*$width1;
+        left: $width1;
+        width: 0;
+        height: 3*$long / 2;
+        border-color: transparent;
+        border-style: solid;
+        border-width: $width3;
+        content: " ";
+        border-right-color: $color11;
+        transform:rotate(-135deg);
+      }
+      .arrow-triangle{
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 11px;
+        top:-$width3;
+        left: -$width3;
+        border-top-color: $rgba4;
+        border-left-color: $rgba4;
+        border-bottom-width: 0;
+        border-left-width: 0;
+        &:after {
+          position: absolute;
+          display: block;
+          width: 0;
+          height: 0;
+          border-color: transparent;
+          border-style: solid;
+          bottom: 1px;
+          content: " ";
+          border-right-color: $rgba4;
+          border-bottom-width: 0;
+        }
+      }
+      .time-num {
+        font-size: $fs16;
+        color: $color1;
+        margin: 0 $padding5;
+      }
+    }
+  }
+  .status-charts {
+    .triangle-echarts {
+      width: 1/3 * 100%;
+      height: 100%;
+      margin-top: $padding10;
+    }
+    height: 55%;
+  }
+}
+.display-height{
+  margin-left: -$width1;
+}

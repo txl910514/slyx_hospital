@@ -66,7 +66,7 @@ var ECHARTS_FUNC = {
     var myChart = echarts.init(document.getElementById(dom_id));
     var center_font = 12;
     if (!data.name) {
-      center_font = 14;
+      center_font = 12;
     }
     function getData() {
       return [{
@@ -177,7 +177,7 @@ var ECHARTS_FUNC = {
         normal: {
           show: false,
           textStyle: {
-            fontSize: 16
+            fontSize: 12
           },
           position: 'center',
           formatter: function (a) {
@@ -259,11 +259,17 @@ var ECHARTS_FUNC = {
     }
     option.series.push(one_json);
     option.series.push(text_json);
-    var body_width  = $(window).width();
-    if (body_width <= 1366) {
+    var body_width  = window.screen.width;
+    if (body_width <= 1366 && body_width > 1280 ) {
       option.title.top = '-6%';
       if (data.two_percent) {
         option.title.top = '6%';
+        option.series[0].center = ['50%', '110%'];
+      }
+    }
+    else if (body_width <= 1280) {
+      option.title.top = '-5%';
+      if (data.two_percent) {
         option.series[0].center = ['50%', '110%'];
       }
     }
