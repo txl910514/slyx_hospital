@@ -509,6 +509,24 @@ img{
               @import "reset";
             }
           }
+          #min-center-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+          }
+          #min-center-center {
+            position: absolute;
+            top: 35%;
+            left: 0;
+            right: 0;
+          }
+          #min-center-bottom {
+            position: absolute;
+            top: 60%;
+            left: 0;
+            right: 0;
+          }
         }
         .right-chart-content {
           display: none;
