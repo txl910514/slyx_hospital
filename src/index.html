@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="viewport" content=" initial-scale=0.5">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="renderer" content="webkit">
   <title></title>
@@ -34,22 +34,30 @@
       <div class="slyx-log">
         <img src="images/slxy_logo.png" alt="">
       </div>
-      <div class="header-title" id="header-title"></div>
+      <div class="header-title" >
+        <div class="table">
+          <div class="table-cell" id="header-title"></div>
+        </div>
+      </div>
       <div class="time-box">
-        <div class="time-square">
-          <div class="hour-text" id="js-hour-text">
+        <div class="table">
+          <div class="table-cell">
+            <div class="time-square">
+              <div class="hour-text" id="js-hour-text">
 
-          </div>
-        </div>
-        <div class="time-colon">:</div>
-        <div class="time-square">
-          <div class="hour-text" id="js-min-text">
+              </div>
+            </div>
+            <div class="time-colon">:</div>
+            <div class="time-square">
+              <div class="hour-text" id="js-min-text">
 
-          </div>
-        </div>
-        <div class="time-square time-long-square">
-          <div class="hour-text" id="js-year-text">
+              </div>
+            </div>
+            <div class="time-square time-long-square">
+              <div class="hour-text" id="js-year-text">
 
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -233,30 +241,24 @@
   </div>
   <script type="text/html" id="message_line_tpl">
     <div class="message-line">
-      <div class="display-middle message-code ellipsis"><%- code %></div>
-      <div class="display-middle message-device ellipsis">
-        <%- categories_name %>
-      </div>
-      <div class="display-middle message-device ellipsis"><%- departments_name %></div>
-      <div class="display-middle message-name ellipsis"><%- contact_name %></div>
-      <div class="display-middle message-time ellipsis">
-        <% if(status) { %>
+      <div class="display-middle message-code ellipsis"><%- code %></div
+              ><div class="display-middle message-device ellipsis"><%- categories_name %></div
+            ><div class="display-middle message-device ellipsis"><%- departments_name %></div
+            ><div class="display-middle message-name ellipsis"><%- contact_name %></div
+            ><div class="display-middle message-time ellipsis"><% if(status) { %>
           <%- updated_at %>
         <% } else { %>
           <%- created_at %>
-        <% } %>
-
-      </div>
-      <div class="display-middle message-name ellipsis"><%- users_name %></div>
-      <div class="display-middle message-status ellipsis
+        <% } %></div
+            ><div class="display-middle message-name ellipsis"><%- users_name %></div
+            ><div class="display-middle message-status ellipsis
       <% if(status) { %>
         <%- status_color %>
       <% } %>
-      ">
-        <% if(status) { %>
+      "><% if(status) { %>
           <%- status_name %>
         <% } else { %>
-        超时<span class="over_color"><%- over_due_time %></span>
+          <span class="display-middle ">&gt;</span><span class="over_color display-middle"><%- over_due_time %></span>
         <% } %>
       </div>
     </div>
@@ -271,8 +273,8 @@
           <%- users_name %>
         </div>
         <div class="linear-height"></div>
-      </div>
-      <div class="display-middle medical-chart">
+      </div
+              ><div class="display-middle medical-chart">
         <div class="table">
           <div class="table-cell">
             <div class="triangle-line">
@@ -286,14 +288,14 @@
               </div>
             </div>
             <div class="status-charts">
-              <div class="triangle-echarts display-middle" id="total-degree<%- id_index  %>"></div>
-              <div class="triangle-echarts display-middle" id="mean-answer<%- id_index  %>"></div>
-              <div class="triangle-echarts display-middle" id="mean-servicing<%- id_index  %>"></div>
+              <div class="triangle-echarts display-middle" id="total-degree<%- id_index  %>"></div
+                      ><div class="triangle-echarts display-middle" id="mean-answer<%- id_index  %>"></div
+                    ><div class="triangle-echarts display-middle" id="mean-servicing<%- id_index  %>"></div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="display-height"></div>
+      </div
+              ><div class="display-height"></div>
     </div>
   </script>
   <script type="text/html" id="no-bx-tpl">

@@ -40,7 +40,7 @@ var ECHARTS_FUNC = {
             emphasis: {
               show: false,
               textStyle: {
-                fontSize: '30',
+                fontSize: 14,
                 fontWeight: 'bold'
               }
             }
@@ -91,7 +91,7 @@ var ECHARTS_FUNC = {
         text: data.status_name,
         textStyle: {
           color: '#fff',
-          fontSize: 12
+          fontSize: 10
         },
         left:'center',
       },
@@ -112,7 +112,7 @@ var ECHARTS_FUNC = {
               position: 'center',
               show: true,
               textStyle: {
-                fontSize: '12',
+                fontSize: 10,
                 color: '#fff'
               }
             }
@@ -177,7 +177,7 @@ var ECHARTS_FUNC = {
         normal: {
           show: false,
           textStyle: {
-            fontSize: 12
+            fontSize: 10
           },
           position: 'center',
           formatter: function (a) {

@@ -15,7 +15,7 @@ var index = {
       self.highValue_ajax();
       self.dpt_ajax();
       self.info_ajax();
-    }, 30*60*1000);
+    }, 60*60*1000);
   },
 
   highValue_ajax: function() {
@@ -249,7 +249,8 @@ var index = {
             update.status_color = '';
             break;
         }
-        var $update_tpl = $($.trim(self.message_line_tpl(update)));
+        var update_replace = self.message_line_tpl(update).replace(/\r/g,'').replace(/\n/g,'');
+        var $update_tpl = $($.trim(update_replace));
         $update_tpl.css({
           height: update_line_height + 'px',
           'line-height': update_line_height + 'px'
@@ -274,17 +275,17 @@ var index = {
         var $overdue_first = $overdue_line.first();
         $update_line.animate({
           top: - update_line_height + 'px'
-        }, 2000, function(a,b,c){
+        }, 5*1000, function(a,b,c){
           $update_info.append($update_first);
           $update_line.css({top: '0px'});
         });
         $overdue_line.animate({
           top: - overdue_line_height + 'px'
-        }, 2000, function(){
+        }, 5*1000, function(){
           $overdue_info.append($overdue_first);
           $overdue_line.css({top: '0px'});
         })
-      }, 6000);
+      }, 30*1000);
     })
   },
 
@@ -482,11 +483,11 @@ var index = {
         var height = $parent.height();
         $medical_info_line.animate({
           top: - height + 'px'
-        }, 2000, function() {
+        }, 5*1000, function() {
           $parent.append($medical_info_line.first());
           $medical_info_line.css({top: '0px'});
         });
-      }, 6000);
+      }, 30*1000);
     })
   },
 
@@ -545,8 +546,8 @@ var index = {
 
 $(function(){
   index.ready_init();
-  $(window).resize(function() {
+/*  $(window).resize(function() {
     index.ready_init();
-  });
+  });*/
 })
 ;

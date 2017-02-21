@@ -1,7 +1,6 @@
 .medical-info-line {
   width: 100%;
   height: 100%;
-  font-size: 0;
   position: relative;
 }
 .medical-portrait {
@@ -14,13 +13,13 @@
     border: solid $padding5 $rgba2;
     margin: auto;
     color: $color2;
-    font-size: $fs16;
+    font-size: 110%;
     line-height: 3*$width50/4;
     text-align: center;
   }
   .medical_name {
     color: $color1;
-    font-size: $fs16;
+    font-size: 110%;
     margin: auto;
     margin-top: $padding10;
     text-align: center;
@@ -44,7 +43,7 @@
       border: solid $width3 $color11;
       padding: $padding5;
       border-radius: $padding5;
-      font-size: $fs12;
+      font-size: 85%;
       position: relative;
       &:last-child{
         margin-left: $padding5;
@@ -91,7 +90,7 @@
         }
       }
       .time-num {
-        font-size: $fs16;
+        font-size: 110%;
         color: $color1;
         margin: 0 $padding5;
       }
