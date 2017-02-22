@@ -6,6 +6,11 @@ html {
     font-size: 12px;
   }
 }
+@media screen and (min-width: 383px) and (max-width: 800px) {
+  html {
+    font-size: 5px;
+  }
+}
 body {
 
 }

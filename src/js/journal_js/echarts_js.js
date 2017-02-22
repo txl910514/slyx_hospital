@@ -591,6 +591,7 @@ var ECHARTS_FUNC = {
     var myChart = echarts.init(document.getElementById(dom_id));
     var body_width = $(window).width();
     var label_bon = true;
+    var font_size = 12;
     if(data.status) {
       label_bon = false;
     }
@@ -602,6 +603,9 @@ var ECHARTS_FUNC = {
           data.unit = '';
         }
       }
+    }
+    else if(body_width < 800) {
+      font_size = 0.8;
     }
     var option = {
       backgroundColor: 'rgba(23,41,135,.1)',
@@ -628,7 +632,8 @@ var ECHARTS_FUNC = {
           axisLabel: {
             margin:3,
             textStyle: {
-              color:'#9fa0a0'
+              color:'#9fa0a0',
+              fontSize: font_size
             }
           },
           splitArea: {
@@ -658,7 +663,8 @@ var ECHARTS_FUNC = {
             show:label_bon,
             margin:3,
             textStyle: {
-              color:'#9fa0a0'
+              color:'#9fa0a0',
+              fontSize: font_size
             }
           },
           splitLine:{
@@ -680,7 +686,8 @@ var ECHARTS_FUNC = {
             show:false,
             margin:2,
             textStyle: {
-              color:'#9fa0a0'
+              color:'#9fa0a0',
+              fontSize: font_size
             }
           },
           splitLine:{
@@ -713,7 +720,8 @@ var ECHARTS_FUNC = {
                 return data.x2[params.dataIndex] + '%';
               },
               textStyle: {
-                color:'#9fa0a0'
+                color:'#9fa0a0',
+                fontSize: font_size
               }
             }
           },
@@ -761,7 +769,8 @@ var ECHARTS_FUNC = {
 
               },
               textStyle: {
-                color:'#9fa0a0'
+                color:'#9fa0a0',
+                fontSize: font_size
               }
             }
           },

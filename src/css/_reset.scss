@@ -2,6 +2,100 @@
   width: 100%;
   height: 100%;
   position: relative;
+  padding: $padding10;
+  padding-left: $padding20;
+  .table {
+    width: 100%;
+    height: 100%;
+  }
+  .two-medical-line {
+    margin-top: $padding20;
+  }
+  .two-data-line {
+    font-size: 120%;
+    padding: $padding20 $padding10;
+    border-radius: $padding5;
+    &.odd {
+      background: $rgba5;
+    }
+    .time-num {
+      color: $color1;
+      margin: 0 5px;
+    }
+  }
+  .medical_name {
+    color: $color1;
+    font-size: 140%;
+    text-align: center;
+    background: $rgba5;
+    margin-right: $padding15;
+  }
+  .first-medical-size {
+    margin-right: $padding15;
+    font-size: 120%;
+    .useing-size {
+      margin-right: 0;
+    }
+    .time-num {
+      color: $color1;
+      margin: 0 5px;
+    }
+  }
+  .triangle-border{
+    border: solid $width1 $color11;
+    padding: $padding3 $padding10;
+    border-radius: $padding5;
+    position: relative;
+    &:last-child{
+      margin-left: $padding5;
+    }
+    &:after {
+      position: absolute;
+      display: block;
+      top:-3*$width1;
+      left: 2*$width1;
+      width: 0;
+      height: 3*$long / 2;
+      border-color: transparent;
+      border-style: solid;
+      border-width: $width1;
+      content: " ";
+      border-right-color: $color11;
+      transform:rotate(-135deg);
+    }
+    .arrow-triangle{
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      border-color: transparent;
+      border-style: solid;
+      border-width: 11px;
+      top:-$width3;
+      left: -$width3;
+      border-top-color: $rgba4;
+      border-left-color: $rgba4;
+      border-bottom-width: 0;
+      border-left-width: 0;
+      &:after {
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        bottom: 1px;
+        content: " ";
+        border-right-color: $rgba4;
+        border-bottom-width: 0;
+      }
+    }
+    .time-num {
+      font-size: 110%;
+      color: $color1;
+      margin: 0 $padding5;
+    }
+  }
 }
 .medical-portrait {
   width: 1/4 * 100%;
@@ -17,13 +111,7 @@
     line-height: 3*$width50/4;
     text-align: center;
   }
-  .medical_name {
-    color: $color1;
-    font-size: 110%;
-    margin: auto;
-    margin-top: $padding10;
-    text-align: center;
-  }
+
 }
 .medical-chart {
   width: 3/4 * 100%;
@@ -39,62 +127,7 @@
   }
   .triangle-line {
     text-align: center;
-    .triangle-border{
-      border: solid $width3 $color11;
-      padding: $padding5;
-      border-radius: $padding5;
-      font-size: 85%;
-      position: relative;
-      &:last-child{
-        margin-left: $padding5;
-      }
-      &:after {
-        position: absolute;
-        display: block;
-        top:-4*$width1;
-        left: $width1;
-        width: 0;
-        height: 3*$long / 2;
-        border-color: transparent;
-        border-style: solid;
-        border-width: $width3;
-        content: " ";
-        border-right-color: $color11;
-        transform:rotate(-135deg);
-      }
-      .arrow-triangle{
-        position: absolute;
-        display: block;
-        width: 0;
-        height: 0;
-        border-color: transparent;
-        border-style: solid;
-        border-width: 11px;
-        top:-$width3;
-        left: -$width3;
-        border-top-color: $rgba4;
-        border-left-color: $rgba4;
-        border-bottom-width: 0;
-        border-left-width: 0;
-        &:after {
-          position: absolute;
-          display: block;
-          width: 0;
-          height: 0;
-          border-color: transparent;
-          border-style: solid;
-          bottom: 1px;
-          content: " ";
-          border-right-color: $rgba4;
-          border-bottom-width: 0;
-        }
-      }
-      .time-num {
-        font-size: 110%;
-        color: $color1;
-        margin: 0 $padding5;
-      }
-    }
+
   }
   .status-charts {
     .triangle-echarts {
@@ -107,4 +140,63 @@
 }
 .display-height{
   margin-left: -$width1;
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1599px) {
+  .medical-info-line {
+    .two-data-line {
+      font-size: 105%;
+      padding: $padding10 $padding10;
+      border-radius: $padding5;
+    }
+    .medical_name {
+      font-size: 115%;
+      margin-right: $padding5;
+    }
+    .first-medical-size {
+      margin-right: $padding5;
+      font-size: 105%;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+  .medical-info-line {
+    padding-left: $padding10;
+    .two-data-line {
+      font-size: 100%;
+      padding: $padding15 $padding10;
+      border-radius: $padding5;
+    }
+    .medical_name {
+      font-size: 85%;
+      margin-right: $padding3;
+    }
+    .first-medical-size {
+      margin-right: 0;
+      font-size: 85%;
+    }
+  }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1023px) {
+  .medical-info-line {
+    padding: $padding5;
+    .two-medical-line {
+      margin-top: $padding5;
+    }
+    .two-data-line {
+      font-size: 90%;
+      padding: $padding5 $padding10;
+      border-radius: $padding5;
+    }
+    .medical_name {
+      font-size: 85%;
+      margin-right: $padding3;
+    }
+    .first-medical-size {
+      margin-right: $padding3;
+      font-size: 85%;
+    }
+  }
 }

@@ -261,7 +261,34 @@
   </script>
   <script type="text/html" id="medical_tpl">
     <div class="medical-info-line">
-      <div class="display-middle medical-portrait">
+      <div class="table">
+        <div class="table-cell">
+          <div class="first-medical-line">
+            <div class="medical_name display-middle triangle-border">
+              <div class="arrow-triangle"></div>
+              <%- users_name %>
+            </div>
+            <div class="display-middle first-medical-size">
+              月完修<span class="time-num"><%- month_fix_count %></span>次
+            </div>
+            <div class="display-middle first-medical-size useing-size">
+              在修<span class="time-num"><%- using_count %></span>台
+            </div>
+          </div>
+          <div class="two-medical-line">
+            <div class="two-data-line odd">
+              总维修次数<span class="time-num"><%- total_fix_count %></span>次
+            </div>
+            <div class="two-data-line">
+              平均响应时长<span class="time-num"><%- resp_avg %></span>小时
+            </div>
+            <div class="two-data-line odd">
+              平均维修时长<span class="time-num"><%- fix_avg %></span>小时
+            </div>
+          </div>
+        </div>
+      </div>
+<!--      <div class="display-middle medical-portrait">
         <div class="medical_head">
           <%- last_name %>
         </div>
@@ -291,7 +318,7 @@
           </div>
         </div>
       </div
-              ><div class="display-height"></div>
+              ><div class="display-height"></div>-->
     </div>
   </script>
   <script type="text/html" id="no-bx-tpl">

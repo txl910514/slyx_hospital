@@ -370,7 +370,7 @@ var index = {
           }
         });
       });
-/*      _.each(result.dptfix_pct, function(dptfix_pct, index) {
+      _.each(result.dptfix_pct, function(dptfix_pct, index) {
         dptfix_num += dptfix_pct.fix_count;
         dptfix_data.data.push({
           name: dptfix_pct.departments_name,
@@ -389,7 +389,7 @@ var index = {
             icon: 'roundRect'
           });
         }
-      });*/
+      });
       _.each(result.me_info[0], function(me_info_first, index) {
         if (me_info_first.fix_avg < 0 || me_info_first.resp_avg < 0) {
           var url = '<%=base%>' + '/err/insert';
@@ -403,19 +403,11 @@ var index = {
         }
         me_info_first.id_index = index;
         me_info_first.last_name = me_info_first.users_name[me_info_first.users_name.length-1];
+        me_info_first.resp_avg = me_info_first.resp_avg < 0 ? 0 : me_info_first.resp_avg;
+        me_info_first.fix_avg = me_info_first.fix_avg < 0 ? 0 : me_info_first.fix_avg;
         var $medical_tpl = $(self.medical_tpl(me_info_first));
         $medical_info_box.append($medical_tpl);
-        var hos_total_fix_count = result.me_info[1][0].hos_total_fix_count;
-        var degree_percent = me_info_first.total_fix_count / hos_total_fix_count;
-        var hos_resp_avg = result.me_info[1][0].hos_resp_avg;
-        var resp_avg = me_info_first.resp_avg < 0 ? 0 : me_info_first.resp_avg;
-        var answer_percent = resp_avg / (hos_resp_avg*2);
-        var hos_fix_avg = result.me_info[1][0].hos_fix_avg;
-        var fix_avg = me_info_first.fix_avg < 0 ? 0 : me_info_first.fix_avg;
-        var servicing_percent = fix_avg / (hos_resp_avg*2);
-        hos_resp_avg = parseFloat(hos_resp_avg.toFixed(2));
-        hos_fix_avg = parseFloat(hos_fix_avg.toFixed(2));
-        var degree_data = {
+/*        var degree_data = {
           status_name: hos_total_fix_count + '次',
           name: '总维修次数',
           percent: degree_percent,
@@ -441,7 +433,7 @@ var index = {
         };
         ECHARTS_FUNC.status_pie('total-degree'+index, degree_data);
         ECHARTS_FUNC.status_pie('mean-answer'+index, answer_data);
-        ECHARTS_FUNC.status_pie('mean-servicing'+index, servicing_data);
+        ECHARTS_FUNC.status_pie('mean-servicing'+index, servicing_data);*/
       });
       var status_total = result.status_pct[0].overdue_count + result.status_pct[0].wait_count +
         result.status_pct[0].get_count;
@@ -550,8 +542,8 @@ var index = {
 
 $(function(){
   index.ready_init();
-/*  $(window).resize(function() {
+  $(window).resize(function() {
     index.ready_init();
-  });*/
+  });
 })
 ;
