@@ -155,28 +155,32 @@ var index = {
     var update_line_height = $update_info.height() / 6 - 2;
     var overdue_line_height = $overdue_info.height() / 4 - 2;
     var body_width  = $(window).width();
-    var screen_height = window.screen.height;
+    var screen_height = $(window).height();
     //if (body_width <= 1366) {
     //  update_line_height = $update_info.height() / 3 - 2;
     //  overdue_line_height = $overdue_info.height() / 2 - 2;
     //}
     if (screen_height >= 1200) {
+      update_line_height = $update_info.height() / 8 - 2;
+      overdue_line_height = $overdue_info.height() / 6 - 2;
+    }
+    else if (screen_height >= 1024) {
       update_line_height = $update_info.height() / 7 - 2;
       overdue_line_height = $overdue_info.height() / 5 - 2;
     }
-    else if (screen_height >= 1024) {
+    else if (screen_height >= 864) {
       update_line_height = $update_info.height() / 6 - 2;
       overdue_line_height = $overdue_info.height() / 4 - 2;
     }
-    else if (screen_height >= 864) {
+    else if (screen_height >= 768) {
       update_line_height = $update_info.height() / 5 - 2;
       overdue_line_height = $overdue_info.height() / 3 - 2;
     }
-    else if (screen_height >= 768) {
+    else if (screen_height >= 600) {
       update_line_height = $update_info.height() / 4 - 2;
       overdue_line_height = $overdue_info.height() / 2 - 2;
     }
-    else if (screen_height >= 600) {
+    else if (screen_height >= 494) {
       update_line_height = $update_info.height() / 3 - 2;
       overdue_line_height = $overdue_info.height() / 1 - 2;
     }
@@ -477,7 +481,7 @@ var index = {
         var no_bx_tpl = self.no_bx_tpl();
         $('#offices-repair').html(no_bx_tpl);
       }*/
-      GVR.INTERVAL.info_setInterval = setInterval(function() {
+/*      GVR.INTERVAL.info_setInterval = setInterval(function() {
         var $medical_info_line = $('.medical-info-line');
         var $parent = $medical_info_line.parent();
         var height = $parent.height();
@@ -487,7 +491,7 @@ var index = {
           $parent.append($medical_info_line.first());
           $medical_info_line.css({top: '0px'});
         });
-      }, 30*1000);
+      }, 30*1000);*/
     })
   },
 

@@ -65,6 +65,11 @@ var ECHARTS_FUNC = {
   status_pie: function(dom_id, data) {
     var myChart = echarts.init(document.getElementById(dom_id));
     var center_font = 12;
+    var body_width  = $(window).width();
+    if (body_width < 1280) {
+      if (dom_id === 'wait-status' || dom_id === 'repair-status' || dom_id === 'overtime-status')
+      data.unit = '';
+    }
     if (!data.name) {
       center_font = 12;
     }
@@ -259,7 +264,7 @@ var ECHARTS_FUNC = {
     }
     option.series.push(one_json);
     option.series.push(text_json);
-    var body_width  = window.screen.width;
+    var body_width  = $(window).width();
     if (body_width <= 1366 && body_width > 1280 ) {
       option.title.top = '-6%';
       if (data.two_percent) {
@@ -584,9 +589,19 @@ var ECHARTS_FUNC = {
 
   horizontal_bar_echarts: function(dom_id, data) {
     var myChart = echarts.init(document.getElementById(dom_id));
+    var body_width = $(window).width();
     var label_bon = true;
     if(data.status) {
       label_bon = false;
+    }
+    if (body_width < 1280) {
+      if (dom_id === 'life-echarts') {
+        var total_num = _.max(data.x1);
+        if(total_num >= 100) {
+          label_bon = false;
+          data.unit = '';
+        }
+      }
     }
     var option = {
       backgroundColor: 'rgba(23,41,135,.1)',
@@ -598,10 +613,10 @@ var ECHARTS_FUNC = {
         }
       },
       grid: {
-        top:'5%',
-        left: '3%',
-        right: '12%',
-        bottom: '3%',
+        top:'2%',
+        left: '1%',
+        right: '15%',
+        bottom: '5%',
         containLabel: true
       },
       yAxis : [
@@ -611,6 +626,7 @@ var ECHARTS_FUNC = {
             show:false
           },
           axisLabel: {
+            margin:3,
             textStyle: {
               color:'#9fa0a0'
             }
@@ -640,6 +656,7 @@ var ECHARTS_FUNC = {
           },
           axisLabel: {
             show:label_bon,
+            margin:3,
             textStyle: {
               color:'#9fa0a0'
             }
@@ -661,6 +678,7 @@ var ECHARTS_FUNC = {
           },
           axisLabel: {
             show:false,
+            margin:2,
             textStyle: {
               color:'#9fa0a0'
             }

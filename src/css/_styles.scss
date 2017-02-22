@@ -1,10 +1,10 @@
 html {
-/*  font-size: $fs14;*/
+  font-size: $fs14;
 }
 @media screen and (min-width: 800px) and (max-width: 1024px) {
-/*  html {
-    font-size: 10px;
-  }*/
+  html {
+    font-size: 12px;
+  }
 }
 body {
 
@@ -228,6 +228,10 @@ img{
           height: 100%;
           width: 100%;
           position: relative;
+          .device-name {
+            display: block;
+            margin-bottom: $padding5;
+          }
           .device-num {
             margin-left: $padding10;
             margin-right: $padding5;
@@ -370,11 +374,11 @@ img{
       .device-content {
         height: 20%;
         .status-flex {
-          font-size: $fs18;
+          font-size: 110%;
           .status-flex-border {
             .device-num {
               .device-num-bg {
-                font-size: $fs28;
+                font-size: 125%;
               }
             }
           }
@@ -404,17 +408,17 @@ img{
 }
 
 
-@media screen and (min-width: 1280px) and (max-width: 1360px) {
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .content {
     .body-content {
       .device-content {
         height: 15%;
         .status-flex {
-          font-size: $fs18;
+          font-size: 110%;
           .status-flex-border {
             .device-num {
               .device-num-bg {
-                font-size: $fs28;
+                font-size: 125%;
               }
             }
           }
@@ -446,8 +450,9 @@ img{
   }
 }
 
-@media screen and (max-width: 1279px) {
+@media screen and (max-width: 1023px) {
   .content {
+    padding: 0 $padding5 $padding5 $padding5;
     .header{
       .slyx-log{
         img {
@@ -468,7 +473,7 @@ img{
       }
     }
     .body-content {
-      margin: 0 $padding10 $padding10;
+      margin: 0 $padding5 $padding5;
       .device-content {
         height: 16%;
         .status-flex {
@@ -480,8 +485,11 @@ img{
           }
           .status-flex-border {
             .device-num {
+              margin-left: 7px;
+              margin-right: 2px;
               .device-num-bg {
-                font-size: 110%;
+                font-size: 120%;
+                margin-right: 2px;
               }
             }
           }
@@ -491,12 +499,11 @@ img{
         height: 84%;
         .left-chart-content {
           width: 26.6667%;
-          padding-right: $padding10;
+          padding-right: $padding5;
         }
         .center-chart-content {
           left: 26.6667%;
-          width: 75%;
-          padding-right: $padding10;
+          width: 73.3333%;
           .center-top-content {
             .center-position {
               &#inspection-none {
