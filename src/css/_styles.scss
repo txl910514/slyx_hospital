@@ -104,24 +104,23 @@ img{
   top: $top35;
   overflow: hidden;
   color: $color6;
-  .message-code{
-    width: 15%;
-    padding-left:$padding20;
+  .message-offices {
+    width: 30%;
   }
   .message-device{
-    width: 16%;
+    width: 22%;
     padding-left:$padding10;
   }
   .message-name{
-    width: 10%;
+    width: 9%;
     padding-left:$padding10;
   }
   .message-status {
-    width: 11%;
+    width: 10%;
     padding-left:$padding10;
   }
   .message-time{
-    width: 20%;
+    width: 18%;
     padding-left:$padding10;
   }
   .repair_color {
@@ -459,6 +458,7 @@ img{
   .content {
     padding: 0 $padding5 $padding5 $padding5;
     .header{
+      height: 7%;
       .slyx-log{
         img {
           max-height: 100%;
@@ -479,6 +479,7 @@ img{
     }
     .body-content {
       margin: 0 $padding5 $padding5;
+      top: 7%;
       .device-content {
         height: 16%;
         .status-flex {
@@ -503,29 +504,29 @@ img{
       .chart-content {
         height: 84%;
         .left-chart-content {
-          width: 26.6667%;
+/*          width: 26.6667%;*/
           padding-right: $padding5;
         }
         .center-chart-content {
-          left: 26.6667%;
-          width: 73.3333%;
+/*          left: 26.6667%;
+          width: 73.3333%;*/
           .center-top-content {
             .center-position {
-              &#inspection-none {
+/*              &#inspection-none {
                 display: none;
-              }
-              &#hitch-left {
+              }*/
+/*              &#hitch-left {
                 left: 0;
-              }
+              }*/
             }
-            #yigong-box {
+/*            #yigong-box {
               width: 50%;
               left: 50%;
               display: block;
               @import "reset";
-            }
+            }*/
           }
-          #min-center-top {
+/*          #min-center-top {
             position: absolute;
             top: 0;
             left: 0;
@@ -542,10 +543,10 @@ img{
             top: 60%;
             left: 0;
             right: 0;
-          }
+          }*/
         }
         .right-chart-content {
-          display: none;
+/*          display: none;*/
           .right-chart-three {
             &.three {
               .medical-chart {

@@ -1,24 +1,6 @@
 /**
  * Created by tangxl on 16-12-6.
  */
-GVR.JSON.area_json = {
-  db: ['东北','黑龙江','吉林', '辽宁'],
-  hb: ['华北','北京', '河北', '内蒙古', '天津'],
-  hd: ['华东','安徽', '江苏', '山东', '上海','浙江'],
-  hn: ['华南', '广东', '广西', '海南'],
-  hz: ['华中', '福建', '湖北', '湖南', '江西'],
-  xb: ['西北','甘肃', '河南', '宁夏', '青海', '山西', '陕西', '新疆'],
-  xn: ['西南','贵州', '四川', '西藏', '云南','重庆']
-};
-GVR.JSON.provinceArray = ['黑龙江','吉林', '辽宁', '北京', '河北',
-  '内蒙古', '天津','安徽', '江苏', '山东', '上海','浙江','广东', '广西', '海南',
-  '福建', '湖北', '湖南', '江西', '甘肃', '河南', '宁夏', '青海', '山西', '陕西', '新疆',
-  '贵州', '四川', '西藏', '云南','重庆', '台湾', '香港', '澳门'];
-GVR.JSON.provinceJson = ['heilongjiang','jilin', 'liaoning', 'beijing', 'hebei',
-  'neimenggu', 'tianjin','anhui', 'jiangsu', 'shandong', 'shanghai','zhejiang',
-  'guangdong', 'guangxi', 'hainan', 'fujian', 'hubei', 'hunan', 'jiangxi', 'gansu',
-  'henan', 'ningxia', 'qinghai', 'shanxi', 'shanxi1', 'xinjiang', 'guizhou', 'sichuan',
-  'xizang', 'yunnan','chongqing', 'tw', 'xianggang', 'aomen'];
 var COMMON_FUNC = {
   ready_init: function() {
     var self = this;
@@ -282,6 +264,5 @@ var COMMON_FUNC = {
 
 $(function() {
   COMMON_FUNC.ready_init();
-}).on('click', '.img-rotate', function() {
-  COMMON_FUNC.area_map($(this));
-});
+})
+;

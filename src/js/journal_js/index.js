@@ -7,7 +7,6 @@ var index = {
   no_bx_tpl: _.template($('#no-bx-tpl').html()),
   ready_init:function() {
     var self = this;
-    var $init_url = $('#form_data');
     self.highValue_ajax();
     self.dpt_ajax();
     self.info_ajax();
@@ -215,6 +214,7 @@ var index = {
       _.each(result.update_info, function(update) {
         update.categories_name = update.categories_name || '-';
         update.users_name = update.users_name || '-';
+        update.updated_at = update.updated_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
         switch (update.status) {
           case 1:
             update.status_name = '报修';
@@ -264,6 +264,7 @@ var index = {
       _.each(result.overdue_info, function(overdue) {
         overdue.users_name = overdue.users_name || '-';
         overdue.over_due_time = overdue.over_due_time || '-';
+        overdue.created_at = overdue.created_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
         var $overdue_tpl = $($.trim(self.message_line_tpl(overdue)));
         $overdue_tpl.css({
           height: overdue_line_height + 'px',
@@ -279,17 +280,17 @@ var index = {
         var $overdue_first = $overdue_line.first();
         $update_line.animate({
           top: - update_line_height + 'px'
-        }, 5*1000, function(a,b,c){
+        }, 10*1000, function(a,b,c){
           $update_info.append($update_first);
           $update_line.css({top: '0px'});
         });
         $overdue_line.animate({
           top: - overdue_line_height + 'px'
-        }, 5*1000, function(){
+        }, 10*1000, function(){
           $overdue_info.append($overdue_first);
           $overdue_line.css({top: '0px'});
         })
-      }, 30*1000);
+      }, 60*1000);
     })
   },
 
@@ -473,17 +474,17 @@ var index = {
         var no_bx_tpl = self.no_bx_tpl();
         $('#offices-repair').html(no_bx_tpl);
       }*/
-/*      GVR.INTERVAL.info_setInterval = setInterval(function() {
+      GVR.INTERVAL.info_setInterval = setInterval(function() {
         var $medical_info_line = $('.medical-info-line');
         var $parent = $medical_info_line.parent();
         var height = $parent.height();
         $medical_info_line.animate({
           top: - height + 'px'
-        }, 5*1000, function() {
+        }, 10*1000, function() {
           $parent.append($medical_info_line.first());
           $medical_info_line.css({top: '0px'});
         });
-      }, 30*1000);*/
+      }, 60*1000);
     })
   },
 

@@ -9,11 +9,11 @@
     height: 100%;
   }
   .two-medical-line {
-    margin-top: $padding20;
+    margin-top: 5%;
   }
   .two-data-line {
     font-size: 120%;
-    padding: $padding20 $padding10;
+    padding: 4% 3%;
     border-radius: $padding5;
     &.odd {
       background: $rgba5;
@@ -28,10 +28,10 @@
     font-size: 140%;
     text-align: center;
     background: $rgba5;
-    margin-right: $padding15;
+    margin-right: 4%;
   }
   .first-medical-size {
-    margin-right: $padding15;
+    margin-right: 3%;
     font-size: 120%;
     .useing-size {
       margin-right: 0;
@@ -146,15 +146,15 @@
   .medical-info-line {
     .two-data-line {
       font-size: 105%;
-      padding: $padding10 $padding10;
+/*      padding: $padding10 $padding10;*/
       border-radius: $padding5;
     }
     .medical_name {
       font-size: 115%;
-      margin-right: $padding5;
+/*      margin-right: $padding5;*/
     }
     .first-medical-size {
-      margin-right: $padding5;
+/*      margin-right: $padding5;*/
       font-size: 105%;
     }
   }
@@ -162,10 +162,10 @@
 
 @media screen and (min-width: 1024px) and (max-width: 1279px) {
   .medical-info-line {
-    padding-left: $padding10;
+/*    padding-left: $padding10;*/
     .two-data-line {
       font-size: 100%;
-      padding: $padding15 $padding10;
+/*      padding: $padding15 $padding10;*/
       border-radius: $padding5;
     }
     .medical_name {
@@ -181,22 +181,29 @@
 
 @media screen and (min-width: 800px) and (max-width: 1023px) {
   .medical-info-line {
-    padding: $padding5;
+    padding: 4%;
     .two-medical-line {
-      margin-top: $padding5;
+  /*    margin-top: $padding5;*/
+    }
+    .triangle-border{
+      padding: $padding3 1%;
     }
     .two-data-line {
-      font-size: 90%;
-      padding: $padding5 $padding10;
-      border-radius: $padding5;
+      font-size: 85%;
+/*      padding: $padding5 $padding10;
+      border-radius: $padding5;*/
     }
     .medical_name {
       font-size: 85%;
-      margin-right: $padding3;
+      margin-right: 0%;
     }
     .first-medical-size {
-      margin-right: $padding3;
+      margin-right: 0;
       font-size: 85%;
+      .time-num {
+        color: $color1;
+        margin: 0;
+      }
     }
   }
 }

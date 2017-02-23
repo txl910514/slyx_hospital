@@ -173,8 +173,7 @@
             </div>
             <div class="content-bg position-absolute">
               <div class="message-title">
-                <div class="display-middle message-code ellipsis">编码</div>
-                <div class="display-middle message-device ellipsis">设备名</div>
+                <div class="display-middle message-offices  ellipsis">设备名</div>
                 <div class="display-middle message-device ellipsis">科室</div>
                 <div class="display-middle message-name ellipsis">报修人</div>
                 <div class="display-middle message-time ellipsis">更新时间</div>
@@ -193,9 +192,8 @@
             </div>
             <div class="content-bg position-absolute">
               <div class="message-title">
-                <div class="display-middle message-code ellipsis">编码</div>
-                <div class="display-middle message-device ellipsis">设备名</div>
-                <div class="display-middle message-device ellipsis">科室</div>
+                <div class="display-middle message-offices  ellipsis">设备名</div>
+                <div class="display-middle message-device  ellipsis">科室</div>
                 <div class="display-middle message-name ellipsis">报修人</div>
                 <div class="display-middle message-time ellipsis">报修时间</div>
                 <div class="display-middle message-name ellipsis">接修人</div>
@@ -237,9 +235,8 @@
   </div>
   <script type="text/html" id="message_line_tpl">
     <div class="message-line">
-      <div class="display-middle message-code ellipsis"><%- code %></div
-              ><div class="display-middle message-device ellipsis"><%- categories_name %></div
-            ><div class="display-middle message-device ellipsis"><%- departments_name %></div
+      <div class="display-middle message-offices  ellipsis"><%- categories_name %></div
+            ><div class="display-middle message-device  ellipsis"><%- departments_name %></div
             ><div class="display-middle message-name ellipsis"><%- contact_name %></div
             ><div class="display-middle message-time ellipsis"><% if(status) { %>
           <%- updated_at %>
@@ -252,9 +249,9 @@
         <%- status_color %>
       <% } %>
       "><% if(status) { %>
-          <%- status_name %>
+          外修开始
         <% } else { %>
-          <span class="display-middle ">&gt;</span><span class="over_color display-middle"><%- over_due_time %></span>
+          <span class="display-middle ">&gt;</span><span class="over_color">999天</span>
         <% } %>
       </div>
     </div>
