@@ -249,9 +249,9 @@
         <%- status_color %>
       <% } %>
       "><% if(status) { %>
-          外修开始
+          <%- status_name %>
         <% } else { %>
-          <span class="display-middle ">&gt;</span><span class="over_color">999天</span>
+          <span class="">&gt;</span><span class="over_color"><%- over_due_time %></span>
         <% } %>
       </div>
     </div>

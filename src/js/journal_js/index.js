@@ -37,7 +37,8 @@ var index = {
         x3:[],
         name3: '可用设备比例',
         label:[],
-        unit:'台'
+        unit:'台',
+        min_arr:[]
       };
       var life_data = {
         y:[],
@@ -48,24 +49,46 @@ var index = {
         x3:[],
         name3: '可用设备比例',
         label:[],
-        unit:'台'
+        unit:'台',
+        min_arr:[]
       };
-      var highValue_sort = _.sortBy(result.highValue, 'using_count');
+      if (result.highValue.length < 7) {
+        var high_length = 7 -  result.highValue.length;
+        _(high_length).times(function(n){
+          result.highValue.push({
+            category: '',
+            total_count:0,
+            use_count:0,
+            percent: 0
+          });
+        });
+      }
+      var highValue_sort = _.sortBy(result.highValue, 'percent');
       _.each(highValue_sort, function(high_Value) {
-        var perent = (high_Value.using_count / high_Value.total_num) * 100;
-        perent = high_Value.total_num ? parseInt(perent) : 0;
-        high_Value.standard_categories_name = high_Value.total_num ? high_Value.standard_categories_name : '';
-        if (high_Value.standard_categories_name.length > 6) {
-          high_Value.standard_categories_name = high_Value.standard_categories_name.slice(0,6);
+        if (high_Value.category.length > 6) {
+          high_Value.category = high_Value.category.slice(0,6);
         }
-        data.y.push(high_Value.standard_categories_name);
-        data.x1.push(high_Value.total_num);
-        data.x2.push(high_Value.using_count);
-        data.x3.push(perent);
+        data.y.push(high_Value.category);
+        data.x1.push(high_Value.total_count);
+        data.x2.push(high_Value.use_count);
+        data.x3.push(high_Value.percent* 100);
+        if(high_Value.category) {
+          data.min_arr.push(high_Value.percent* 100);
+        }
       });
-      var lifeSupport_sort = _.sortBy(result.lifeSupport, 'use_count');
+      if (result.lifeSupport.length < 7) {
+        var life_length = 7 -  result.lifeSupport.length;
+        _(life_length).times(function(n){
+          result.lifeSupport.push({
+            category: '',
+            total_count:0,
+            use_count:0,
+            percent: 0
+          });
+        });
+      }
+      var lifeSupport_sort = _.sortBy(result.lifeSupport, 'percent');
       _.each(lifeSupport_sort, function(lifeSupport) {
-        lifeSupport.category = lifeSupport.total_count ? lifeSupport.category : '';
         if (lifeSupport.category.length > 6) {
           lifeSupport.category = lifeSupport.category.slice(0,6);
         }
@@ -73,25 +96,28 @@ var index = {
         life_data.x1.push(lifeSupport.total_count);
         life_data.x2.push(lifeSupport.use_count);
         life_data.x3.push(lifeSupport.percent* 100);
+        if(lifeSupport.category) {
+          life_data.min_arr.push(lifeSupport.percent* 100);
+        }
       });
-      var life_min = _.min(life_data.x3);
-      var high_min = _.min(data.x3);
+      var life_min = _.min(life_data.min_arr);
+      var high_min = _.min(data.min_arr);
       var life_max = _.max(life_data.x1);
       var high_max = _.max(data.x1);
       var min_color = '#9fa0a0';
       var dot_color = '#71c8d9';
       var add = 0;
       _.each(life_data.x3, function(value, index) {
-        if(value === life_min && value !== 100) {
+        if(value === life_min && value !== 100 && life_data.min_arr.length > 1) {
           min_color = '#f39800';
           dot_color = '#f39800';
-          if (!life_data.x1[index]) {
-            dot_color = 'transparent';
-          }
         }
         else {
           min_color = '#9fa0a0';
           dot_color = '#71c8d9'
+        }
+        if (!life_data.x1[index]) {
+          dot_color = 'transparent';
         }
         add = life_max < 25 ? 0.5: 5;
         life_data.label.push({
@@ -112,16 +138,16 @@ var index = {
         });
       });
       _.each(data.x3, function(value, index) {
-        if(value === high_min && value !== 100) {
+        if(value === high_min && value !== 100 && data.min_arr.length > 1) {
           min_color = '#f39800';
           dot_color = '#f39800';
-          if (!data.x1[index]) {
-            dot_color = 'transparent';
-          }
         }
         else {
           min_color = '#9fa0a0';
           dot_color = '#71c8d9'
+        }
+        if (!data.y[index]) {
+          dot_color = 'transparent';
         }
         add = high_max < 25 ? 0.5: 5;
         data.label.push({
@@ -179,7 +205,7 @@ var index = {
       update_line_height = $update_info.height() / 4 - 2;
       overdue_line_height = $overdue_info.height() / 2 - 2;
     }
-    else if (screen_height >= 494) {
+    else if (screen_height >= 420) {
       update_line_height = $update_info.height() / 3 - 2;
       overdue_line_height = $overdue_info.height() / 1 - 2;
     }
@@ -304,7 +330,6 @@ var index = {
     if ($medical_info_hidden) {
       $medical_info_box = $('#min_info_box').html('');
     }
-    console.log($medical_info_hidden);
     clearInterval(GVR.INTERVAL.info_setInterval);
     var jsonp_name = $offices_use.attr('jsonp-callback');
     COMMON_FUNC.ajax_get($offices_use, {}, url, jsonp_name, function(result) {
@@ -318,7 +343,8 @@ var index = {
         name3: '可用设备比例',
         label:[],
         unit:'',
-        status:'dptuse'
+        status:'dptuse',
+        min_arr:[]
       };
       var dptfix_data = {
         name:'科室报修占比',
@@ -341,12 +367,15 @@ var index = {
         }
         dptuse_data.y.push(dptuse_pct.departments_name);
         dptuse_data.x2.push(parseInt(dptuse_pct.use_percent*100));
+        if(dptuse_pct.departments_name) {
+          dptuse_data.min_arr.push(parseInt(dptuse_pct.use_percent*100));
+        }
       });
-      var dptuse_min = _.min(dptuse_data.x2);
+      var dptuse_min = _.min(dptuse_data.min_arr);
       var dptuse_color = '#9fa0a0';
       var x1_value = 100;
       _.each(dptuse_data.x2, function(value, index) {
-        if(value === dptuse_min && value !== 100) {
+        if(value === dptuse_min && value !== 100 && dptuse_data.min_arr.length > 1) {
           dptuse_color = '#f39800';
         }
         else {

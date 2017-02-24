@@ -411,6 +411,26 @@ img{
   }
 }
 
+@media screen and (min-width: 1024px) and (max-width: 1239px)  {
+  .content-bg {
+    .message-offices {
+      width: 24%;
+    }
+    .message-device{
+      width: 20%;
+    }
+    .message-name{
+      width: 10%;
+    }
+    .message-status {
+      width: 13%;
+    }
+    .message-time{
+      width: 21%;
+    }
+  }
+}
+
 
 @media screen and (min-width: 1024px) and (max-width: 1360px) {
   .content {
@@ -455,6 +475,23 @@ img{
 }
 
 @media screen and (max-width: 1023px) {
+  .content-bg {
+    .message-offices {
+      width: 17%;
+    }
+    .message-device{
+      width: 14%;
+    }
+    .message-name{
+      width: 13%;
+    }
+    .message-status {
+      width: 16%;
+    }
+    .message-time{
+      width: 26%;
+    }
+  }
   .content {
     padding: 0 $padding5 $padding5 $padding5;
     .header{
@@ -569,5 +606,6 @@ img{
     }
   }
 }
+
 
 

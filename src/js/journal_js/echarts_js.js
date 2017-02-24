@@ -289,16 +289,20 @@ var ECHARTS_FUNC = {
 
   bar_status: function(dom_id, data) {
     var label_bon = false;
-    var max = 100;
+    var max = 'auto';
+    var max_number1 = _.max(data.y1);
+    var max_number2 = _.max(data.y2);
     var grid_top = '10%';
     var grid_left = '3%';
     var body_width  = $(window).width();
     if (body_width <= 1366) {
       grid_top = '15%'
     }
+    if (max_number1<4 && max_number2 < 4) {
+      max = 4;
+    }
     if (data.status) {
       label_bon = true;
-      max = 'auto';
       var legend = {
         data: data.legend_data,
         align: 'left',
@@ -336,6 +340,7 @@ var ECHARTS_FUNC = {
             show:false
           },
           axisLabel: {
+            interval:0,
             textStyle: {
               color:'#9fa0a0'
             }
@@ -356,11 +361,11 @@ var ECHARTS_FUNC = {
         {
           type : 'value',
           name: data.unit,
+          max:max,
           nameTextStyle:{
             color:'#9fa0a0'
           },
           nameGap:5,
-          min: 0,
           axisTick: {
             show:false
           },
@@ -473,6 +478,9 @@ var ECHARTS_FUNC = {
       option.series.push(bar1_json);
     }
     option.series.push(bar2_json);
+    if (!(max_number1<4 && max_number2 < 4)) {
+      delete option.yAxis[0].max;
+    }
     myChart.setOption(option);
   },
 
@@ -480,6 +488,11 @@ var ECHARTS_FUNC = {
     var myChart = echarts.init(document.getElementById(dom_id));
     var grid_top = '10%';
     var body_width  = $(window).width();
+    var max_number = _.max(data.y);
+    var max = 'auto';
+    if (max_number < 4) {
+      max = 4;
+    }
     if (body_width <= 1366) {
       grid_top = '15%'
     }
@@ -503,6 +516,7 @@ var ECHARTS_FUNC = {
             show:false
           },
           axisLabel: {
+            interval:0,
             textStyle: {
               color:'#9fa0a0'
             }
@@ -522,6 +536,7 @@ var ECHARTS_FUNC = {
       yAxis : [
         {
           type : 'value',
+          max:max,
           name: data.unit,
           nameTextStyle:{
             color:'#9fa0a0'
@@ -584,6 +599,9 @@ var ECHARTS_FUNC = {
         }
       ]
     };
+    if (!(max_number < 4)) {
+      delete option.yAxis[0].max;
+    }
     myChart.setOption(option);
   },
 
@@ -592,6 +610,11 @@ var ECHARTS_FUNC = {
     var body_width = $(window).width();
     var label_bon = true;
     var font_size = 12;
+    var max = 'auto';
+    var max_number = _.max(data.x1);
+    if (max_number < 4) {
+      max = 4;
+    }
     if(data.status) {
       label_bon = false;
     }
@@ -652,6 +675,7 @@ var ECHARTS_FUNC = {
         {
           type : 'value',
           name: data.unit,
+          max: max,
           nameTextStyle:{
             color:'#9fa0a0'
           },
@@ -790,6 +814,9 @@ var ECHARTS_FUNC = {
         }
       ]
     };
+    if (!(max_number < 4) || dom_id === 'offices-use') {
+      delete  option.xAxis[0].max;
+    }
     myChart.setOption(option);
   }
 };
