@@ -27,7 +27,7 @@ var gulp = require('gulp'),
 	Q = require('q'),
 	del = require('del'),
 	pathConfig = {
-		dist: 'hospital_dp/',
+		dist: 'hospital_test/',
 		src: 'src/',
 		rev: 'rev'
 	},
@@ -40,7 +40,7 @@ var gulp = require('gulp'),
 	},
 	compress = false,
 	img = true,
-	js = false,
+	js = true,
 	version = new Date().getTime(),
 	api = require('./url.json'),
 	mkRev = function (stream, manifest) {

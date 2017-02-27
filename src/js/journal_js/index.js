@@ -52,7 +52,7 @@ var index = {
         unit:'台',
         min_arr:[]
       };
-/*      if (result.highValue.length < 7) {
+      if (result.highValue.length < 7) {
         var high_length = 7 -  result.highValue.length;
         _(high_length).times(function(n){
           result.highValue.push({
@@ -75,7 +75,7 @@ var index = {
         if(high_Value.category) {
           data.min_arr.push(high_Value.percent* 100);
         }
-      });*/
+      });
       if (result.lifeSupport.length < 7) {
         var life_length = 7 -  result.lifeSupport.length;
         _(life_length).times(function(n){
@@ -137,7 +137,7 @@ var index = {
           }
         });
       });
-/*      _.each(data.x3, function(value, index) {
+      _.each(data.x3, function(value, index) {
         if(value === high_min && value !== 100 && data.min_arr.length > 1) {
           min_color = '#f39800';
           dot_color = '#f39800';
@@ -167,7 +167,7 @@ var index = {
           }
         });
       });
-      ECHARTS_FUNC.horizontal_bar_echarts('high-value-echarts', data);*/
+      ECHARTS_FUNC.horizontal_bar_echarts('high-value-echarts', data);
       ECHARTS_FUNC.horizontal_bar_echarts('life-echarts', life_data);
     })
   },
