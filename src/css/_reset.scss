@@ -207,3 +207,79 @@
     }
   }
 }
+
+@media screen and (min-width: 1369px) and (max-height: 750px) {
+  .medical-info-line {
+    .two-medical-line {
+      margin-top: 3%;
+    }
+    .two-data-line {
+      font-size: 100%;
+      border-radius: $padding5;
+      padding: 3% 3%;
+    }
+    .medical_name {
+      font-size: 110%;
+    }
+    .first-medical-size {
+      font-size: 100%;
+    }
+  }
+}
+
+@media screen and (min-width: 1369px) and (max-height: 599px) {
+  .medical-info-line {
+    .two-medical-line {
+      margin-top: 1%;
+    }
+    .two-data-line {
+      font-size: 80%;
+      border-radius: $padding5;
+      padding: 2.4% 3%;
+    }
+    .medical_name {
+      font-size: 100%;
+    }
+    .first-medical-size {
+      font-size: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 1368px) and (max-height: 750px) {
+  .medical-info-line {
+    .two-medical-line {
+      margin-top: 3%;
+    }
+    .two-data-line {
+      font-size: 100%;
+      border-radius: $padding5;
+      padding: 3% 3%;
+    }
+    .medical_name {
+      font-size: 110%;
+    }
+    .first-medical-size {
+      font-size: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 1368px) and (max-height: 599px) {
+  .medical-info-line {
+    .two-medical-line {
+      margin-top: 1%;
+    }
+    .two-data-line {
+      font-size: 80%;
+      border-radius: $padding5;
+      padding: 2.4% 3%;
+    }
+    .medical_name {
+      font-size: 100%;
+    }
+    .first-medical-size {
+      font-size: 100%;
+    }
+  }
+}

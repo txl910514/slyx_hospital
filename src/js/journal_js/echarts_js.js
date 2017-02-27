@@ -66,6 +66,7 @@ var ECHARTS_FUNC = {
     var myChart = echarts.init(document.getElementById(dom_id));
     var center_font = 12;
     var body_width  = $(window).width();
+    var body_height = $(window).height();
     if (body_width < 1280) {
       if (dom_id === 'wait-status' || dom_id === 'repair-status' || dom_id === 'overtime-status')
       data.unit = '';
@@ -264,7 +265,6 @@ var ECHARTS_FUNC = {
     }
     option.series.push(one_json);
     option.series.push(text_json);
-    var body_width  = $(window).width();
     if (body_width <= 1366 && body_width > 1280 ) {
       option.title.top = '-6%';
       if (data.two_percent) {
@@ -284,6 +284,24 @@ var ECHARTS_FUNC = {
         option.series[0].center = ['50%', '80%'];
       }
     }
+    if (body_height < 800 && body_height >= 650) {
+      option.title.top = '-7%';
+    }
+    else if (body_height < 650 && body_height >= 500) {
+      option.series[0].center = ['50%', '65%'];
+      option.series[1].center = ['50%', '65%'];
+      option.series[2].center = ['50%', '65%'];
+      option.series[3].center = ['50%', '65%'];
+      option.series[4].center = ['50%', '65%'];
+    }
+    else if (body_height < 500) {
+      option.title.top = '-8%';
+      option.series[0].center = ['50%', '70%'];
+      option.series[1].center = ['50%', '70%'];
+      option.series[2].center = ['50%', '70%'];
+      option.series[3].center = ['50%', '70%'];
+      option.series[4].center = ['50%', '70%'];
+    }
     myChart.setOption(option);
   },
 
@@ -294,9 +312,13 @@ var ECHARTS_FUNC = {
     var max_number2 = _.max(data.y2);
     var grid_top = '10%';
     var grid_left = '3%';
+    var lend_show = true;
     var body_width  = $(window).width();
     if (body_width <= 1366) {
       grid_top = '15%'
+    }
+    if (body_width < 890) {
+      lend_show = false;
     }
     if (max_number1<4 && max_number2 < 4) {
       max = 4;
@@ -304,6 +326,7 @@ var ECHARTS_FUNC = {
     if (data.status) {
       label_bon = true;
       var legend = {
+        show: lend_show,
         data: data.legend_data,
         align: 'left',
         left:'right',
