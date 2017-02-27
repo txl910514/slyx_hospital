@@ -22,13 +22,15 @@ var index = {
     var $highValue = $('#highValue');
     var url = '<%=base%>' + $highValue.attr('url');
     var jsonp_name = $highValue.attr('jsonp-callback');
+    var data, life_data, high_length, highValue_sort, life_length, lifeSupport_sort;
+    var life_min, high_min, life_max, high_max, min_color, dot_color, add;
     COMMON_FUNC.ajax_get($highValue, {}, url, jsonp_name, function(result) {
       self.device_num_total($('#total-device-num'), result.eqpCount[0].total_count);
       self.device_num_total($('#using-count'), result.eqpCount[0].using_count);
       self.device_num_total($('#fix-count'), result.eqpCount[1].finish_count);
       $('#header-title').text(result.eqpCount[1].hospitals_name);
       document.title = result.eqpCount[1].hospitals_name;
-      var data = {
+      data = {
         y:[],
         x1:[],
         name1: '设备总数',
@@ -40,7 +42,7 @@ var index = {
         unit:'台',
         min_arr:[]
       };
-      var life_data = {
+      life_data = {
         y:[],
         x1:[],
         name1: '设备总数',
@@ -53,8 +55,8 @@ var index = {
         min_arr:[]
       };
       if (result.highValue.length < 7) {
-        var high_length = 7 -  result.highValue.length;
-        _(high_length).times(function(n){
+        high_length = 7 -  result.highValue.length;
+        _(high_length).times(function(){
           result.highValue.push({
             category: '',
             total_count:0,
@@ -62,8 +64,9 @@ var index = {
             percent: 0
           });
         });
+        high_length = null;
       }
-      var highValue_sort = _.sortBy(result.highValue, 'percent');
+/*      highValue_sort = _.sortBy(result.highValue, 'percent');
       _.each(highValue_sort, function(high_Value) {
         if (high_Value.category.length > 6) {
           high_Value.category = high_Value.category.slice(0,6);
@@ -75,9 +78,10 @@ var index = {
         if(high_Value.category) {
           data.min_arr.push(high_Value.percent* 100);
         }
-      });
+        high_Value = null;
+      });*/
       if (result.lifeSupport.length < 7) {
-        var life_length = 7 -  result.lifeSupport.length;
+        life_length = 7 -  result.lifeSupport.length;
         _(life_length).times(function(n){
           result.lifeSupport.push({
             category: '',
@@ -86,8 +90,9 @@ var index = {
             percent: 0
           });
         });
+        life_length = null;
       }
-      var lifeSupport_sort = _.sortBy(result.lifeSupport, 'percent');
+      lifeSupport_sort = _.sortBy(result.lifeSupport, 'percent');
       _.each(lifeSupport_sort, function(lifeSupport) {
         if (lifeSupport.category.length > 6) {
           lifeSupport.category = lifeSupport.category.slice(0,6);
@@ -99,14 +104,15 @@ var index = {
         if(lifeSupport.category) {
           life_data.min_arr.push(lifeSupport.percent* 100);
         }
+        lifeSupport = null;
       });
-      var life_min = _.min(life_data.min_arr);
-      var high_min = _.min(data.min_arr);
-      var life_max = _.max(life_data.x1);
-      var high_max = _.max(data.x1);
-      var min_color = '#9fa0a0';
-      var dot_color = '#71c8d9';
-      var add = 0;
+      life_min = _.min(life_data.min_arr);
+      high_min = _.min(data.min_arr);
+      life_max = _.max(life_data.x1);
+      high_max = _.max(data.x1);
+      min_color = '#9fa0a0';
+      dot_color = '#71c8d9';
+      add = 0;
       _.each(life_data.x3, function(value, index) {
         if(value === life_min && value !== 100 && life_data.min_arr.length > 1) {
           min_color = '#f39800';
@@ -114,7 +120,7 @@ var index = {
         }
         else {
           min_color = '#9fa0a0';
-          dot_color = '#71c8d9'
+          dot_color = '#71c8d9';
         }
         if (!life_data.x1[index]) {
           dot_color = 'transparent';
@@ -136,8 +142,9 @@ var index = {
             }
           }
         });
+        value = null, index= null;
       });
-      _.each(data.x3, function(value, index) {
+/*      _.each(data.x3, function(value, index) {
         if(value === high_min && value !== 100 && data.min_arr.length > 1) {
           min_color = '#f39800';
           dot_color = '#f39800';
@@ -166,9 +173,14 @@ var index = {
             }
           }
         });
+        value = null, index= null;
       });
-      ECHARTS_FUNC.horizontal_bar_echarts('high-value-echarts', data);
+      ECHARTS_FUNC.horizontal_bar_echarts('high-value-echarts', data);*/
       ECHARTS_FUNC.horizontal_bar_echarts('life-echarts', life_data);
+      self = null, data = null, $highValue = null, url = null, jsonp_name = null, result = null,
+          life_data = null, highValue_sort = null, lifeSupport_sort = null, life_min = null,
+          high_min = null, life_max = null, high_max = null, min_color = null, dot_color = null,
+          add = null;
     })
   },
 
@@ -179,12 +191,10 @@ var index = {
     var url = '<%=base%>' + $update_info.attr('url');
     var update_line_height = $update_info.height() / 6 - 2;
     var overdue_line_height = $overdue_info.height() / 4 - 2;
-    var body_width  = $(window).width();
     var screen_height = $(window).height();
-    //if (body_width <= 1366) {
-    //  update_line_height = $update_info.height() / 3 - 2;
-    //  overdue_line_height = $overdue_info.height() / 2 - 2;
-    //}
+    var $update_line, $overdue_line, $update_first, $overdue_first;
+    var $update_tpl, $overdue_tpl;
+    var month_check_data, fix_pct_data;
     if (screen_height >= 1200) {
       update_line_height = $update_info.height() / 8 - 2;
       overdue_line_height = $overdue_info.height() / 6 - 2;
@@ -210,15 +220,16 @@ var index = {
       overdue_line_height = $overdue_info.height() / 1 - 2;
     }
     clearInterval(GVR.INTERVAL.message_setInterval);
+    GVR.INTERVAL.message_setInterval = null;
     var jsonp_name = $update_info.attr('jsonp-callback');
     COMMON_FUNC.ajax_get($update_info, {}, url, jsonp_name, function(result) {
-      var month_check_data = {
+      month_check_data = {
         x: [],
         y:[],
         unit:'次',
         name: '月质控统计'
       };
-      var fix_pct_data = {
+      fix_pct_data = {
         status: 'line',
         x: [],
         y1:[],
@@ -229,11 +240,13 @@ var index = {
       _.each(result.month_check, function(check) {
         month_check_data.x.unshift(check.month + '月');
         month_check_data.y.unshift(check.count);
+        check = null;
       });
       _.each(result.fix_pct, function(fix_pct_line) {
         fix_pct_data.x.unshift(fix_pct_line.mon + '月');
         fix_pct_data.y1.unshift(fix_pct_line.report_num);
         fix_pct_data.y2.unshift(fix_pct_line.fix_num);
+        fix_pct_line = null;
       });
       ECHARTS_FUNC.accumulate_echarts('inspection-echarts', month_check_data);
       ECHARTS_FUNC.bar_status('hitch-echarts', fix_pct_data);
@@ -279,31 +292,31 @@ var index = {
             update.status_color = '';
             break;
         }
-        var update_replace = self.message_line_tpl(update).replace(/\r/g,'').replace(/\n/g,'');
-        var $update_tpl = $($.trim(update_replace));
+        $update_tpl = $($.trim(self.message_line_tpl(update)));
         $update_tpl.css({
           height: update_line_height + 'px',
           'line-height': update_line_height + 'px'
         });
         $update_info.append($update_tpl);
+        update = null, $update_tpl = null;
       });
       _.each(result.overdue_info, function(overdue) {
         overdue.users_name = overdue.users_name || '-';
         overdue.over_due_time = overdue.over_due_time || '-';
         overdue.created_at = overdue.created_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
-        var $overdue_tpl = $($.trim(self.message_line_tpl(overdue)));
+        $overdue_tpl = $($.trim(self.message_line_tpl(overdue)));
         $overdue_tpl.css({
           height: overdue_line_height + 'px',
           'line-height': overdue_line_height + 'px'
         });
         $overdue_info.append($overdue_tpl);
+        overdue = null, $overdue_tpl = null;
       });
-
       GVR.INTERVAL.message_setInterval = setInterval(function() {
-        var $update_line = $update_info.find('.message-line');
-        var $overdue_line = $overdue_info.find('.message-line');
-        var $update_first = $update_line.first();
-        var $overdue_first = $overdue_line.first();
+        $update_line = $update_info.find('.message-line');
+        $overdue_line = $overdue_info.find('.message-line');
+        $update_first = $update_line.first();
+        $overdue_first = $overdue_line.first();
         $update_line.animate({
           top: - update_line_height + 'px'
         }, 5*1000, function(a,b,c){
@@ -315,8 +328,11 @@ var index = {
         }, 5*1000, function(){
           $overdue_info.append($overdue_first);
           $overdue_line.css({top: '0px'});
-        })
+        });
       }, 60*1000);
+      self = null,  url = null, update_line_height = null,
+          overdue_line_height = null, screen_height = null, jsonp_name = null, result = null, month_check_data = null,
+          fix_pct_data = null, $overdue_tpl = null, $update_tpl = null;
     })
   },
 
@@ -324,16 +340,23 @@ var index = {
     var self = this;
     var $offices_use = $('#offices-use').html('');
     var url = '<%=base%>' + $offices_use.attr('url');
-    var total_dptfix = 0, other_dptfix = 0, dptfix_num = 0, interval_num = 0;
+    var total_dptfix = 0, dptfix_num = 0;
     var $medical_info_box = $('#medical_info_box').html('');
     var $medical_info_hidden = $('#medical_info_box:hidden').length;
+    var $error_body = $('body');
+    var error_url = '<%=base%>' + '/err/insert';
+    var error_text, error_data, $medical_tpl, $medical_info_line, $parent, height, dptuse_data,
+        lack_length, dptusePct_sort;
+    var dptuse_min, dptuse_color, x1_value;
+    var status_total, wait_percent, get_percent, overdue_percent, wait_data, get_data, overdue_data;
     if ($medical_info_hidden) {
       $medical_info_box = $('#min_info_box').html('');
     }
     clearInterval(GVR.INTERVAL.info_setInterval);
+    GVR.INTERVAL.info_setInterval = null;
     var jsonp_name = $offices_use.attr('jsonp-callback');
     COMMON_FUNC.ajax_get($offices_use, {}, url, jsonp_name, function(result) {
-      var dptuse_data = {
+      dptuse_data = {
         y:[],
         x1:[],
         name1: '总比例',
@@ -346,13 +369,8 @@ var index = {
         status:'dptuse',
         min_arr:[]
       };
-      var dptfix_data = {
-        name:'科室报修占比',
-        data:[],
-        series_data:[]
-      };
       if (result.dptuse_pct.length < 5) {
-        var lack_length = 5 -  result.dptuse_pct.length;
+        lack_length = 5 -  result.dptuse_pct.length;
         _(lack_length).times(function(n){
           result.dptuse_pct.push({
             departments_name: '',
@@ -360,7 +378,7 @@ var index = {
           });
         });
       }
-      var dptusePct_sort = _.sortBy(result.dptuse_pct, 'departments_name');
+      dptusePct_sort = _.sortBy(result.dptuse_pct, 'departments_name');
       _.each(dptusePct_sort, function(dptuse_pct) {
         if (dptuse_pct.departments_name.length > 6) {
           dptuse_pct.departments_name = dptuse_pct.departments_name.slice(0,6);
@@ -371,9 +389,9 @@ var index = {
           dptuse_data.min_arr.push(parseInt(dptuse_pct.use_percent*100));
         }
       });
-      var dptuse_min = _.min(dptuse_data.min_arr);
-      var dptuse_color = '#9fa0a0';
-      var x1_value = 100;
+      dptuse_min = _.min(dptuse_data.min_arr);
+      dptuse_color = '#9fa0a0';
+      x1_value = 100;
       _.each(dptuse_data.x2, function(value, index) {
         if(value === dptuse_min && value !== 100 && dptuse_data.min_arr.length > 1) {
           dptuse_color = '#f39800';
@@ -400,34 +418,13 @@ var index = {
           }
         });
       });
-      _.each(result.dptfix_pct, function(dptfix_pct, index) {
-        dptfix_num += dptfix_pct.fix_count;
-        dptfix_data.data.push({
-          name: dptfix_pct.departments_name,
-          icon: 'roundRect'
-        });
-        dptfix_data.series_data.push({
-          value:dptfix_pct.fix_count, name:dptfix_pct.departments_name
-        });
-        if (result.dptfix_pct.length - 1 === index ) {
-          total_dptfix = parseInt(dptfix_pct.fix_count / dptfix_pct.percent);
-          dptfix_data.series_data.push({
-            value:total_dptfix - dptfix_num, name: '其他科室'
-          });
-          dptfix_data.data.push({
-            name: '其他科室',
-            icon: 'roundRect'
-          });
-        }
-      });
       _.each(result.me_info[0], function(me_info_first, index) {
         if (me_info_first.fix_avg < 0 || me_info_first.resp_avg < 0) {
-          var url = '<%=base%>' + '/err/insert';
-          var error = me_info_first.users_name + ',' + me_info_first.resp_avg + ',' + me_info_first.fix_avg;
-          var data = {
-            error: error
+          error_text = me_info_first.users_name + ',' + me_info_first.resp_avg + ',' + me_info_first.fix_avg;
+          error_data = {
+            error: error_text
           };
-          COMMON_FUNC.ajax_get($('body'), data, url, 'err_insert', function(result) {
+          COMMON_FUNC.ajax_get($error_body, error_data, error_url, 'err_insert', function(result) {
 
           });
         }
@@ -435,56 +432,29 @@ var index = {
         me_info_first.last_name = me_info_first.users_name[me_info_first.users_name.length-1];
         me_info_first.resp_avg = me_info_first.resp_avg < 0 ? 0 : me_info_first.resp_avg;
         me_info_first.fix_avg = me_info_first.fix_avg < 0 ? 0 : me_info_first.fix_avg;
-        var $medical_tpl = $(self.medical_tpl(me_info_first));
+        $medical_tpl = $(self.medical_tpl(me_info_first));
         $medical_info_box.append($medical_tpl);
-/*        var degree_data = {
-          status_name: hos_total_fix_count + '次',
-          name: '总维修次数',
-          percent: degree_percent,
-          num: me_info_first.total_fix_count,
-          two_percent: 'transparent',
-          unit: '次'
-        };
-        var answer_data = {
-          status_name: '平均 '+ hos_resp_avg + 'h',
-          name: '平均响应时长',
-          percent: answer_percent < 1 ? answer_percent: 1,
-          num:parseFloat(resp_avg.toFixed(2)),
-          two_percent: 0.5,
-          unit: 'h'
-        };
-        var servicing_data = {
-          status_name: '平均' + hos_fix_avg + 'h',
-          name: '平均维修时长',
-          percent: servicing_percent < 1 ? servicing_percent: 1,
-          num:parseFloat(fix_avg.toFixed(2)),
-          two_percent: 0.5,
-          unit: 'h'
-        };
-        ECHARTS_FUNC.status_pie('total-degree'+index, degree_data);
-        ECHARTS_FUNC.status_pie('mean-answer'+index, answer_data);
-        ECHARTS_FUNC.status_pie('mean-servicing'+index, servicing_data);*/
       });
-      var status_total = result.status_pct[0].overdue_count + result.status_pct[0].wait_count +
+      status_total = result.status_pct[0].overdue_count + result.status_pct[0].wait_count +
         result.status_pct[0].get_count;
-      var wait_percent = parseInt(result.status_pct[0].wait_count/ status_total *100);
-      var get_percent = parseInt(result.status_pct[0].get_count/ status_total *100);
-      var overdue_percent = parseInt(result.status_pct[0].overdue_count/ status_total *100);
-      var wait_data = {
+      wait_percent = parseInt(result.status_pct[0].wait_count/ status_total *100);
+      get_percent = parseInt(result.status_pct[0].get_count/ status_total *100);
+      overdue_percent = parseInt(result.status_pct[0].overdue_count/ status_total *100);
+      wait_data = {
         status_name: '等待',
         name: '',
         percent: wait_percent / 100,
         num: result.status_pct[0].wait_count,
         unit: '次'
       };
-      var get_data = {
+      get_data = {
         status_name: '在修',
         name: '',
         percent: get_percent / 100,
         num: result.status_pct[0].get_count,
         unit: '次'
       };
-      var overdue_data = {
+      overdue_data = {
         status_name: '超时',
         name: '',
         percent: overdue_percent / 100,
@@ -495,18 +465,10 @@ var index = {
       ECHARTS_FUNC.status_pie('repair-status', get_data);
       ECHARTS_FUNC.status_pie('overtime-status', overdue_data);
       ECHARTS_FUNC.horizontal_bar_echarts('offices-use', dptuse_data);
-/*      if (result.dptfix_pct.length) {
-        $('#offices-repair').html('');
-        ECHARTS_FUNC.pie_echarts('offices-repair', dptfix_data);
-      }
-      else {
-        var no_bx_tpl = self.no_bx_tpl();
-        $('#offices-repair').html(no_bx_tpl);
-      }*/
       GVR.INTERVAL.info_setInterval = setInterval(function() {
-        var $medical_info_line = $('.medical-info-line');
-        var $parent = $medical_info_line.parent();
-        var height = $parent.height();
+        $medical_info_line = $('.medical-info-line');
+        $parent = $medical_info_line.parent();
+        height = $parent.height();
         $medical_info_line.animate({
           top: - height + 'px'
         }, 10*1000, function() {
@@ -514,6 +476,12 @@ var index = {
           $medical_info_line.css({top: '0px'});
         });
       }, 60*1000);
+      self = null, $offices_use = null, url = null, total_dptfix = null, dptfix_num = null, $medical_info_box = null,
+          $medical_info_hidden = null, jsonp_name = null, result = null, dptuse_data = null, lack_length = null,
+          dptusePct_sort = null, dptuse_min = null, dptuse_color = null, x1_value = null, error_url = null,
+          error_text = null, error_data = null, $error_body = null, $medical_tpl = null, status_total = null,
+          wait_percent = null, get_percent = null, overdue_percent = null, wait_data = null, get_data = null,
+          overdue_data = null;
     })
   },
 
@@ -521,6 +489,8 @@ var index = {
     var self = this;
     var start = 0;
     var str_num = '0000';
+    var html_num;
+    var $deviceNumBg = $ele.find('.device-num-bg');
     if(num >= 10000) {
       num = parseInt(num / 10000);
       $ele.find('.device-unit').text('万台');
@@ -532,17 +502,20 @@ var index = {
       if(start >= num) {
         clearInterval(num_clear);
         str_num = self.switch_num(num);
-        $ele.find('.device-num-bg').each(function(index, dom) {
-          var html_num = str_num.slice(index, index + 1);
+        $deviceNumBg.each(function(index, dom) {
+          html_num = str_num.slice(index, index + 1);
           $(dom).html(html_num);
+          html_num = null;
         });
+        self = null, start = null, str_num = null, num_clear = null, $ele = null, num = null, $deviceNumBg = null;
         return false;
       }
       start = parseInt(start) + 80;
       str_num = self.switch_num(start);
-      $ele.find('.device-num-bg').each(function(index, dom) {
-        var html_num = str_num.slice(index, index + 1);
+      $deviceNumBg.each(function(index, dom) {
+        html_num = str_num.slice(index, index + 1);
         $(dom).html(html_num);
+        html_num = null;
       });
     }, 2)
   },
@@ -566,6 +539,7 @@ var index = {
       default :
         break;
     }
+    length = null, start = null;
     return str_num;
   }
 };

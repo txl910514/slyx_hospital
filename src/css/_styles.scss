@@ -542,49 +542,9 @@ img{
       .chart-content {
         height: 84%;
         .left-chart-content {
-/*          width: 26.6667%;*/
           padding-right: $padding5;
         }
-        .center-chart-content {
-/*          left: 26.6667%;
-          width: 73.3333%;*/
-          .center-top-content {
-            .center-position {
-/*              &#inspection-none {
-                display: none;
-              }*/
-/*              &#hitch-left {
-                left: 0;
-              }*/
-            }
-/*            #yigong-box {
-              width: 50%;
-              left: 50%;
-              display: block;
-              @import "reset";
-            }*/
-          }
-/*          #min-center-top {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-          }
-          #min-center-center {
-            position: absolute;
-            top: 35%;
-            left: 0;
-            right: 0;
-          }
-          #min-center-bottom {
-            position: absolute;
-            top: 60%;
-            left: 0;
-            right: 0;
-          }*/
-        }
         .right-chart-content {
-/*          display: none;*/
           .right-chart-three {
             &.three {
               .medical-chart {

@@ -3,66 +3,11 @@
  */
 ;
 var ECHARTS_FUNC = {
-  pie_echarts: function(dom_id, data) {
-
-    var myChart = echarts.init(document.getElementById(dom_id));
-    var option = {
-      backgroundColor: 'rgba(23,41,135,.1)',
-      tooltip: {
-        trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
-      },
-      legend: {
-        orient: 'vertical',
-        x: 'right',
-        y: 'bottom',
-        itemWidth: 13,
-        itemHeight: 13,
-        itemGap: 4,
-        align:'left',
-        textStyle: {
-          color: '#fff'
-        },
-        data:data.data
-      },
-      series: [
-        {
-          name:data.name,
-          type:'pie',
-          radius: ['50%', '80%'],
-          center: ['40%', '50%'],
-          avoidLabelOverlap: false,
-          label: {
-            normal: {
-              show: false,
-              position: 'center'
-            },
-            emphasis: {
-              show: false,
-              textStyle: {
-                fontSize: 14,
-                fontWeight: 'bold'
-              }
-            }
-          },
-          labelLine: {
-            normal: {
-              show: false
-            }
-          },
-          data:data.series_data
-        }
-      ],
-      color:['#71c7d3', '#5fb384', '#89b663', '#b0bb57', '#d9bb44', '#f8b623']
-    };
-    var body_width  = $(window).width();
-    if (body_width <= 1366) {
-      option.legend.itemGap = 1;
-    }
-    myChart.setOption(option);
-  },
-
   status_pie: function(dom_id, data) {
+    if (GVR.ECHARTS[dom_id]) {
+      GVR.ECHARTS[dom_id].dispose();
+      GVR.ECHARTS[dom_id] = null;
+    }
     var myChart = echarts.init(document.getElementById(dom_id));
     var center_font = 12;
     var body_width  = $(window).width();
@@ -303,9 +248,16 @@ var ECHARTS_FUNC = {
       option.series[4].center = ['50%', '70%'];
     }
     myChart.setOption(option);
+    GVR.ECHARTS[dom_id] = myChart;
+    myChart = null, center_font = null, body_width = null, body_height = null,  max = null, option = null, data = null,
+        dom_id = null, one_json = null, text_json = null, two_number = null, two_json = null;
   },
 
   bar_status: function(dom_id, data) {
+    if (GVR.ECHARTS[dom_id]) {
+      GVR.ECHARTS[dom_id].dispose();
+      GVR.ECHARTS[dom_id] = null;
+    }
     var label_bon = false;
     var max = 'auto';
     var max_number1 = _.max(data.y1);
@@ -482,21 +434,21 @@ var ECHARTS_FUNC = {
       smooth: true,
       data:data.y1
     };
+    var tooltip = {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      },
+      formatter: function(params) {
+        return params[1].name + '<br/>' + params[1].seriesName + ':' + params[1].value;
+      }
+    };
     if(data.status) {
       option.series.push(line_json);
       option.legend = legend;
       bar2_json.name = data.legend_data[1];
     }
     else {
-      var tooltip = {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
-        },
-        formatter: function(params) {
-          return params[1].name + '<br/>' + params[1].seriesName + ':' + params[1].value;
-        }
-      };
       option.tooltip = tooltip;
       option.series.push(bar1_json);
     }
@@ -505,9 +457,17 @@ var ECHARTS_FUNC = {
       delete option.yAxis[0].max;
     }
     myChart.setOption(option);
+    GVR.ECHARTS[dom_id] = myChart;
+    myChart = null, grid_top = null, body_width = null, max = null, option = null, data = null, dom_id = null,
+        label_bon = null, max_number1 = null, max_number2 = null, grid_left = null, lend_show = null, bar1_json = null,
+        bar2_json = null, line_json = null, tooltip = null;
   },
 
   accumulate_echarts: function(dom_id, data) {
+    if (GVR.ECHARTS[dom_id]) {
+      GVR.ECHARTS[dom_id].dispose();
+      GVR.ECHARTS[dom_id] = null;
+    }
     var myChart = echarts.init(document.getElementById(dom_id));
     var grid_top = '10%';
     var body_width  = $(window).width();
@@ -626,9 +586,16 @@ var ECHARTS_FUNC = {
       delete option.yAxis[0].max;
     }
     myChart.setOption(option);
+    GVR.ECHARTS[dom_id] = myChart;
+    myChart = null, grid_top = null, body_width = null, max = null, max_number = null,
+        option = null, data = null, dom_id = null;
   },
 
   horizontal_bar_echarts: function(dom_id, data) {
+    if (GVR.ECHARTS[dom_id]) {
+      GVR.ECHARTS[dom_id].dispose();
+      GVR.ECHARTS[dom_id] = null;
+    }
     var myChart = echarts.init(document.getElementById(dom_id));
     var body_width = $(window).width();
     var label_bon = true;
@@ -841,6 +808,9 @@ var ECHARTS_FUNC = {
       delete  option.xAxis[0].max;
     }
     myChart.setOption(option);
+    GVR.ECHARTS[dom_id] = myChart;
+    myChart = null, body_width = null, label_bon = null, font_size = null, max = null, max_number = null,
+    option = null, data = null, dom_id = null;
   }
 };
 
