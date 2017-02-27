@@ -285,7 +285,7 @@ var ECHARTS_FUNC = {
       }
     }
     if (body_height < 800 && body_height >= 650) {
-      option.title.top = '-7%';
+      option.title.top = '-6.8%';
     }
     else if (body_height < 650 && body_height >= 500) {
       option.series[0].center = ['50%', '65%'];

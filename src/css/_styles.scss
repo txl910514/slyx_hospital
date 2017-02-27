@@ -106,6 +106,7 @@ img{
   color: $color6;
   .message-offices {
     width: 30%;
+    padding-left: $padding10;
   }
   .message-device{
     width: 22%;
@@ -146,7 +147,7 @@ img{
     .message-line{
       line-height: $top30;
       margin-bottom: $width;
-      background: linear-gradient(to right, rgba(0,149,211,0) 20%, rgba(0,149,211,0.2) 50%, rgba(0,149,211,0) 80%);
+      background: linear-gradient(to right, rgba(0,149,211,0) 10%, rgba(0,149,211,0.2) 50%, rgba(0,149,211,0) 80%);
       font-size: 100%;
       position: relative;
     }
@@ -628,6 +629,9 @@ img{
           }
         }
       }
+      .chart-content {
+        height: 85%;
+      }
     }
   }
 }
@@ -656,6 +660,9 @@ img{
           }
         }
       }
+      .chart-content {
+        height: 85%;
+      }
     }
   }
 }
@@ -680,6 +687,9 @@ img{
             }
           }
         }
+      }
+      .chart-content {
+        height: 85%;
       }
     }
   }
@@ -708,6 +718,9 @@ img{
             }
           }
         }
+      }
+      .chart-content {
+        height: 85%;
       }
     }
   }

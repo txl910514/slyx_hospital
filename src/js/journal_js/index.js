@@ -306,13 +306,13 @@ var index = {
         var $overdue_first = $overdue_line.first();
         $update_line.animate({
           top: - update_line_height + 'px'
-        }, 10*1000, function(a,b,c){
+        }, 5*1000, function(a,b,c){
           $update_info.append($update_first);
           $update_line.css({top: '0px'});
         });
         $overdue_line.animate({
           top: - overdue_line_height + 'px'
-        }, 10*1000, function(){
+        }, 5*1000, function(){
           $overdue_info.append($overdue_first);
           $overdue_line.css({top: '0px'});
         })
