@@ -330,8 +330,7 @@ var index = {
           $overdue_line.css({top: '0px'});
         });
       }, 60*1000);
-      self = null,  url = null, update_line_height = null,
-          overdue_line_height = null, screen_height = null, jsonp_name = null, result = null, month_check_data = null,
+      self = null,  url = null,  screen_height = null, jsonp_name = null, result = null, month_check_data = null,
           fix_pct_data = null, $overdue_tpl = null, $update_tpl = null;
     })
   },
