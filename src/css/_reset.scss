@@ -14,8 +14,10 @@
   .two-data-line {
     font-size: 120%;
     padding: 4% 3%;
-    border-radius: $padding5;
+    border-radius: 0;
+    background: $rgba6;
     &.odd {
+      border-radius: $padding5;
       background: $rgba5;
     }
     .time-num {
@@ -146,8 +148,6 @@
   .medical-info-line {
     .two-data-line {
       font-size: 105%;
-
-      border-radius: $padding5;
     }
     .medical_name {
       font-size: 115%;
@@ -164,7 +164,6 @@
 
     .two-data-line {
       font-size: 100%;
-      border-radius: $padding5;
     }
     .medical_name {
       font-size: 85%;
@@ -209,7 +208,6 @@
     }
     .two-data-line {
       font-size: 100%;
-      border-radius: $padding5;
       padding: 3% 3%;
     }
     .medical_name {
@@ -228,7 +226,6 @@
     }
     .two-data-line {
       font-size: 80%;
-      border-radius: $padding5;
       padding: 2.4% 3%;
     }
     .medical_name {
@@ -247,7 +244,6 @@
     }
     .two-data-line {
       font-size: 100%;
-      border-radius: $padding5;
       padding: 3% 3%;
     }
     .medical_name {
@@ -266,7 +262,6 @@
     }
     .two-data-line {
       font-size: 80%;
-      border-radius: $padding5;
       padding: 2.4% 3%;
     }
     .medical_name {

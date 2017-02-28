@@ -90,7 +90,7 @@ var ECHARTS_FUNC = {
         data: [{
           itemStyle: {
             normal: {
-              color: 'rgba(14, 22, 28, 0.8)'
+              color: 'rgba(51,61,81,0.5)'
             }
           }
         }],
@@ -229,10 +229,17 @@ var ECHARTS_FUNC = {
         option.series[0].center = ['50%', '80%'];
       }
     }
+    option.series[0].center = ['50%', '60%'];
+    option.series[1].center = ['50%', '60%'];
+    option.series[2].center = ['50%', '60%'];
+    option.series[3].center = ['50%', '60%'];
+    option.series[4].center = ['50%', '60%'];
+    option.title.top = '6%';
     if (body_height < 800 && body_height >= 650) {
-      option.title.top = '-6.8%';
+      option.title.top = '1%';
     }
     else if (body_height < 650 && body_height >= 500) {
+      option.title.top = '-5.5%';
       option.series[0].center = ['50%', '65%'];
       option.series[1].center = ['50%', '65%'];
       option.series[2].center = ['50%', '65%'];
@@ -816,7 +823,7 @@ var ECHARTS_FUNC = {
     myChart.setOption(option);
     GVR.ECHARTS[dom_id] = myChart;
     myChart = null, body_width = null, label_bon = null, font_size = null, max = null, max_number = null,
-    option = null, data = null, dom_id = null;
+    option = null, dom_id = null, data = null;
   }
 };
 
