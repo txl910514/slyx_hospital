@@ -66,7 +66,7 @@ var index = {
         });
         high_length = null;
       }
-/*      highValue_sort = _.sortBy(result.highValue, 'percent');
+      highValue_sort = _.sortBy(result.highValue, 'percent');
       _.each(highValue_sort, function(high_Value) {
         if (high_Value.category.length > 6) {
           high_Value.category = high_Value.category.slice(0,6);
@@ -79,7 +79,7 @@ var index = {
           data.min_arr.push(high_Value.percent* 100);
         }
         high_Value = null;
-      });*/
+      });
       if (result.lifeSupport.length < 7) {
         life_length = 7 -  result.lifeSupport.length;
         _(life_length).times(function(n){
@@ -144,7 +144,7 @@ var index = {
         });
         value = null, index= null;
       });
-/*      _.each(data.x3, function(value, index) {
+      _.each(data.x3, function(value, index) {
         if(value === high_min && value !== 100 && data.min_arr.length > 1) {
           min_color = '#f39800';
           dot_color = '#f39800';
@@ -175,7 +175,7 @@ var index = {
         });
         value = null, index= null;
       });
-      ECHARTS_FUNC.horizontal_bar_echarts('high-value-echarts', data);*/
+      ECHARTS_FUNC.horizontal_bar_echarts('high-value-echarts', data);
       ECHARTS_FUNC.horizontal_bar_echarts('life-echarts', life_data);
       self = null, data = null, $highValue = null, url = null, jsonp_name = null, result = null,
           life_data = null, highValue_sort = null, lifeSupport_sort = null, life_min = null,

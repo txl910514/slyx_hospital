@@ -266,6 +266,8 @@ var ECHARTS_FUNC = {
     var grid_left = '3%';
     var lend_show = true;
     var body_width  = $(window).width();
+    var body_height  = $(window).height();
+    var lend_top = 'auto';
     if (body_width <= 1366) {
       grid_top = '15%'
     }
@@ -277,11 +279,15 @@ var ECHARTS_FUNC = {
     }
     if (data.status) {
       label_bon = true;
+      if (body_height < 500) {
+        lend_top = '-5%';
+      }
       var legend = {
         show: lend_show,
         data: data.legend_data,
         align: 'left',
         left:'right',
+        top:lend_top,
         textStyle: {
           color:'#9fa0a0'
         },
@@ -632,7 +638,7 @@ var ECHARTS_FUNC = {
       grid: {
         top:'2%',
         left: '1%',
-        right: '15%',
+        right: '18%',
         bottom: '5%',
         containLabel: true
       },
