@@ -49,87 +49,32 @@ var COMMON_FUNC = {
     getTime_func();
   },
 
-  ajax_get: function($obj, data, url, jsonp_name, error_callback, callback){
-    /*
-     ajax get通用方法
-     参数：
-     $obj: 触发GET事件的元数对象，一般为a标签或button。
-     data (可选): 往URL上附加的额外参数。
-     url (可选): GET请求的URL路径，不传会从$obj对象上获取url属性，没有url属性时默认用当前路径.
-     error_callback (可选): 异常时的回调函数
-     callback: 成功时的回调函数
-     */
-    var args = Array.prototype.slice.call(arguments);
-    var _callback = args.slice(-1)[0];
-    error_callback = null;
-    if(_.isFunction(_callback)){
-      callback = args.pop();
-      var _error_callback = args.slice(-1)[0];
-      if(_.isFunction(_error_callback)){
-        error_callback =  args.pop();
-      }
-      $obj = args[0];
-      data = args[1];
-      url = args[2];
-      jsonp_name = args[3];
-    }
-    if($obj.hasClass('disabled')){
-    }
-    else{
-      $obj.addClass('disabled');
-      data = data || {};
-      url = url || $obj.attr('url') || '.';
-      jsonp_name = jsonp_name || $obj.attr('jsonp-callback');
-      return $.ajax({
-        type: 'GET',
-        url: url,
-        data: data,
-        dataType:'JSONP',
-        jsonp: 'callback',
-        jsonpCallback:jsonp_name,
-        success: function(result){
-          if(result.url){
-            window.location.href = result.url;
-            return false;
-          }
-          $obj.removeClass('disabled');
-          if(_.isFunction(callback)){
-            callback(result);
-          }
-          $obj = null, data = null, url = null, jsonp_name = null, error_callback = null, callback = null,
-              args = null, _callback = null, _error_callback = null;
-        },
-        error: function(xhr, msg, error){
-          if(msg === "error"){
-            if(xhr.status === 404){
-              console.info("无效的数据");
-            }
-            else if(xhr.status === 500){
-              console.info("服务器异常，请联系管理员");
-            }
-            else if(xhr.status === 403){
-              console.info("登录已过期或没有访问权限");
-            }
-            else{
-              console.info("网络异常，请稍后再试");
-            }
-          }
-          else{
-            if(msg){
-              console.log(msg);
-            }
-          }
-          if(_.isFunction(error_callback)){
-            error_callback();
-          };
-          $obj.removeClass('disabled');
-        },
-        complete: function(XHR, TS) {
-          XHR = null;
+  ajax_get: function(url, data, jsonpCall, callback){
+    var dataType= jsonpCall ? 'jsonp': 'json';
+    $.ajax({
+      url:url,
+      type: 'GET',
+      xhrFields: {
+        withCredentials: true
+      },
+      crossDomain: true,
+      dataType: dataType,
+      data: data,
+      jsonp: 'callback',
+      jsonpCallback: jsonpCall,
+      success: function(json) {
+        if(json.message === 'LOGIN') {
+          window.location.href = 'user-login.html';
+          return false;
         }
-      });
-    }
-    return false;
+        if(!json.success) {
+          return false;
+        }
+        if(typeof callback === 'function') {
+          callback(json);
+        }
+      }
+    })
   }
 
 };
