@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "gulp --pub test -w -s"
+    "test": "gulp --pub test -w -s",
+    "build": "gulp  rev --pub url --w --s"
   },
   "author": "",
   "license": "ISC",
