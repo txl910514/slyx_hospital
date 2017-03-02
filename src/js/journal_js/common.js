@@ -27,23 +27,41 @@ var COMMON_FUNC = {
     var $jsHourText = $('#js-hour-text');
     var $jsMinText = $('#js-min-text');
     var $jsYearText = $('#js-year-text');
-    var time_text, local_time, hour, min, year, month, date;
+    var time_text, local_time, hour, min, year, month, date, timing_renovate, second;
     function getTime_func() {
       local_time = new Date();
       hour = local_time.getHours();
       min = local_time.getMinutes();
+      second = local_time.getSeconds();
       year = local_time.getFullYear();
       month = local_time.getMonth()+1;
       date = local_time.getDate();
       hour = hour < 10 ? '0' + hour : hour;
       min = min < 10 ? '0' + min : min;
+      second = second < 10 ? '0' + second : second;
       month = month < 10 ? '0' + month : month;
       date = date < 10 ? '0' + date : date;
       time_text = year + '年' + month + '月' + date + '日';
       $jsHourText.text(hour);
       $jsMinText.text(min);
       $jsYearText.text(time_text);
-      time_text = null, local_time = null, hour = null, min = null, year = null, month = null, date = null;
+      timing_renovate = hour + ':' + min + ':' + second;
+      switch (timing_renovate) {
+        case '21:00:00':
+          location.reload();
+          break;
+        case '00:00':
+          location.reload();
+          break;
+        case '03:00':
+          location.reload();
+          break;
+        case '06:00':
+          location.reload();
+          break;
+      }
+      time_text = null, local_time = null, hour = null, min = null, year = null, month = null, date = null,
+          timing_renovate = null, second = null;
       setTimeout(getTime_func, 1000);
     }
     getTime_func();

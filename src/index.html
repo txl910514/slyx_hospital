@@ -238,17 +238,17 @@
       <div class="display-middle message-offices  ellipsis"><%- categories_name %></div
             ><div class="display-middle message-device  ellipsis"><%- departments_name %></div
             ><div class="display-middle message-name ellipsis"><%- contact_name %></div
-            ><div class="display-middle message-time ellipsis"><% if(status) { %>
+            ><div class="display-middle message-time ellipsis"><% if(updated_at) { %>
           <%- updated_at %>
         <% } else { %>
           <%- created_at %>
         <% } %></div
             ><div class="display-middle message-name ellipsis"><%- users_name %></div
             ><div class="display-middle message-status ellipsis
-      <% if(status) { %>
+      <% if(updated_at) { %>
         <%- status_color %>
       <% } %>
-      "><% if(status) { %>
+      "><% if(updated_at) { %>
           <%- status_name %>
         <% } else { %>
           <span class="">&gt;</span><span class="over_color"><%- over_due_time %></span>
