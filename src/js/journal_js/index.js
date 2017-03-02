@@ -14,7 +14,7 @@ var index = {
       self.highValue_ajax();
       self.dpt_ajax();
       self.info_ajax();
-    }, 60*60*1000);
+    }, 30*60*1000);
   },
 
   highValue_ajax: function() {
@@ -252,12 +252,15 @@ var index = {
       ECHARTS_FUNC.bar_status('hitch-echarts', fix_pct_data);
       _.each(result.update_info, function(update) {
         update.categories_name = update.categories_name || '-';
-        update.users_name = update.users_name || '-';
         update.updated_at = update.updated_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
+        if (update.status !== 1) {
+          update.users_name = update.users_name || '-';
+        }
         switch (update.status) {
           case 1:
             update.status_name = '报修';
             update.status_color = 'repair_color';
+            update.users_name = update.users_name || '未接修';
             break;
           case 2:
             update.status_name = '在修';
@@ -301,9 +304,16 @@ var index = {
         update = null, $update_tpl = null;
       });
       _.each(result.overdue_info, function(overdue) {
+        overdue.updated_at = '';
         overdue.users_name = overdue.users_name || '-';
         overdue.over_due_time = overdue.over_due_time || '-';
         overdue.created_at = overdue.created_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
+        if(overdue.status === 1) {
+          overdue.users_name = overdue.users_name || '未接修';
+        }
+        else {
+          overdue.users_name = overdue.users_name || '-';
+        }
         $overdue_tpl = $($.trim(self.message_line_tpl(overdue)));
         $overdue_tpl.css({
           height: overdue_line_height + 'px',
@@ -429,8 +439,8 @@ var index = {
         }
         me_info_first.id_index = index;
         me_info_first.last_name = me_info_first.users_name[me_info_first.users_name.length-1];
-        me_info_first.resp_avg = me_info_first.resp_avg < 0 ? 0 : me_info_first.resp_avg;
-        me_info_first.fix_avg = me_info_first.fix_avg < 0 ? 0 : me_info_first.fix_avg;
+        me_info_first.resp_avg = me_info_first.resp_avg < 0 ? 0 : parseFloat(me_info_first.resp_avg.toFixed(2));
+        me_info_first.fix_avg = me_info_first.fix_avg < 0 ? 0 : parseFloat(me_info_first.fix_avg.toFixed(2));
         $medical_tpl = $(self.medical_tpl(me_info_first));
         $medical_info_box.append($medical_tpl);
       });
