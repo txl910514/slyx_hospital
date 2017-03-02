@@ -305,7 +305,6 @@ var index = {
       });
       _.each(result.overdue_info, function(overdue) {
         overdue.updated_at = '';
-        overdue.users_name = overdue.users_name || '-';
         overdue.over_due_time = overdue.over_due_time || '-';
         overdue.created_at = overdue.created_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
         if(overdue.status === 1) {

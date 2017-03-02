@@ -46,8 +46,6 @@ var COMMON_FUNC = {
       $jsMinText.text(min);
       $jsYearText.text(time_text);
       timing_renovate = hour + ':' + min + ':' + second;
-      console.log(timing_renovate === '15:54:00');
-      console.log(timing_renovate);
       switch (timing_renovate) {
         case '21:00:00':
           location.reload();
