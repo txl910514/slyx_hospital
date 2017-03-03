@@ -296,7 +296,7 @@ var ECHARTS_FUNC = {
         left:'right',
         top:lend_top,
         textStyle: {
-          color:'#9fa0a0'
+          color:'#cfeaf0'
         },
         itemHeight: 9
       }
@@ -330,7 +330,7 @@ var ECHARTS_FUNC = {
           axisLabel: {
             interval:0,
             textStyle: {
-              color:'#9fa0a0'
+              color:'#cfeaf0'
             }
           },
           splitArea: {
@@ -351,7 +351,7 @@ var ECHARTS_FUNC = {
           name: data.unit,
           max:max,
           nameTextStyle:{
-            color:'#9fa0a0'
+            color:'#cfeaf0'
           },
           nameGap:5,
           axisTick: {
@@ -360,7 +360,7 @@ var ECHARTS_FUNC = {
           axisLabel: {
             show:label_bon,
             textStyle: {
-              color:'#9fa0a0'
+              color:'#cfeaf0'
             }
           },
           splitLine:{
@@ -396,7 +396,7 @@ var ECHARTS_FUNC = {
             return data.y2[params.dataIndex] + '%';
           },
           textStyle: {
-            color:'#9fa0a0'
+            color:'#cfeaf0'
           }
         }
       },
@@ -514,7 +514,7 @@ var ECHARTS_FUNC = {
           axisLabel: {
             interval:0,
             textStyle: {
-              color:'#9fa0a0'
+              color:'#cfeaf0'
             }
           },
           splitArea: {
@@ -535,7 +535,7 @@ var ECHARTS_FUNC = {
           max:max,
           name: data.unit,
           nameTextStyle:{
-            color:'#9fa0a0'
+            color:'#cfeaf0'
           },
           nameGap:5,
           axisTick: {
@@ -546,7 +546,7 @@ var ECHARTS_FUNC = {
           },
           axisLabel: {
             textStyle: {
-              color:'#9fa0a0'
+              color:'#cfeaf0'
             }
           },
           splitArea: {
@@ -658,7 +658,7 @@ var ECHARTS_FUNC = {
           axisLabel: {
             margin:3,
             textStyle: {
-              color:'#9fa0a0',
+              color:'#cfeaf0',
               fontSize: font_size
             }
           },
@@ -680,7 +680,7 @@ var ECHARTS_FUNC = {
           name: data.unit,
           max: max,
           nameTextStyle:{
-            color:'#9fa0a0'
+            color:'#cfeaf0'
           },
           position: 'bottom',
           axisTick: {
@@ -690,7 +690,7 @@ var ECHARTS_FUNC = {
             show:label_bon,
             margin:3,
             textStyle: {
-              color:'#9fa0a0',
+              color:'#cfeaf0',
               fontSize: font_size
             }
           },
@@ -701,7 +701,7 @@ var ECHARTS_FUNC = {
         {
           type: 'value',
           nameTextStyle:{
-            color:'#9fa0a0'
+            color:'#cfeaf0'
           },
           min: 0,
           max: 100,
@@ -713,7 +713,7 @@ var ECHARTS_FUNC = {
             show:false,
             margin:2,
             textStyle: {
-              color:'#9fa0a0',
+              color:'#cfeaf0',
               fontSize: font_size
             }
           },
@@ -747,7 +747,7 @@ var ECHARTS_FUNC = {
                 return data.x2[params.dataIndex] + '%';
               },
               textStyle: {
-                color:'#9fa0a0',
+                color:'#cfeaf0',
                 fontSize: font_size
               }
             }
@@ -796,7 +796,7 @@ var ECHARTS_FUNC = {
 
               },
               textStyle: {
-                color:'#9fa0a0',
+                color:'#cfeaf0',
                 fontSize: font_size
               }
             }
