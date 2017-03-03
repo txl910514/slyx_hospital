@@ -14,7 +14,7 @@ var index = {
       self.highValue_ajax();
       self.dpt_ajax();
       self.info_ajax();
-    }, 30*60*1000);
+    }, 5*60*1000);
   },
 
   highValue_ajax: function() {
