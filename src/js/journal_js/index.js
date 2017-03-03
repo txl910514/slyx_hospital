@@ -111,7 +111,7 @@ var index = {
       high_min = _.min(data.min_arr);
       life_max = _.max(life_data.x1);
       high_max = _.max(data.x1);
-      min_color = '#9fa0a0';
+      min_color = '#cfeaf0';
       dot_color = '#71c8d9';
       add = 0;
       _.each(life_data.x3, function(value, index) {
@@ -120,7 +120,7 @@ var index = {
           dot_color = '#f39800';
         }
         else {
-          min_color = '#9fa0a0';
+          min_color = '#cfeaf0';
           dot_color = '#71c8d9';
         }
         if (!life_data.x1[index]) {
@@ -151,7 +151,7 @@ var index = {
           dot_color = '#f39800';
         }
         else {
-          min_color = '#9fa0a0';
+          min_color = '#cfeaf0';
           dot_color = '#71c8d9'
         }
         if (!data.y[index]) {
@@ -399,14 +399,14 @@ var index = {
         }
       });
       dptuse_min = _.min(dptuse_data.min_arr);
-      dptuse_color = '#9fa0a0';
+      dptuse_color = '#cfeaf0';
       x1_value = 100;
       _.each(dptuse_data.x2, function(value, index) {
         if(value === dptuse_min && value !== 100 && dptuse_data.min_arr.length > 1) {
           dptuse_color = '#f39800';
         }
         else {
-          dptuse_color = '#9fa0a0';
+          dptuse_color = '#cfeaf0';
         }
         if(!dptuse_data.y[index]) {
           dptuse_color = 'transparent';
