@@ -29,7 +29,7 @@ var index = {
       self.device_num_total($('#total-device-num'), result.data.total_count);
       self.device_num_total($('#using-count'), result.data.using_count);
       self.device_num_total($('#fix-count'), result.data.finish_count);
-/*      $('#header-title').text(result.eqpCount[1].hospitals_name);
+      $('#header-title').text(result.eqpCount[1].hospitals_name);
       document.title = result.eqpCount[1].hospitals_name;
       data = {
         y:[],
@@ -181,12 +181,12 @@ var index = {
       self = null, data = null, $highValue = null, url = null, jsonp_name = null, result = null,
           life_data = null, highValue_sort = null, lifeSupport_sort = null, life_min = null,
           high_min = null, life_max = null, high_max = null, min_color = null, dot_color = null,
-          add = null;*/
+          add = null;
     })
   },
 
   info_ajax: function() {
-/*    var self = this;
+    var self = this;
     var $update_info = $('#update-info').html('');
     var $overdue_info = $('#overdue_info').html('');
     var url = '<%=base%>' + $update_info.attr('url');
@@ -342,11 +342,11 @@ var index = {
       }, 60*1000);
       self = null,  url = null,  screen_height = null, jsonp_name = null, result = null, month_check_data = null,
           fix_pct_data = null, $overdue_tpl = null, $update_tpl = null;
-    })*/
+    })
   },
 
   dpt_ajax: function() {
-/*    var self = this;
+    var self = this;
     var $offices_use = $('#offices-use').html('');
     var url = '<%=base%>' + $offices_use.attr('url');
     var total_dptfix = 0, dptfix_num = 0;
@@ -491,7 +491,7 @@ var index = {
           error_text = null, error_data = null, $error_body = null, $medical_tpl = null, status_total = null,
           wait_percent = null, get_percent = null, overdue_percent = null, wait_data = null, get_data = null,
           overdue_data = null;
-    })*/
+    })
   },
 
   device_num_total: function($ele, num) {
