@@ -328,13 +328,13 @@ var index = {
         $overdue_first = $overdue_line.first();
         $update_line.animate({
           top: - update_line_height + 'px'
-        }, 5*1000, function(a,b,c){
+        }, 3*1000, function(a,b,c){
           $update_info.append($update_first);
           $update_line.css({top: '0px'});
         });
         $overdue_line.animate({
           top: - overdue_line_height + 'px'
-        }, 5*1000, function(){
+        }, 3*1000, function(){
           $overdue_info.append($overdue_first);
           $overdue_line.css({top: '0px'});
         });
@@ -479,7 +479,7 @@ var index = {
         height = $parent.height();
         $medical_info_line.animate({
           top: - height + 'px'
-        }, 10*1000, function() {
+        }, 3*1000, function() {
           $parent.append($medical_info_line.first());
           $medical_info_line.css({top: '0px'});
         });
