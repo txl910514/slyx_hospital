@@ -50,13 +50,13 @@ var COMMON_FUNC = {
         case '21:00:00':
           location.reload();
           break;
-        case '00:00':
+        case '00:00:00':
           location.reload();
           break;
-        case '03:00':
+        case '03:00:00':
           location.reload();
           break;
-        case '06:00':
+        case '06:00:00':
           location.reload();
           break;
       }
