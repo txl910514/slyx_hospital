@@ -8,6 +8,9 @@ var index = {
   no_bx_tpl: _.template($('#no-bx-tpl').html()),
   ready_init:function() {
     var self = this;
+    if (window.medatc) {
+      window.medatc.hideLoading();
+    }
     self.highValue_ajax();
     self.dpt_ajax();
     self.info_ajax();
