@@ -79,8 +79,8 @@ var COMMON_FUNC = {
       jsonp: 'callback',
       jsonpCallback: jsonpCall,
       success: function(json) {
-        if(json.message === 'LOGIN') {
-          window.location.href = 'user-login.html';
+        if(json.url){
+          window.location.href = json.url;
           return false;
         }
         if(!json.success) {
@@ -89,6 +89,7 @@ var COMMON_FUNC = {
         if(typeof callback === 'function') {
           callback(json);
         }
+        dataType = null;
       }
     })
   }
