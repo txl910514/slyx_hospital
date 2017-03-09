@@ -1,7 +1,9 @@
 /**
  * Created by tangxl on 16-12-6.
  */
-var eqpCountUrl = '/hos/eqp_count';
+var eqpCountUrl = '/hos/eqp_count?hosId=3622';
+var tktStatusUrl = '/hos/tkt_status?hosId=3622';
+var monthStatusUrl = '/hos/month_status?hosId=3622';
 var index = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
@@ -11,17 +13,21 @@ var index = {
     if (window.medatc) {
       window.medatc.hideLoading();
     }
-    self.highValue_ajax();
-    self.dpt_ajax();
-    self.info_ajax();
+    self.eqpCount_ajax();
+    self.tktStatus_ajax();
+    self.monthStatus_ajax();
+/*    self.dpt_ajax();
+    self.info_ajax();*/
     setInterval(function() {
-      self.highValue_ajax();
-      self.dpt_ajax();
-      self.info_ajax();
-    }, 30*60*1000);
+      self.eqpCount_ajax();
+      self.tktStatus_ajax();
+      self.monthStatus_ajax();
+/*      self.dpt_ajax();
+      self.info_ajax();*/
+    }, 60*60*1000);
   },
 
-  highValue_ajax: function() {
+  eqpCount_ajax: function() {
     var self = this;
     var $highValue = $('#highValue');
     var url = '<%=base%>' + eqpCountUrl;
@@ -32,7 +38,7 @@ var index = {
       self.device_num_total($('#total-device-num'), result.data.total_count);
       self.device_num_total($('#using-count'), result.data.using_count);
       self.device_num_total($('#fix-count'), result.data.finish_count);
-      $('#header-title').text(result.eqpCount[1].hospitals_name);
+/*      $('#header-title').text(result.eqpCount[1].hospitals_name);
       document.title = result.eqpCount[1].hospitals_name;
       data = {
         y:[],
@@ -184,7 +190,85 @@ var index = {
       self = null, data = null, $highValue = null, url = null, jsonp_name = null, result = null,
           life_data = null, highValue_sort = null, lifeSupport_sort = null, life_min = null,
           high_min = null, life_max = null, high_max = null, min_color = null, dot_color = null,
-          add = null;
+          add = null;*/
+    })
+  },
+
+  tktStatus_ajax: function() {
+    var url = '<%=base%>' + tktStatusUrl;
+    var status_total, wait_percent, get_percent, overdue_percent, wait_data, get_data, overdue_data;
+    COMMON_FUNC.ajax_get(url, {}, '', function(result) {
+      if (result.success) {
+        status_total = result.data.overdue_count + result.data.wait_count +
+            result.data.get_count;
+        wait_percent = parseInt(result.data.wait_count/ status_total *100);
+        get_percent = parseInt(result.data.get_count/ status_total *100);
+        overdue_percent = parseInt(result.data.overdue_count/ status_total *100);
+        wait_data = {
+          status_name: '等待',
+          name: '',
+          percent: wait_percent / 100,
+          num: result.data.wait_count,
+          unit: '次'
+        };
+        get_data = {
+          status_name: '在修',
+          name: '',
+          percent: get_percent / 100,
+          num: result.data.get_count,
+          unit: '次'
+        };
+        overdue_data = {
+          status_name: '超时',
+          name: '',
+          percent: overdue_percent / 100,
+          num: result.data.overdue_count,
+          unit: '次'
+        };
+        ECHARTS_FUNC.status_pie('wait-status', wait_data);
+        ECHARTS_FUNC.status_pie('repair-status', get_data);
+        ECHARTS_FUNC.status_pie('overtime-status', overdue_data);
+
+        url = null, status_total = null, wait_percent = null, get_percent = null, overdue_percent = null, wait_data = null,
+            get_data = null, overdue_data = null;
+      }
+    })
+  },
+
+  monthStatus_ajax: function() {
+    var url = '<%=base%>' + monthStatusUrl;
+    var month_check_data, fix_pct_data;
+    COMMON_FUNC.ajax_get(url, {}, '', function(result) {
+      if (result.success) {
+        month_check_data = {
+          x: [],
+          y:[],
+          unit:'次',
+          name: '月质控统计'
+        };
+        fix_pct_data = {
+          status: 'line',
+          x: [],
+          y1:[],
+          y2:[],
+          legend_data: ['当月报修', '当月完修'],
+          unit: '次'
+        };
+        _.each(result.data.month_check, function(check) {
+          month_check_data.x.push(check.month + '月');
+          month_check_data.y.push(check.count);
+          check = null;
+        });
+        _.each(result.data.fix_pct, function(fix_pct_line) {
+          fix_pct_data.x.push(fix_pct_line.mon + '月');
+          fix_pct_data.y1.push(fix_pct_line.report_num);
+          fix_pct_data.y2.push(fix_pct_line.fix_num);
+          fix_pct_line = null;
+        });
+        ECHARTS_FUNC.accumulate_echarts('inspection-echarts', month_check_data);
+        ECHARTS_FUNC.bar_status('hitch-echarts', fix_pct_data);
+        url = null, result = null, month_check_data = null, fix_pct_data = null;
+      }
     })
   },
 
@@ -198,7 +282,6 @@ var index = {
     var screen_height = $(window).height();
     var $update_line, $overdue_line, $update_first, $overdue_first;
     var $update_tpl, $overdue_tpl;
-    var month_check_data, fix_pct_data;
     if (screen_height >= 1200) {
       update_line_height = $update_info.height() / 8 - 2;
       overdue_line_height = $overdue_info.height() / 6 - 2;
@@ -227,33 +310,7 @@ var index = {
     GVR.INTERVAL.message_setInterval = null;
     var jsonp_name = $update_info.attr('jsonp-callback');
     COMMON_FUNC.ajax_get($update_info, {}, url, jsonp_name, function(result) {
-      month_check_data = {
-        x: [],
-        y:[],
-        unit:'次',
-        name: '月质控统计'
-      };
-      fix_pct_data = {
-        status: 'line',
-        x: [],
-        y1:[],
-        y2:[],
-        legend_data: ['当月报修', '当月完修'],
-        unit: '次'
-      };
-      _.each(result.month_check, function(check) {
-        month_check_data.x.unshift(check.month + '月');
-        month_check_data.y.unshift(check.count);
-        check = null;
-      });
-      _.each(result.fix_pct, function(fix_pct_line) {
-        fix_pct_data.x.unshift(fix_pct_line.mon + '月');
-        fix_pct_data.y1.unshift(fix_pct_line.report_num);
-        fix_pct_data.y2.unshift(fix_pct_line.fix_num);
-        fix_pct_line = null;
-      });
-      ECHARTS_FUNC.accumulate_echarts('inspection-echarts', month_check_data);
-      ECHARTS_FUNC.bar_status('hitch-echarts', fix_pct_data);
+
       _.each(result.update_info, function(update) {
         update.categories_name = update.categories_name || '-';
         update.updated_at = update.updated_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
@@ -360,7 +417,6 @@ var index = {
     var error_text, error_data, $medical_tpl, $medical_info_line, $parent, height, dptuse_data,
         lack_length, dptusePct_sort;
     var dptuse_min, dptuse_color, x1_value;
-    var status_total, wait_percent, get_percent, overdue_percent, wait_data, get_data, overdue_data;
     if ($medical_info_hidden) {
       $medical_info_box = $('#min_info_box').html('');
     }
@@ -447,35 +503,6 @@ var index = {
         $medical_tpl = $(self.medical_tpl(me_info_first));
         $medical_info_box.append($medical_tpl);
       });
-      status_total = result.status_pct[0].overdue_count + result.status_pct[0].wait_count +
-        result.status_pct[0].get_count;
-      wait_percent = parseInt(result.status_pct[0].wait_count/ status_total *100);
-      get_percent = parseInt(result.status_pct[0].get_count/ status_total *100);
-      overdue_percent = parseInt(result.status_pct[0].overdue_count/ status_total *100);
-      wait_data = {
-        status_name: '等待',
-        name: '',
-        percent: wait_percent / 100,
-        num: result.status_pct[0].wait_count,
-        unit: '次'
-      };
-      get_data = {
-        status_name: '在修',
-        name: '',
-        percent: get_percent / 100,
-        num: result.status_pct[0].get_count,
-        unit: '次'
-      };
-      overdue_data = {
-        status_name: '超时',
-        name: '',
-        percent: overdue_percent / 100,
-        num: result.status_pct[0].overdue_count,
-        unit: '次'
-      };
-      ECHARTS_FUNC.status_pie('wait-status', wait_data);
-      ECHARTS_FUNC.status_pie('repair-status', get_data);
-      ECHARTS_FUNC.status_pie('overtime-status', overdue_data);
       ECHARTS_FUNC.horizontal_bar_echarts('offices-use', dptuse_data);
       GVR.INTERVAL.info_setInterval = setInterval(function() {
         $medical_info_line = $('.medical-info-line');
