@@ -51,10 +51,8 @@ var COMMON_FUNC = {
           location.reload(true);
           break;
         case '00:00:00':
-          location.reload(true);
           break;
         case '03:00:00':
-          location.reload(true);
           break;
         case '06:00:00':
           location.reload(true);
