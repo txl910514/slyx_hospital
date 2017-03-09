@@ -233,8 +233,8 @@ var index = {
         ECHARTS_FUNC.status_pie('repair-status', get_data);
         ECHARTS_FUNC.status_pie('overtime-status', overdue_data);
 
-        url = null, status_total = null, wait_percent = null, get_percent = null, overdue_percent = null, wait_data = null,
-            get_data = null, overdue_data = null;
+        url = null, result = null, status_total = null, wait_percent = null, get_percent = null, overdue_percent = null,
+            wait_data = null, get_data = null, overdue_data = null;
       }
     })
   },
