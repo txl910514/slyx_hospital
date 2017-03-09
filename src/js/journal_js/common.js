@@ -48,14 +48,14 @@ var COMMON_FUNC = {
       timing_renovate = hour + ':' + min + ':' + second;
       switch (timing_renovate) {
         case '21:00:00':
-          location.reload(true);
+          location.reload();
           break;
         case '00:00:00':
           break;
         case '03:00:00':
           break;
         case '06:00:00':
-          location.reload(true);
+          location.reload();
           break;
       }
       time_text = null, local_time = null, hour = null, min = null, year = null, month = null, date = null;
