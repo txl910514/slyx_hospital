@@ -27,7 +27,7 @@ var gulp = require('gulp'),
 	Q = require('q'),
 	del = require('del'),
 	pathConfig = {
-		dist: 'hospital_dp/',
+		dist: 'hospital_test/',
 		src: 'src/',
 		rev: 'rev'
 	},
@@ -208,8 +208,7 @@ gulp.task('build-dist-js', function () {
 //合并
 gulp.task('build-rep-rev', ['build-dist-html', 'build-dist-js'], function () {
 	return gulp.src([
-			pathConfig.dist + '**/*.html',
-			'!' + pathConfig.dist + 'index.html',
+			pathConfig.dist + '**/*.html'
 		])
 		.pipe(pkg.revReplace({
 			manifest: gulp.src("./rev/*.*")

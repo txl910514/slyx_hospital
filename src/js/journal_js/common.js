@@ -47,11 +47,11 @@ var COMMON_FUNC = {
       $jsYearText.text(time_text);
       timing_renovate = hour + ':' + min + ':' + second;
       switch (timing_renovate) {
-        case '21:00:00':
-          location.reload();
+        case '17:00:00':
+          location.reload(true);
           break;
-        case '00:00:00':
-          location.reload();
+        case '17:30:00':
+          location.reload(true);
           break;
         case '03:00:00':
           location.reload();
