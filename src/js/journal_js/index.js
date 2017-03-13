@@ -10,14 +10,30 @@ var index = {
     if (window.medatc) {
       window.medatc.hideLoading();
     }
+    self.version_ajax();
     self.highValue_ajax();
     self.dpt_ajax();
     self.info_ajax();
+    setInterval(function() {
+      self.version_ajax();
+    }, 30*1000);
     setInterval(function() {
       self.highValue_ajax();
       self.dpt_ajax();
       self.info_ajax();
     }, 60*60*1000);
+  },
+
+  version_ajax: function() {
+    var $body = $('body');
+    var versionUrl = '<%=base%>' + $body.attr('url');
+    COMMON_FUNC.ajax_get($body, {num: '1.0.1'}, versionUrl, 'jsonpCallback', function(result) {
+      var getCookie = COMMON_FUNC.getCookie('version');
+      if (getCookie !== result.data) {
+        COMMON_FUNC.setCookie('version', result.data, location.pathname, location.hostname );
+        COMMON_FUNC.get_url();
+      }
+    })
   },
 
   highValue_ajax: function() {
