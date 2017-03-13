@@ -24,10 +24,11 @@ var COMMON_FUNC = {
   },
 
   get_time: function() {
+    var self = this;
     var $jsHourText = $('#js-hour-text');
     var $jsMinText = $('#js-min-text');
     var $jsYearText = $('#js-year-text');
-    var time_text, local_time, hour, min, year, month, date, timing_renovate, second;
+    var time_text, local_time, hour, min, year, month, date, timing_renovate, second, time_stamp,url;
     function getTime_func() {
       local_time = new Date();
       hour = local_time.getHours();
@@ -47,11 +48,17 @@ var COMMON_FUNC = {
       $jsYearText.text(time_text);
       timing_renovate = hour + ':' + min + ':' + second;
       switch (timing_renovate) {
-        case '17:00:00':
-          location.reload(true);
+        case '15:00:00':
+          time_stamp = local_time.getTime();
+          url = 'http://' + window.location.host + window.location.pathname + '?code=' + self.search_location('code') +
+              '&time_stamp='+ time_stamp;
+          window.location.assign(url);
           break;
-        case '17:30:00':
-          location.reload(true);
+        case '15:30:00':
+          time_stamp = local_time.getTime();
+          url = 'http://' + window.location.host + window.location.pathname + '?code=' + self.search_location('code') +
+              '&time_stamp='+ time_stamp;
+          window.location.assign(url);
           break;
         case '03:00:00':
           location.reload();
@@ -60,7 +67,8 @@ var COMMON_FUNC = {
           location.reload();
           break;
       }
-      time_text = null, local_time = null, hour = null, min = null, year = null, month = null, date = null;
+      time_text = null, local_time = null, hour = null, min = null, year = null, month = null, date = null,
+          time_stamp = null, url = null;
       setTimeout(getTime_func, 1000);
     }
     getTime_func();
