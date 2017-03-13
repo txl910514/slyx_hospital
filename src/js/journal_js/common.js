@@ -1,6 +1,7 @@
 /**
  * Created by tangxl on 16-12-6.
  */
+var get_arr,get_reg;
 var COMMON_FUNC = {
   ready_init: function() {
     var self = this;
@@ -17,6 +18,16 @@ var COMMON_FUNC = {
     exp.setTime(exp.getTime() + Days*24*60*60*1000);
     document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString() + ";path="+ path +";domain=" +domain;
     Days = null, exp = null;
+  },
+
+  getCookie: function(name) {
+    get_reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+    if(get_arr = document.cookie.match(get_reg)){
+      return unescape(get_arr[2]);
+    }
+    else{
+      return null;
+    }
   },
 
   search_location: function(key) {
@@ -48,14 +59,14 @@ var COMMON_FUNC = {
       timing_renovate = hour + ':' + min + ':' + second;
       switch (timing_renovate) {
         case '21:00:00':
-          location.reload();
+          COMMON_FUNC.get_url();
           break;
         case '00:00:00':
           break;
         case '03:00:00':
           break;
         case '06:00:00':
-          location.reload();
+          COMMON_FUNC.get_url();
           break;
       }
       time_text = null, local_time = null, hour = null, min = null, year = null, month = null, date = null,
@@ -63,6 +74,17 @@ var COMMON_FUNC = {
       setTimeout(getTime_func, 1000);
     }
     getTime_func();
+  },
+
+  get_url: function() {
+    var self = this;
+    var local_time = new Date();
+    var time_stamp, url;
+    time_stamp = local_time.getTime();
+    url = 'http://' + window.location.host + window.location.pathname + '?code=' + self.search_location('code') +
+        '&time_stamp='+ time_stamp;
+    window.location.assign(url);
+    local_time = null, time_stamp = null, url = null;
   },
 
   ajax_get: function(url, data, jsonpCall, callback){

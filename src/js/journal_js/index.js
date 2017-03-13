@@ -15,12 +15,16 @@ var index = {
     if (window.medatc) {
       window.medatc.hideLoading();
     }
+    self.version_ajax();
     self.eqpCount_ajax(); // 设备总数
     self.tktStatus_ajax(); // 状态饼图
     self.monthStatus_ajax(); // 月质控，月完修
     self.engineerStatus_ajax(); //医工信息
     self.eqpStatus_ajax(); // 信息更新
     self.dptStatus_ajax(); //科室再用率
+    setInterval(function() {
+      self.version_ajax();
+    }, 30*1000);
     setInterval(function() {
       self.eqpCount_ajax();
       self.tktStatus_ajax();
@@ -29,6 +33,18 @@ var index = {
       self.eqpStatus_ajax();
       self.dptStatus_ajax();
     }, 60*60*1000);
+  },
+
+  version_ajax: function() {
+    var $body = $('body');
+    var versionUrl = '<%=base%>' + $body.attr('url');
+    COMMON_FUNC.ajax_get($body, {num: '1.0.1'}, versionUrl, 'jsonpCallback', function(result) {
+      var getCookie = COMMON_FUNC.getCookie('version');
+      if (getCookie !== result.data) {
+        COMMON_FUNC.setCookie('version', result.data, location.pathname, location.hostname );
+        COMMON_FUNC.get_url();
+      }
+    })
   },
 
   eqpCount_ajax: function() {
