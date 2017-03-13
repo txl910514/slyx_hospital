@@ -7,6 +7,13 @@ var index = {
   no_bx_tpl: _.template($('#no-bx-tpl').html()),
   ready_init:function() {
     var self = this;
+    $('#min-center-top').css({
+      height:'25%'
+    });
+    $('#min-center-center').css({
+      height:'35%'
+    });
+    $('.device-content').append($('.status-flex:first'));
     self.highValue_ajax();
     self.dpt_ajax();
     self.info_ajax();

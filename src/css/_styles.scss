@@ -272,6 +272,12 @@ img{
         .left-half-content{
           height: 50%;
           position: relative;
+          &#highValue {
+            height: 30%;
+          }
+          &#lifeValue {
+            height: 70%;
+          }
         }
       }
       .center-chart-content{
