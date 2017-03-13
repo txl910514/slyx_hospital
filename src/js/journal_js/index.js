@@ -22,9 +22,9 @@ var index = {
     self.engineerStatus_ajax(); //医工信息
     self.eqpStatus_ajax(); // 信息更新
     self.dptStatus_ajax(); //科室再用率
-    setInterval(function() {
+/*    setInterval(function() {
       self.version_ajax();
-    }, 30*1000);
+    }, 30*1000);*/
     setInterval(function() {
       self.eqpCount_ajax();
       self.tktStatus_ajax();
@@ -36,7 +36,7 @@ var index = {
   },
 
   version_ajax: function() {
-    var $body = $('body');
+/*    var $body = $('body');
     var versionUrl = '<%=base%>' + $body.attr('url');
     COMMON_FUNC.ajax_get($body, {num: '1.0.1'}, versionUrl, 'jsonpCallback', function(result) {
       var getCookie = COMMON_FUNC.getCookie('version');
@@ -44,7 +44,7 @@ var index = {
         COMMON_FUNC.setCookie('version', result.data, location.pathname, location.hostname );
         COMMON_FUNC.get_url();
       }
-    })
+    })*/
   },
 
   eqpCount_ajax: function() {
