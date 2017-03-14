@@ -26,6 +26,7 @@ var index = {
     self.dptStatus_apply(dptStatus_data);
     self.eqpCount_apply(eqpCount_data);
     self.eqpStatus_apply(eqpStatus_data);
+    self.tktStatus_apply(tktStatus_data);
 
     self.version_ajax();
     self.eqpCount_ajax(); // 设备总数
@@ -234,45 +235,51 @@ var index = {
   },
 
   tktStatus_ajax: function() {
+    var self = this;
     var url = '<%=base%>' + tktStatusUrl;
-    var status_total, wait_percent, get_percent, overdue_percent, wait_data, get_data, overdue_data;
     COMMON_FUNC.ajax_get(url, {}, '', function(result) {
       if (result.success) {
         localStorage.setItem('tktStatus', JSON.stringify(result));
-        status_total = result.data.overdue_count + result.data.wait_count +
-            result.data.get_count;
-        wait_percent = parseInt(result.data.wait_count/ status_total *100);
-        get_percent = parseInt(result.data.get_count/ status_total *100);
-        overdue_percent = parseInt(result.data.overdue_count/ status_total *100);
-        wait_data = {
-          status_name: '等待',
-          name: '',
-          percent: wait_percent / 100,
-          num: result.data.wait_count,
-          unit: '次'
-        };
-        get_data = {
-          status_name: '在修',
-          name: '',
-          percent: get_percent / 100,
-          num: result.data.get_count,
-          unit: '次'
-        };
-        overdue_data = {
-          status_name: '超时',
-          name: '',
-          percent: overdue_percent / 100,
-          num: result.data.overdue_count,
-          unit: '次'
-        };
-        ECHARTS_FUNC.status_pie('wait-status', wait_data);
-        ECHARTS_FUNC.status_pie('repair-status', get_data);
-        ECHARTS_FUNC.status_pie('overtime-status', overdue_data);
-
-        url = null, result = null, status_total = null, wait_percent = null, get_percent = null, overdue_percent = null,
-            wait_data = null, get_data = null, overdue_data = null;
+        self.tktStatus_apply(result);
+        self = null, url = null;
       }
     })
+  },
+
+  tktStatus_apply: function(result) {
+    var status_total, wait_percent, get_percent, overdue_percent, wait_data, get_data, overdue_data;
+    status_total = result.data.overdue_count + result.data.wait_count +
+        result.data.get_count;
+    wait_percent = parseInt(result.data.wait_count/ status_total *100);
+    get_percent = parseInt(result.data.get_count/ status_total *100);
+    overdue_percent = parseInt(result.data.overdue_count/ status_total *100);
+    wait_data = {
+      status_name: '等待',
+      name: '',
+      percent: wait_percent / 100,
+      num: result.data.wait_count,
+      unit: '次'
+    };
+    get_data = {
+      status_name: '在修',
+      name: '',
+      percent: get_percent / 100,
+      num: result.data.get_count,
+      unit: '次'
+    };
+    overdue_data = {
+      status_name: '超时',
+      name: '',
+      percent: overdue_percent / 100,
+      num: result.data.overdue_count,
+      unit: '次'
+    };
+    ECHARTS_FUNC.status_pie('wait-status', wait_data);
+    ECHARTS_FUNC.status_pie('repair-status', get_data);
+    ECHARTS_FUNC.status_pie('overtime-status', overdue_data);
+
+    result = null, status_total = null, wait_percent = null, get_percent = null, overdue_percent = null,
+        wait_data = null, get_data = null, overdue_data = null;
   },
 
   monthStatus_ajax: function() {
