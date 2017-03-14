@@ -7,6 +7,9 @@ var monthStatusUrl = '/hos/month_status?hosId=3622';
 var eqpStatusUrl = '/hos/eqp_status?hosId=3622';
 var dptStatusUrl = '/hos/dpt_status?hosId=3622';
 var engineerStatusUrl = '/hos/engineer_status?hosId=3622';
+var versionUrl = '<%=base%>' + '/s/version/get';
+var getCookie;
+var $body = $('body');
 var index = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
@@ -45,12 +48,10 @@ var index = {
   },
 
   version_ajax: function() {
-/*    var $body = $('body');
-    var versionUrl = '<%=base%>' + $body.attr('url');
-    COMMON_FUNC.ajax_get($body, {num: '1.0.1'}, versionUrl, 'jsonpCallback', function(result) {
-      var getCookie = COMMON_FUNC.getCookie('version');
-      if (getCookie !== result.data) {
-        COMMON_FUNC.setCookie('version', result.data, location.pathname, location.hostname );
+/*    COMMON_FUNC.ajax_get(versionUrl, {}, '', function(result) {
+      getCookie = COMMON_FUNC.getCookie('version');
+      if (getCookie !== result.version) {
+        COMMON_FUNC.setCookie('version', result.version, location.pathname, location.hostname );
         COMMON_FUNC.get_url();
       }
     })*/
@@ -314,9 +315,20 @@ var index = {
 
   eqpStatus_ajax: function() {
     var self = this;
+    var url = '<%=base%>' + eqpStatusUrl;
+    COMMON_FUNC.ajax_get(url, {}, '', function(result) {
+      if (result.success) {
+        localStorage.setItem('eqpStatus', JSON.stringify(result));
+        self.eqpStatus_apply(result);
+        self = null; url = null;
+      }
+    })
+  },
+
+  eqpStatus_apply:function(result) {
+    var self = this;
     var $update_info = $('#update-info');
     var $overdue_info = $('#overdue_info');
-    var url = '<%=base%>' + eqpStatusUrl;
     var update_line_height = $update_info.height() / 6 - 2;
     var overdue_line_height = $overdue_info.height() / 4 - 2;
     var screen_height = $(window).height();
@@ -346,110 +358,101 @@ var index = {
       update_line_height = $update_info.height() / 3 - 2;
       overdue_line_height = $overdue_info.height() / 1 - 2;
     }
-    COMMON_FUNC.ajax_get(url, {}, '', function(result) {
-      if (result.success) {
-        localStorage.setItem('eqpStatus', JSON.stringify(result));
-        clearInterval(GVR.INTERVAL.message_setInterval);
-        GVR.INTERVAL.message_setInterval = null;
-        $update_info.html('');
-        $overdue_info.html('');
-        _.each(result.data.update_info, function(update) {
-          update.categories_name = update.categories_name || '-';
-          update.updated_at = update.updated_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
-          if (update.status !== 1) {
-            update.users_name = update.users_name || '-';
-          }
-          switch (update.status) {
-            case 1:
-              update.status_name = '报修';
-              update.status_color = 'repair_color';
-              update.users_name = update.users_name || '未接修';
-              break;
-            case 2:
-              update.status_name = '在修';
-              update.status_color = 'receive_color';
-              break;
-            case 3:
-              update.status_name = '待确认';
-              update.status_color = 'receive_color';
-              break;
-            case 4:
-              update.status_name = '已结束';
-              update.status_color = 'finish_color';
-              break;
-            case 5:
-              update.status_name = '误报已结束';
-              update.status_color = 'finish_color';
-              break;
-            case 7:
-              update.status_name = '已留观';
-              update.status_color = 'receive_color';
-              break;
-            case 8:
-              update.status_name = '外修开始';
-              update.status_color = 'receive_color';
-              break;
-            case 9:
-              update.status_name = '外修结束';
-              update.status_color = 'finish_color';
-              break;
-            default :
-              update.status_name = '-';
-              update.status_color = '';
-              break;
-          }
-          $update_tpl = $($.trim(self.message_line_tpl(update)));
-          $update_tpl.css({
-            height: update_line_height + 'px',
-            'line-height': update_line_height + 'px'
-          });
-          $update_info.append($update_tpl);
-          update = null, $update_tpl = null;
-        });
-        _.each(result.data.overdue_info, function(overdue) {
-          overdue.updated_at = '';
-          overdue.over_due_time = overdue.over_due_time || '-';
-          overdue.created_at = overdue.created_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
-          if(overdue.status === 1) {
-            overdue.users_name = overdue.users_name || '未接修';
-          }
-          else {
-            overdue.users_name = overdue.users_name || '-';
-          }
-          $overdue_tpl = $($.trim(self.message_line_tpl(overdue)));
-          $overdue_tpl.css({
-            height: overdue_line_height + 'px',
-            'line-height': overdue_line_height + 'px'
-          });
-          $overdue_info.append($overdue_tpl);
-          overdue = null, $overdue_tpl = null;
-        });
-        GVR.INTERVAL.message_setInterval = setInterval(function() {
-          $update_line = $update_info.find('.message-line');
-          $overdue_line = $overdue_info.find('.message-line');
-          $update_first = $update_line.first();
-          $overdue_first = $overdue_line.first();
-          $update_line.animate({
-            top: - update_line_height + 'px'
-          }, 3*1000, function(){
-            $update_info.append($update_first);
-            $update_line.css({top: '0px'});
-          });
-          $overdue_line.animate({
-            top: - overdue_line_height + 'px'
-          }, 3*1000, function(){
-            $overdue_info.append($overdue_first);
-            $overdue_line.css({top: '0px'});
-          });
-        }, 60*1000);
-        self = null,  url = null,  screen_height = null,  result = null, $overdue_tpl = null,
-            $update_tpl = null;
+    clearInterval(GVR.INTERVAL.message_setInterval);
+    GVR.INTERVAL.message_setInterval = null;
+    $update_info.html('');
+    $overdue_info.html('');
+    _.each(result.data.update_info, function(update) {
+      update.categories_name = update.categories_name || '-';
+      update.updated_at = update.updated_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
+      if (update.status !== 1) {
+        update.users_name = update.users_name || '-';
       }
-    })
-  },
-
-  eqpStatus_apply:function(result) {
-
+      switch (update.status) {
+        case 1:
+          update.status_name = '报修';
+          update.status_color = 'repair_color';
+          update.users_name = update.users_name || '未接修';
+          break;
+        case 2:
+          update.status_name = '在修';
+          update.status_color = 'receive_color';
+          break;
+        case 3:
+          update.status_name = '待确认';
+          update.status_color = 'receive_color';
+          break;
+        case 4:
+          update.status_name = '已结束';
+          update.status_color = 'finish_color';
+          break;
+        case 5:
+          update.status_name = '误报已结束';
+          update.status_color = 'finish_color';
+          break;
+        case 7:
+          update.status_name = '已留观';
+          update.status_color = 'receive_color';
+          break;
+        case 8:
+          update.status_name = '外修开始';
+          update.status_color = 'receive_color';
+          break;
+        case 9:
+          update.status_name = '外修结束';
+          update.status_color = 'finish_color';
+          break;
+        default :
+          update.status_name = '-';
+          update.status_color = '';
+          break;
+      }
+      $update_tpl = $($.trim(self.message_line_tpl(update)));
+      $update_tpl.css({
+        height: update_line_height + 'px',
+        'line-height': update_line_height + 'px'
+      });
+      $update_info.append($update_tpl);
+      update = null, $update_tpl = null;
+    });
+    _.each(result.data.overdue_info, function(overdue) {
+      overdue.updated_at = '';
+      overdue.over_due_time = overdue.over_due_time || '-';
+      overdue.created_at = overdue.created_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
+      if(overdue.status === 1) {
+        overdue.users_name = overdue.users_name || '未接修';
+      }
+      else {
+        overdue.users_name = overdue.users_name || '-';
+      }
+      $overdue_tpl = $($.trim(self.message_line_tpl(overdue)));
+      $overdue_tpl.css({
+        height: overdue_line_height + 'px',
+        'line-height': overdue_line_height + 'px'
+      });
+      $overdue_info.append($overdue_tpl);
+      overdue = null, $overdue_tpl = null;
+    });
+    GVR.INTERVAL.message_setInterval = setInterval(function() {
+      $update_line = $update_info.find('.message-line');
+      $overdue_line = $overdue_info.find('.message-line');
+      $update_first = $update_line.first();
+      $overdue_first = $overdue_line.first();
+      $update_line.animate({
+        top: - update_line_height + 'px'
+      }, 3*1000, function(){
+        $update_info.append($update_first);
+        $update_line.css({top: '0px'});
+      });
+      $overdue_line.animate({
+        top: - overdue_line_height + 'px'
+      }, 3*1000, function(){
+        $overdue_info.append($overdue_first);
+        $overdue_line.css({top: '0px'});
+      });
+    }, 60*1000);
+    self = null,  url = null,  screen_height = null,  result = null, $overdue_tpl = null,
+        $update_tpl = null;
   },
 
   dptStatus_ajax: function() {

@@ -2,6 +2,8 @@
  * Created by tangxl on 16-12-6.
  */
 var get_arr,get_reg;
+var version_time;
+var get_time_stamp, version_href;
 var COMMON_FUNC = {
   ready_init: function() {
     var self = this;
@@ -78,13 +80,12 @@ var COMMON_FUNC = {
 
   get_url: function() {
     var self = this;
-    var local_time = new Date();
-    var time_stamp, url;
-    time_stamp = local_time.getTime();
-    url = 'http://' + window.location.host + window.location.pathname + '?code=' + self.search_location('code') +
-        '&time_stamp='+ time_stamp;
-    window.location.assign(url);
-    local_time = null, time_stamp = null, url = null;
+    version_time = new Date();
+    get_time_stamp = version_time.getTime();
+    version_href = 'http://' + window.location.host + window.location.pathname + '?code=' + self.search_location('code') +
+        '&time_stamp='+ get_time_stamp;
+    window.location.assign(version_href);
+    version_time = null, get_time_stamp = null, version_href = null;
   },
 
   ajax_get: function(url, data, jsonpCall, callback){
