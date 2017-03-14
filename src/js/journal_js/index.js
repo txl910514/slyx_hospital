@@ -1,6 +1,9 @@
 /**
  * Created by tangxl on 16-12-6.
  */
+var $body = $('body');
+var versionUrl = '<%=base%>' + $body.attr('url');
+var getCookie;
 var index = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
@@ -16,7 +19,7 @@ var index = {
     self.info_ajax();
     setInterval(function() {
       self.version_ajax();
-    }, 30*1000);
+    }, 5*1000);
     setInterval(function() {
       self.highValue_ajax();
       self.dpt_ajax();
@@ -25,12 +28,10 @@ var index = {
   },
 
   version_ajax: function() {
-    var $body = $('body');
-    var versionUrl = '<%=base%>' + $body.attr('url');
-    COMMON_FUNC.ajax_get($body, {num: '1.0.1'}, versionUrl, 'jsonpCallback', function(result) {
-      var getCookie = COMMON_FUNC.getCookie('version');
-      if (getCookie !== result.data) {
-        COMMON_FUNC.setCookie('version', result.data, location.pathname, location.hostname );
+    COMMON_FUNC.ajax_get($body, {}, versionUrl, 'jsonpCallback', function(result) {
+      getCookie = COMMON_FUNC.getCookie('version');
+      if (getCookie !== result.version) {
+        COMMON_FUNC.setCookie('version', result.version, location.pathname, location.hostname );
         COMMON_FUNC.get_url();
       }
     })
