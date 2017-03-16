@@ -19,7 +19,7 @@ var index = {
     self.info_ajax();
     setInterval(function() {
       self.version_ajax();
-    }, 5*1000);
+    }, 5*60*1000);
     setInterval(function() {
       self.highValue_ajax();
       self.dpt_ajax();
