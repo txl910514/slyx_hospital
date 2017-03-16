@@ -197,8 +197,8 @@ var index = {
       });
       ECHARTS_FUNC.horizontal_bar_echarts('high-value-echarts', data);
       ECHARTS_FUNC.horizontal_bar_echarts('life-echarts', life_data);
-      self = null, data = null, $highValue = null, url = null, jsonp_name = null, result = null,
-          life_data = null, highValue_sort = null, lifeSupport_sort = null, life_min = null,
+      self = null, $highValue = null, url = null, jsonp_name = null, result = null,
+          highValue_sort = null, lifeSupport_sort = null, life_min = null,
           high_min = null, life_max = null, high_max = null, min_color = null, dot_color = null,
           add = null;
     })
@@ -505,7 +505,7 @@ var index = {
         });
       }, 60*1000);
       self = null, $offices_use = null, url = null, total_dptfix = null, dptfix_num = null, $medical_info_box = null,
-          $medical_info_hidden = null, jsonp_name = null, result = null, dptuse_data = null, lack_length = null,
+          $medical_info_hidden = null, jsonp_name = null, result = null,  lack_length = null,
           dptusePct_sort = null, dptuse_min = null, dptuse_color = null, x1_value = null, error_url = null,
           error_text = null, error_data = null, $error_body = null, $medical_tpl = null, status_total = null,
           wait_percent = null, get_percent = null, overdue_percent = null, wait_data = null, get_data = null,
