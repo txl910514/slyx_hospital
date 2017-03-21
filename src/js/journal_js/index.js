@@ -9,7 +9,7 @@ var completedStatusUrl = '/hos/completed_status?hosId=3622';
 var eqpStatusUrl = '/hos/eqp_status?hosId=3622';
 var dptStatusUrl = '/hos/dpt_status?hosId=3622';
 var engineerStatusUrl = '/hos/engineer_status?hosId=3622';
-var versionUrl = '<%=base%>' + '/s/version/get';
+var versionUrl = '<%=base%>' + '/version/get';
 var getCookie;
 var $body = $('body');
 var socket, socket_msg, socket_error_time = 0, socket_close_time = 0;
@@ -37,12 +37,13 @@ var index = {
     self.patrolStatus_apply(patrolStatus_data);
     self.completedStatus_apply(completedStatus_data);
     self.engineerStatus_apply(engineerStatus_data);
-/*    if (!!window.WebSocket && window.WebSocket.prototype.send) {
+    self.no_WebSocket();
+    if (!!window.WebSocket && window.WebSocket.prototype.send) {
       self.WebSocket_dp();
     }
     else {
       self.no_WebSocket();
-    }*/
+    }
   },
 
   no_WebSocket: function() {
@@ -147,13 +148,13 @@ var index = {
   },
 
   version_ajax: function() {
-/*    COMMON_FUNC.ajax_get(versionUrl, {}, '', function(result) {
+    COMMON_FUNC.ajax_get(versionUrl, {}, '', function(result) {
       getCookie = COMMON_FUNC.getCookie('version');
       if (getCookie !== result.version) {
-        COMMON_FUNC.setCookie('version', result.version, location.pathname, location.hostname );
-        COMMON_FUNC.get_url();
+/*        COMMON_FUNC.setCookie('version', result.version, location.pathname, location.hostname );
+        COMMON_FUNC.get_url();*/
       }
-    })*/
+    })
   },
 
   eqpCount_ajax: function() {
