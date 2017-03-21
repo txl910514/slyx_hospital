@@ -85,7 +85,7 @@ var COMMON_FUNC = {
     version_href = 'http://' + window.location.host + window.location.pathname + '?code=' + self.search_location('code') +
         '&time_stamp='+ get_time_stamp;
     window.location.assign(version_href);
-    version_time = null, get_time_stamp = null, version_href = null;
+    self = null, version_time = null, get_time_stamp = null, version_href = null;
   },
 
   ajax_get: function(url, data, jsonpCall, callback){
