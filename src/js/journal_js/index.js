@@ -1,7 +1,7 @@
 /**
  * Created by tangxl on 16-12-6.
  */
-var wsUrl = '/socketServer?code=3622'
+var wsUrl = '/socketServer?code=14cb4c66fb26065ecdb583fb0135e49616002f90'
 var eqpCountUrl = '/hos/eqp_count?hosId=3622';
 var tktStatusUrl = '/hos/tkt_status?hosId=3622';
 var patrolStatusUrl = '/hos/patrol_status?hosId=3622';
@@ -12,6 +12,7 @@ var engineerStatusUrl = '/hos/engineer_status?hosId=3622';
 var versionUrl = '<%=base%>' + '/s/version/get';
 var getCookie;
 var $body = $('body');
+var socket, socket_msg, socket_error_time = 0, socket_close_time = 0;
 var index = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
@@ -36,12 +37,12 @@ var index = {
     self.patrolStatus_apply(patrolStatus_data);
     self.completedStatus_apply(completedStatus_data);
     self.engineerStatus_apply(engineerStatus_data);
-    if (!!window.WebSocket && window.WebSocket.prototype.send) {
+/*    if (!!window.WebSocket && window.WebSocket.prototype.send) {
       self.WebSocket_dp();
     }
     else {
       self.no_WebSocket();
-    }
+    }*/
   },
 
   no_WebSocket: function() {
@@ -54,10 +55,10 @@ var index = {
     self.engineerStatus_ajax(); //医工信息
     self.eqpStatus_ajax(); // 信息更新
     self.dptStatus_ajax(); //科室再用率
-    setInterval(function() {
+    GVR.INTERVAL.VERSION_AJAX = setInterval(function() {
       self.version_ajax();
     }, 30*1000);
-    setInterval(function() {
+    GVR.INTERVAL.INIT_AJAX = setInterval(function() {
       self.eqpCount_ajax(); // 设备总数
       self.tktStatus_ajax(); // 状态饼图
       self.patrolStatus_ajax(); // 月质控
@@ -69,52 +70,80 @@ var index = {
   },
 
   WebSocket_dp: function() {
-    var socket = new WebSocket('<%=ws_url%>'+ wsUrl);
-    var msg;
-    var self = this;
+    socket = new WebSocket('<%=ws_url%>'+ wsUrl);
     socket.onopen = function(event) {
-      console.log(event);
-      // 监听消息
-      socket.onmessage = function(event) {
-        msg = JSON.parse(event.data);
-        console.log(msg);
-        switch (msg.message) {
-          case 'eqp_count':
-             self.eqpCount_apply(msg);
-            break;
-          case 'dpt_status':
-            self.dptStatus_apply(msg);
-            break;
-          case 'tkt_status':
-            self.tktStatus_apply(msg);
-            break;
-          case 'completed_status':
-            self.completedStatus_apply(msg);
-            break;
-          case 'eqp_status':
-            self.eqpStatus_apply(msg);
-            break;
-          case 'engineer_status':
-            break;
-          case 'patrol_status':
-            self.patrolStatus_apply(msg);
-            break;
-          default :
-            break;
-        }
-      };
-
-      // 监听Socket的关闭
-      socket.onclose = function(event) {
-        console.log('Client notified socket has closed',event);
-      };
-
+      socket_close_time = 0;
+      socket_error_time = 0;
+      if (GVR.INTERVAL.VERSION_AJAX) {
+        clearInterval(GVR.INTERVAL.VERSION_AJAX);
+      }
+      if (GVR.INTERVAL.INIT_AJAX) {
+        clearInterval(GVR.INTERVAL.INIT_AJAX);
+      }
       // 关闭Socket....
-      //socket.close()
+     // socket.close();
+    };
+    // 监听消息
+    socket.onmessage = function(event) {
+      socket_msg = JSON.parse(event.data);
+      switch (socket_msg.message) {
+        case 'eqp_count':
+          localStorage.setItem('eqpCount', JSON.stringify(socket_msg));
+          index.eqpCount_apply(socket_msg);
+          break;
+        case 'dpt_status':
+          localStorage.setItem('dptStatus', JSON.stringify(socket_msg));
+          index.dptStatus_apply(socket_msg);
+          break;
+        case 'tkt_status':
+          localStorage.setItem('tktStatus', JSON.stringify(socket_msg));
+          index.tktStatus_apply(socket_msg);
+          break;
+        case 'completed_status':
+          localStorage.setItem('completedStatus', JSON.stringify(socket_msg));
+          index.completedStatus_apply(socket_msg);
+          break;
+        case 'eqp_status':
+          localStorage.setItem('eqpStatus', JSON.stringify(socket_msg));
+          index.eqpStatus_apply(socket_msg);
+          break;
+        case 'engineer_status':
+          localStorage.setItem('engineerStatus', JSON.stringify(socket_msg));
+          index.engineerStatus_apply(socket_msg);
+          break;
+        case 'patrol_status':
+          localStorage.setItem('patrolStatus', JSON.stringify(socket_msg));
+          index.patrolStatus_apply(socket_msg);
+          break;
+        default :
+          break;
+      }
+    };
+
+    // 监听Socket的关闭
+    socket.onclose = function(event) {
+      console.log('close', socket_close_time);
+      if (!socket_error_time) {
+        socket_close_time += 1;
+        if (socket_close_time > 3) {
+          index.no_WebSocket();
+        }
+        else {
+          index.WebSocket_dp();
+        }
+      }
+
     };
     socket.onerror = function(event) {
-      console.log(event);
-    }
+      socket_error_time += 1;
+      console.log('error', socket_error_time);
+      if (socket_error_time > 3) {
+        index.no_WebSocket();
+      }
+      else {
+        index.WebSocket_dp();
+      }
+    };
   },
 
   version_ajax: function() {
