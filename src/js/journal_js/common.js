@@ -113,6 +113,14 @@ var COMMON_FUNC = {
           callback(json);
         }
         dataType = null;
+      },
+      error: function(xhr, msg, error){
+        console.log(xhr);
+        console.log(error);
+        console.log(msg);
+      },
+      complete: function(XHR, TS) {
+        XHR = null;
       }
     })
   }

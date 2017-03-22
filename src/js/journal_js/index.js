@@ -12,7 +12,7 @@ var engineerStatusUrl = '/hos/engineer_status?hosId=3622';
 var versionUrl = '<%=base%>' + '/version/get';
 var getCookie;
 var $body = $('body');
-var socket, socket_msg, socket_error_time = 0, socket_close_time = 0;
+var socket, socket_msg, socket_error_time = 0, socket_close_time = 0, socket_func, error_close_setTime;
 var index = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
@@ -71,6 +71,29 @@ var index = {
 
   WebSocket_dp: function() {
     socket = new WebSocket('<%=ws_url%>'+ wsUrl);
+    socket_func = {
+      timeout: 60*1000,//60ms
+      timeoutObj: null,
+      serverTimeoutObj: null,
+      reset: function(){
+        if (this.timeoutObj) {
+          clearInterval(this.timeoutObj);
+        }
+        if (this.serverTimeoutObj) {
+          clearInterval(this.serverTimeoutObj);
+        }
+        this.start();
+      },
+      start: function(){
+        var self = this;
+        this.timeoutObj = setInterval(function(){
+          socket.send("HeartBeat", "beat");
+          self.serverTimeoutObj = setInterval(function(){
+            socket.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
+          }, self.timeout)
+        }, this.timeout)
+      },
+    };
     socket.onopen = function(event) {
       socket_close_time = 0;
       socket_error_time = 0;
@@ -80,11 +103,16 @@ var index = {
       if (GVR.INTERVAL.INIT_AJAX) {
         clearInterval(GVR.INTERVAL.INIT_AJAX);
       }
+      if(error_close_setTime) {
+        clearTimeout(error_close_setTime);
+      }
+      socket_func.start();
       // 关闭Socket....
      // socket.close();
     };
     // 监听消息
     socket.onmessage = function(event) {
+      socket_func.reset();
       socket_msg = JSON.parse(event.data);
       switch (socket_msg.message) {
         case 'eqp_count':
@@ -125,25 +153,29 @@ var index = {
       console.log('close', socket_close_time);
       if (!socket_error_time) {
         socket_close_time += 1;
-        if (socket_close_time > 3) {
+        if (socket_close_time === 4) {
           index.no_WebSocket();
         }
-        else {
+        error_close_setTime = setTimeout(function() {
           index.WebSocket_dp();
-        }
+        }, 60*1000);
       }
 
     };
     socket.onerror = function(event) {
       socket_error_time += 1;
       console.log('error', socket_error_time);
-      if (socket_error_time > 3) {
+      if (socket_error_time === 4) {
         index.no_WebSocket();
       }
-      else {
+      error_close_setTime = setTimeout(function() {
         index.WebSocket_dp();
-      }
+      }, 60*1000);
+
     };
+    window.onbeforeunload = function () {
+      socket.close();
+    }
   },
 
   version_ajax: function() {
