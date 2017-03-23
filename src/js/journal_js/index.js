@@ -106,13 +106,13 @@ var index = {
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
       }
-      socket_func.start();
+      // socket_func.start();
       // 关闭Socket....
      // socket.close();
     };
     // 监听消息
     socket.onmessage = function(event) {
-      socket_func.reset();
+      // socket_func.reset();
       socket_msg = JSON.parse(event.data);
       switch (socket_msg.message) {
         case 'eqp_count':
