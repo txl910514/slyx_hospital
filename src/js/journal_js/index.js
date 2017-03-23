@@ -721,31 +721,33 @@ var index = {
   },
 
   engineerStatus_apply: function(result) {
-    var self = this;
-    var $medical_info_box = $('#medical_info_box');
-    var  $medical_tpl, $medical_info_line, $parent, height;
-    clearInterval(GVR.INTERVAL.info_setInterval);
-    GVR.INTERVAL.info_setInterval = null;
-    $medical_info_box.html('');
-    _.each(result.data[0], function(me_info_first) {
-      me_info_first.resp_avg = me_info_first.resp_avg < 0 ? 0 : parseFloat(me_info_first.resp_avg.toFixed(2));
-      me_info_first.fix_avg = me_info_first.fix_avg < 0 ? 0 : parseFloat(me_info_first.fix_avg.toFixed(2));
-      $medical_tpl = $(self.medical_tpl(me_info_first));
-      $medical_info_box.append($medical_tpl);
-    });
-    GVR.INTERVAL.info_setInterval = setInterval(function() {
-      $medical_info_line = $('.medical-info-line');
-      $parent = $medical_info_line.parent();
-      height = $parent.height();
-      $medical_info_line.animate({
-        top: - height + 'px'
-      }, 3*1000, function() {
-        $parent.append($medical_info_line.first());
-        $medical_info_line.css({top: '0px'});
+    if (result) {
+      var self = this;
+      var $medical_info_box = $('#medical_info_box');
+      var  $medical_tpl, $medical_info_line, $parent, height;
+      clearInterval(GVR.INTERVAL.info_setInterval);
+      GVR.INTERVAL.info_setInterval = null;
+      $medical_info_box.html('');
+      _.each(result.data[0], function(me_info_first) {
+        me_info_first.resp_avg = me_info_first.resp_avg < 0 ? 0 : parseFloat(me_info_first.resp_avg.toFixed(2));
+        me_info_first.fix_avg = me_info_first.fix_avg < 0 ? 0 : parseFloat(me_info_first.fix_avg.toFixed(2));
+        $medical_tpl = $(self.medical_tpl(me_info_first));
+        $medical_info_box.append($medical_tpl);
       });
-    }, 60*1000);
-    self = null,  url = null, $medical_info_box = null, result = null,
-        $medical_tpl = null;
+      GVR.INTERVAL.info_setInterval = setInterval(function() {
+        $medical_info_line = $('.medical-info-line');
+        $parent = $medical_info_line.parent();
+        height = $parent.height();
+        $medical_info_line.animate({
+          top: - height + 'px'
+        }, 3*1000, function() {
+          $parent.append($medical_info_line.first());
+          $medical_info_line.css({top: '0px'});
+        });
+      }, 60*1000);
+      self = null,  url = null, $medical_info_box = null, result = null,
+          $medical_tpl = null;
+    }
   },
 
   device_num_total: function($ele, num) {
