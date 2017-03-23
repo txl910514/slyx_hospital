@@ -37,6 +37,7 @@ var index = {
     self.patrolStatus_apply(patrolStatus_data);
     self.completedStatus_apply(completedStatus_data);
     self.engineerStatus_apply(engineerStatus_data);
+    self.no_WebSocket();
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
       self.WebSocket_dp();
     }
