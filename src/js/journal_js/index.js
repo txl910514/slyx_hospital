@@ -13,13 +13,13 @@ var versionUrl = '<%=base%>' + '/version/get';
 var getCookie;
 var $body = $('body');
 var socket, socket_msg, socket_error_time = 0, socket_close_time = 0, socket_func, error_close_setTime;
+var dptStatus_data, eqpCount_data, eqpStatus_data, tktStatus_data, patrolStatus_data, completedStatus_data,
+    engineerStatus_data, nameStatus_data;
 var index = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
   ready_init:function() {
     var self = this;
-    var dptStatus_data, eqpCount_data, eqpStatus_data, tktStatus_data, patrolStatus_data, completedStatus_data,
-        engineerStatus_data;
     if (window.medatc) {
       window.medatc.hideLoading();
     }
@@ -30,6 +30,7 @@ var index = {
     patrolStatus_data = JSON.parse(localStorage.getItem('patrolStatus'));
     completedStatus_data = JSON.parse(localStorage.getItem('completedStatus'));
     engineerStatus_data = JSON.parse(localStorage.getItem('engineerStatus'));
+    nameStatus_data = JSON.parse(localStorage.getItem('nameStatus'));
     self.dptStatus_apply(dptStatus_data);
     self.eqpCount_apply(eqpCount_data);
     self.eqpStatus_apply(eqpStatus_data);
@@ -37,7 +38,7 @@ var index = {
     self.patrolStatus_apply(patrolStatus_data);
     self.completedStatus_apply(completedStatus_data);
     self.engineerStatus_apply(engineerStatus_data);
-    self.no_WebSocket();
+    index.nameStatus_apply(nameStatus_data);
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
       self.WebSocket_dp();
     }
@@ -144,6 +145,14 @@ var index = {
           localStorage.setItem('patrolStatus', JSON.stringify(socket_msg));
           index.patrolStatus_apply(socket_msg);
           break;
+        case 'name':
+          localStorage.setItem('nameStatus', JSON.stringify(socket_msg));
+          index.nameStatus_apply(socket_msg);
+          break;
+        case 'version':
+          localStorage.setItem('versionStatus', JSON.stringify(socket_msg));
+          index.versionStatus_apply(socket_msg);
+          break;
         default :
           break;
       }
@@ -187,6 +196,14 @@ var index = {
         COMMON_FUNC.get_url();*/
       }
     })
+  },
+
+  versionStatus_apply: function(result) {
+    getCookie = COMMON_FUNC.getCookie('version');
+    if (getCookie !== result.data) {
+      COMMON_FUNC.setCookie('version', result.data, location.pathname, location.hostname );
+      COMMON_FUNC.get_url();
+    }
   },
 
   eqpCount_ajax: function() {
@@ -363,6 +380,13 @@ var index = {
       self.device_num_total($('#total-device-num'), result.data.total_count || 0);
       self.device_num_total($('#using-count'), result.data.using_count || 0);
       self.device_num_total($('#fix-count'), result.data.finish_count || 0);
+      result = null, self = null;
+    }
+  },
+
+  nameStatus_apply: function(result) {
+    if (result) {
+      $('#header-title').text(result.data);
       result = null;
     }
   },
