@@ -15,11 +15,10 @@ var $body = $('body');
 var socket, socket_msg, socket_error_time = 0, socket_close_time = 0, socket_func, error_close_setTime;
 var dptStatus_data, eqpCount_data, eqpStatus_data, tktStatus_data, patrolStatus_data, completedStatus_data,
     engineerStatus_data, nameStatus_data;
-var index = {
+var INDEX = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
   ready_init:function() {
-    var self = this;
     if (window.medatc) {
       window.medatc.hideLoading();
     }
@@ -31,43 +30,42 @@ var index = {
     completedStatus_data = JSON.parse(localStorage.getItem('completedStatus'));
     engineerStatus_data = JSON.parse(localStorage.getItem('engineerStatus'));
     nameStatus_data = JSON.parse(localStorage.getItem('nameStatus'));
-    self.dptStatus_apply(dptStatus_data);
-    self.eqpCount_apply(eqpCount_data);
-    self.eqpStatus_apply(eqpStatus_data);
-    self.tktStatus_apply(tktStatus_data);
-    self.patrolStatus_apply(patrolStatus_data);
-    self.completedStatus_apply(completedStatus_data);
-    self.engineerStatus_apply(engineerStatus_data);
-    index.nameStatus_apply(nameStatus_data);*/
+    INDEX.dptStatus_apply(dptStatus_data);
+    INDEX.eqpCount_apply(eqpCount_data);
+    INDEX.eqpStatus_apply(eqpStatus_data);
+    INDEX.tktStatus_apply(tktStatus_data);
+    INDEX.patrolStatus_apply(patrolStatus_data);
+    INDEX.completedStatus_apply(completedStatus_data);
+    INDEX.engineerStatus_apply(engineerStatus_data);
+    INDEX.nameStatus_apply(nameStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      self.WebSocket_dp();
+      INDEX.WebSocket_dp();
     }
     else {
-      self.no_WebSocket();
+      INDEX.no_WebSocket();
     }
   },
 
   no_WebSocket: function() {
-    var self = this;
-    self.version_ajax();
-    self.eqpCount_ajax(); // 设备总数
-    self.tktStatus_ajax(); // 状态饼图
-    self.patrolStatus_ajax(); // 月质控
-    self.completedStatus_ajax(); // 月完修
-    self.engineerStatus_ajax(); //医工信息
-    self.eqpStatus_ajax(); // 信息更新
-    self.dptStatus_ajax(); //科室再用率
+    INDEX.version_ajax();
+    INDEX.eqpCount_ajax(); // 设备总数
+    INDEX.tktStatus_ajax(); // 状态饼图
+    INDEX.patrolStatus_ajax(); // 月质控
+    INDEX.completedStatus_ajax(); // 月完修
+    INDEX.engineerStatus_ajax(); //医工信息
+    INDEX.eqpStatus_ajax(); // 信息更新
+    INDEX.dptStatus_ajax(); //科室再用率
     GVR.INTERVAL.VERSION_AJAX = setInterval(function() {
-      self.version_ajax();
+      INDEX.version_ajax();
     }, 30*1000);
     GVR.INTERVAL.INIT_AJAX = setInterval(function() {
-      self.eqpCount_ajax(); // 设备总数
-      self.tktStatus_ajax(); // 状态饼图
-      self.patrolStatus_ajax(); // 月质控
-      self.completedStatus_ajax(); // 月完修
-      self.engineerStatus_ajax(); //医工信息
-      self.eqpStatus_ajax(); // 信息更新
-      self.dptStatus_ajax(); //科室再用率
+      INDEX.eqpCount_ajax(); // 设备总数
+      INDEX.tktStatus_ajax(); // 状态饼图
+      INDEX.patrolStatus_ajax(); // 月质控
+      INDEX.completedStatus_ajax(); // 月完修
+      INDEX.engineerStatus_ajax(); //医工信息
+      INDEX.eqpStatus_ajax(); // 信息更新
+      INDEX.dptStatus_ajax(); //科室再用率
     }, 60*60*1000);
   },
 
@@ -119,38 +117,46 @@ var index = {
       switch (socket_msg.message) {
         case 'eqp_count':
           localStorage.setItem('eqpCount', JSON.stringify(socket_msg));
-          index.eqpCount_apply(socket_msg);
+          INDEX.eqpCount_apply(socket_msg);
           break;
         case 'dpt_status':
           localStorage.setItem('dptStatus', JSON.stringify(socket_msg));
-          index.dptStatus_apply(socket_msg);
+          INDEX.dptStatus_apply(socket_msg);
           break;
         case 'tkt_status':
           localStorage.setItem('tktStatus', JSON.stringify(socket_msg));
-          index.tktStatus_apply(socket_msg);
+          INDEX.tktStatus_apply(socket_msg);
           break;
         case 'completed_status':
           localStorage.setItem('completedStatus', JSON.stringify(socket_msg));
-          index.completedStatus_apply(socket_msg);
+          INDEX.completedStatus_apply(socket_msg);
           break;
         case 'eqp_status':
           localStorage.setItem('eqpStatus', JSON.stringify(socket_msg));
-          index.eqpStatus_apply(socket_msg);
+          INDEX.eqpStatus_apply(socket_msg);
           break;
         case 'engineer_status':
           localStorage.setItem('engineerStatus', JSON.stringify(socket_msg));
-          index.engineerStatus_apply(socket_msg);
+          INDEX.engineerStatus_apply(socket_msg);
           break;
         case 'patrol_status':
           localStorage.setItem('patrolStatus', JSON.stringify(socket_msg));
-          index.patrolStatus_apply(socket_msg);
+          INDEX.patrolStatus_apply(socket_msg);
+          break;
+        case 'valuable':
+          localStorage.setItem('valuableStatus', JSON.stringify(socket_msg));
+          INDEX.valuableStatus_apply(socket_msg);
+          break;
+        case 'LifeSupport':
+          localStorage.setItem('LifeSupportStatus', JSON.stringify(socket_msg));
+          INDEX.LifeSupportStatus_apply(socket_msg);
           break;
         case 'name':
           localStorage.setItem('nameStatus', JSON.stringify(socket_msg));
-          index.nameStatus_apply(socket_msg);
+          INDEX.nameStatus_apply(socket_msg);
           break;
         case 'version':
-          index.versionStatus_apply(socket_msg);
+          INDEX.versionStatus_apply(socket_msg);
           break;
         default :
           break;
@@ -162,10 +168,10 @@ var index = {
       if (!socket_error_time) {
         socket_close_time += 1;
         if (socket_close_time === 4) {
-          index.no_WebSocket();
+          INDEX.no_WebSocket();
         }
         error_close_setTime = setTimeout(function() {
-          index.WebSocket_dp();
+          INDEX.WebSocket_dp();
         }, 60*1000);
       }
 
@@ -173,10 +179,10 @@ var index = {
     socket.onerror = function(event) {
       socket_error_time += 1;
       if (socket_error_time === 4) {
-        index.no_WebSocket();
+        INDEX.no_WebSocket();
       }
       error_close_setTime = setTimeout(function() {
-        index.WebSocket_dp();
+        INDEX.WebSocket_dp();
       }, 60*1000);
 
     };
@@ -206,7 +212,6 @@ var index = {
   },
 
   eqpCount_ajax: function() {
-    var self = this;
     var $highValue = $('#highValue');
     var url = '<%=base%>' + eqpCountUrl;
     var jsonp_name = $highValue.attr('jsonp-callback');
@@ -215,171 +220,19 @@ var index = {
     COMMON_FUNC.ajax_get(url, {}, '', function(result) {
       if (result.success) {
         localStorage.setItem('eqpCount', JSON.stringify(result));
-        self.eqpCount_apply(result);
+        INDEX.eqpCount_apply(result);
       }
 /*      $('#header-title').text(result.eqpCount[1].hospitals_name);
-      document.title = result.eqpCount[1].hospitals_name;
-      data = {
-        y:[],
-        x1:[],
-        name1: '设备总数',
-        x2:[],
-        name2: '可用设备',
-        x3:[],
-        name3: '可用设备比例',
-        label:[],
-        unit:'台',
-        min_arr:[]
-      };
-      life_data = {
-        y:[],
-        x1:[],
-        name1: '设备总数',
-        x2:[],
-        name2: '可用设备',
-        x3:[],
-        name3: '可用设备比例',
-        label:[],
-        unit:'台',
-        min_arr:[]
-      };
-      if (result.highValue.length < 7) {
-        high_length = 7 -  result.highValue.length;
-        _(high_length).times(function(){
-          result.highValue.push({
-            category: '',
-            total_count:0,
-            use_count:0,
-            percent: 0
-          });
-        });
-        high_length = null;
-      }
-      highValue_sort = _.sortBy(result.highValue, 'percent');
-      _.each(highValue_sort, function(high_Value) {
-        if (high_Value.category.length > 6) {
-          high_Value.category = high_Value.category.slice(0,6);
-        }
-        data.y.push(high_Value.category);
-        data.x1.push(high_Value.total_count);
-        data.x2.push(high_Value.use_count);
-        data.x3.push(high_Value.percent* 100);
-        if(high_Value.category) {
-          data.min_arr.push(high_Value.percent* 100);
-        }
-        high_Value = null;
-      });
-      if (result.lifeSupport.length < 7) {
-        life_length = 7 -  result.lifeSupport.length;
-        _(life_length).times(function(n){
-          result.lifeSupport.push({
-            category: '',
-            total_count:0,
-            use_count:0,
-            percent: 0
-          });
-        });
-        life_length = null;
-      }
-      lifeSupport_sort = _.sortBy(result.lifeSupport, 'percent');
-      _.each(lifeSupport_sort, function(lifeSupport) {
-        if (lifeSupport.category.length > 6) {
-          lifeSupport.category = lifeSupport.category.slice(0,6);
-        }
-        life_data.y.push(lifeSupport.category);
-        life_data.x1.push(lifeSupport.total_count);
-        life_data.x2.push(lifeSupport.use_count);
-        life_data.x3.push(lifeSupport.percent* 100);
-        if(lifeSupport.category) {
-          life_data.min_arr.push(lifeSupport.percent* 100);
-        }
-        lifeSupport = null;
-      });
-      life_min = _.min(life_data.min_arr);
-      high_min = _.min(data.min_arr);
-      life_max = _.max(life_data.x1);
-      high_max = _.max(data.x1);
-      min_color = '#cfeaf0';
-      dot_color = '#71c8d9';
-      add = 0;
-      _.each(life_data.x3, function(value, index) {
-        if(value === life_min && value !== 100 && life_data.min_arr.length > 1) {
-          min_color = '#f39800';
-          dot_color = '#f39800';
-        }
-        else {
-          min_color = '#cfeaf0';
-          dot_color = '#71c8d9';
-        }
-        if (!life_data.x1[index]) {
-          dot_color = 'transparent';
-        }
-        add = life_max < 25 ? 0.5: 5;
-        life_data.label.push({
-          value: life_data.x1[index] + add ,
-          label: {
-            normal: {
-              show: true,
-              textStyle: {
-                color:min_color
-              }
-            }
-          },
-          itemStyle: {
-            normal: {
-              color:dot_color
-            }
-          }
-        });
-        value = null, index= null;
-      });
-      _.each(data.x3, function(value, index) {
-        if(value === high_min && value !== 100 && data.min_arr.length > 1) {
-          min_color = '#f39800';
-          dot_color = '#f39800';
-        }
-        else {
-          min_color = '#cfeaf0';
-          dot_color = '#71c8d9'
-        }
-        if (!data.y[index]) {
-          dot_color = 'transparent';
-        }
-        add = high_max < 25 ? 0.5: 5;
-        data.label.push({
-          value: data.x1[index] + add,
-          label: {
-            normal: {
-              show: true,
-              textStyle: {
-                color:min_color
-              }
-            }
-          },
-          itemStyle: {
-            normal: {
-              color:dot_color
-            }
-          }
-        });
-        value = null, index= null;
-      });
-      ECHARTS_FUNC.horizontal_bar_echarts('high-value-echarts', data);
-      ECHARTS_FUNC.horizontal_bar_echarts('life-echarts', life_data);
-      self = null, data = null, $highValue = null, url = null, jsonp_name = null, result = null,
-          life_data = null, highValue_sort = null, lifeSupport_sort = null, life_min = null,
-          high_min = null, life_max = null, high_max = null, min_color = null, dot_color = null,
-          add = null;*/
+      document.title = result.eqpCount[1].hospitals_name;*/
     })
   },
 
   eqpCount_apply: function(result) {
     if (result.success) {
-      var self = this;
-      self.device_num_total($('#total-device-num'), result.data.total_count || 0);
-      self.device_num_total($('#using-count'), result.data.using_count || 0);
-      self.device_num_total($('#fix-count'), result.data.finish_count || 0);
-      result = null, self = null;
+      INDEX.device_num_total($('#total-device-num'), result.data.total_count || 0);
+      INDEX.device_num_total($('#using-count'), result.data.using_count || 0);
+      INDEX.device_num_total($('#fix-count'), result.data.finish_count || 0);
+      result = null;
     }
   },
 
@@ -391,13 +244,12 @@ var index = {
   },
 
   tktStatus_ajax: function() {
-    var self = this;
     var url = '<%=base%>' + tktStatusUrl;
     COMMON_FUNC.ajax_get(url, {}, '', function(result) {
       if (result.success) {
         localStorage.setItem('tktStatus', JSON.stringify(result));
-        self.tktStatus_apply(result);
-        self = null, url = null;
+        INDEX.tktStatus_apply(result);
+        url = null;
       }
     })
   },
@@ -441,13 +293,12 @@ var index = {
   },
 
   patrolStatus_ajax: function() {
-    var self = this;
     var url = '<%=base%>' + patrolStatusUrl;
     COMMON_FUNC.ajax_get(url, {}, '', function(result) {
       if (result.success) {
         localStorage.setItem('patrolStatus', JSON.stringify(result));
-        self.patrolStatus_apply(result);
-        url = null, self = null;
+        INDEX.patrolStatus_apply(result);
+        url = null;
       }
     })
   },
@@ -471,14 +322,182 @@ var index = {
     }
   },
 
+  valuableStatus_apply: function(result) {
+    if(result.success) {
+      var data, high_length, highValue_sort;
+      var high_min,  high_max, min_color, dot_color, add;
+      data = {
+        y:[],
+        x1:[],
+        name1: '设备总数',
+        x2:[],
+        name2: '可用设备',
+        x3:[],
+        name3: '可用设备比例',
+        label:[],
+        unit:'台',
+        min_arr:[]
+      };
+      if (result.data.length < 7) {
+        high_length = 7 -  result.data.length;
+        _(high_length).times(function(){
+          result.data.push({
+            category: '',
+            total_count:0,
+            use_count:0,
+            percent: 0
+          });
+        });
+        high_length = null;
+      }
+      highValue_sort = _.sortBy(result.data, 'percent');
+      _.each(highValue_sort, function(high_Value) {
+        if (high_Value.category.length > 6) {
+          high_Value.category = high_Value.category.slice(0,6);
+        }
+        data.y.push(high_Value.category);
+        data.x1.push(high_Value.total_count);
+        data.x2.push(high_Value.using_count);
+        data.x3.push(high_Value.percent* 100);
+        if(high_Value.category) {
+          data.min_arr.push(high_Value.percent* 100);
+        }
+        high_Value = null;
+      });
+      high_min = _.min(data.min_arr);
+      high_max = _.max(data.x1);
+      min_color = '#cfeaf0';
+      dot_color = '#71c8d9';
+      add = 0;
+      _.each(data.x3, function(value, index) {
+        if(value === high_min && value !== 100 && data.min_arr.length > 1) {
+          min_color = '#f39800';
+          dot_color = '#f39800';
+        }
+        else {
+          min_color = '#cfeaf0';
+          dot_color = '#71c8d9'
+        }
+        if (!data.y[index]) {
+          dot_color = 'transparent';
+        }
+        add = high_max < 25 ? 0.5: 5;
+        data.label.push({
+          value: data.x1[index] + add,
+          label: {
+            normal: {
+              show: true,
+              textStyle: {
+                color:min_color
+              }
+            }
+          },
+          itemStyle: {
+            normal: {
+              color:dot_color
+            }
+          }
+        });
+        value = null, index= null;
+      });
+      ECHARTS_FUNC.horizontal_bar_echarts('high-value-echarts', data);
+       data = null, result = null, highValue_sort = null, high_min = null,  high_max = null, min_color = null,
+           dot_color = null, add = null;
+    }
+  },
+
+  LifeSupportStatus_apply: function(result) {
+    if (result.success) {
+      var life_data, life_length, lifeSupport_sort;
+      var life_min, life_max, min_color, dot_color, add;
+      life_data = {
+        y:[],
+        x1:[],
+        name1: '设备总数',
+        x2:[],
+        name2: '可用设备',
+        x3:[],
+        name3: '可用设备比例',
+        label:[],
+        unit:'台',
+        min_arr:[]
+      };
+      if (result.data.length < 7) {
+        life_length = 7 -  result.data.length;
+        _(life_length).times(function(n){
+          result.data.push({
+            category: '',
+            total_count:0,
+            use_count:0,
+            percent: 0
+          });
+        });
+        life_length = null;
+      }
+      lifeSupport_sort = _.sortBy(result.data, 'percent');
+      _.each(lifeSupport_sort, function(lifeSupport) {
+        if (lifeSupport.category.length > 6) {
+          lifeSupport.category = lifeSupport.category.slice(0,6);
+        }
+        life_data.y.push(lifeSupport.category);
+        life_data.x1.push(lifeSupport.total_count);
+        life_data.x2.push(lifeSupport.using_count);
+        life_data.x3.push(lifeSupport.percent* 100);
+        if(lifeSupport.category) {
+          life_data.min_arr.push(lifeSupport.percent* 100);
+        }
+        lifeSupport = null;
+      });
+      life_min = _.min(life_data.min_arr);
+      life_max = _.max(life_data.x1);
+      min_color = '#cfeaf0';
+      dot_color = '#71c8d9';
+      add = 0;
+      _.each(life_data.x3, function(value, index) {
+        if(value === life_min && value !== 100 && life_data.min_arr.length > 1) {
+          min_color = '#f39800';
+          dot_color = '#f39800';
+        }
+        else {
+          min_color = '#cfeaf0';
+          dot_color = '#71c8d9';
+        }
+        if (!life_data.x1[index]) {
+          dot_color = 'transparent';
+        }
+        add = life_max < 25 ? 0.5: 5;
+        life_data.label.push({
+          value: life_data.x1[index] + add ,
+          label: {
+            normal: {
+              show: true,
+              textStyle: {
+                color:min_color
+              }
+            }
+          },
+          itemStyle: {
+            normal: {
+              color:dot_color
+            }
+          }
+        });
+        value = null, index= null;
+      });
+      ECHARTS_FUNC.horizontal_bar_echarts('life-echarts', life_data);
+      result = null, life_data = null,  lifeSupport_sort = null, life_min = null,
+          life_max = null, min_color = null, dot_color = null,
+          add = null;
+    }
+  },
+
   completedStatus_ajax: function() {
-    var self = this;
     var url = '<%=base%>' + completedStatusUrl;
     COMMON_FUNC.ajax_get(url, {}, '', function(result) {
       if (result.success) {
         localStorage.setItem('completedStatus', JSON.stringify(result));
-        self.completedStatus_apply(result);
-        url = null, self = null;
+        INDEX.completedStatus_apply(result);
+        url = null;
       }
     })
   },
@@ -506,21 +525,18 @@ var index = {
   },
 
   eqpStatus_ajax: function() {
-    var self = this;
     var url = '<%=base%>' + eqpStatusUrl;
     COMMON_FUNC.ajax_get(url, {}, '', function(result) {
       if (result.success) {
         localStorage.setItem('eqpStatus', JSON.stringify(result));
-        self.eqpStatus_apply(result);
-        self = null; url = null;
+        INDEX.eqpStatus_apply(result);
+         url = null;
       }
     })
   },
 
   eqpStatus_apply:function(result) {
     if (result.success) {
-      console.log(result);
-      var self = this;
       var $update_info = $('#update-info');
       var $overdue_info = $('#overdue_info');
       var update_line_height = $update_info.height() / 6 - 2;
@@ -585,7 +601,7 @@ var index = {
             update.status_color = '';
             break;
         }
-        $update_tpl = $($.trim(self.message_line_tpl(update)));
+        $update_tpl = $($.trim(INDEX.message_line_tpl(update)));
         $update_tpl.css({
           height: update_line_height + 'px',
           'line-height': update_line_height + 'px'
@@ -604,7 +620,7 @@ var index = {
         else {
           overdue.users_name = overdue.users_name || '-';
         }
-        $overdue_tpl = $($.trim(self.message_line_tpl(overdue)));
+        $overdue_tpl = $($.trim(INDEX.message_line_tpl(overdue)));
         $overdue_tpl.css({
           height: overdue_line_height + 'px',
           'line-height': overdue_line_height + 'px'
@@ -630,18 +646,17 @@ var index = {
           $overdue_line.css({top: '0px'});
         });
       }, 60*1000);
-      self = null,  url = null,  screen_height = null,  result = null, $overdue_tpl = null,
+      url = null,  screen_height = null,  result = null, $overdue_tpl = null,
           $update_tpl = null;
     }
   },
 
   dptStatus_ajax: function() {
-    var self =this;
     var url = '<%=base%>' + dptStatusUrl;
     COMMON_FUNC.ajax_get(url, {}, '', function(result) {
       if (result.success) {
         localStorage.setItem('dptStatus', JSON.stringify(result));
-        self.dptStatus_apply(result);
+        INDEX.dptStatus_apply(result);
         url = null;
       }
     })
@@ -719,20 +734,18 @@ var index = {
   },
 
   engineerStatus_ajax: function() {
-    var self = this;
     var url = '<%=base%>' + engineerStatusUrl;
     COMMON_FUNC.ajax_get(url, {}, '', function(result) {
       if (result.success) {
         localStorage.setItem('engineerStatus', JSON.stringify(result));
-        self.engineerStatus_apply(result);
-        self = null, url = null;
+        INDEX.engineerStatus_apply(result);
+         url = null;
       }
     })
   },
 
   engineerStatus_apply: function(result) {
     if (result.success) {
-      var self = this;
       var $medical_info_box = $('#medical_info_box');
       var  $medical_tpl, $medical_info_line, $parent, height;
       clearInterval(GVR.INTERVAL.info_setInterval);
@@ -741,7 +754,7 @@ var index = {
       _.each(result.data[0], function(me_info_first) {
         me_info_first.resp_avg = me_info_first.resp_avg < 0 ? 0 : parseFloat(me_info_first.resp_avg.toFixed(2));
         me_info_first.fix_avg = me_info_first.fix_avg < 0 ? 0 : parseFloat(me_info_first.fix_avg.toFixed(2));
-        $medical_tpl = $(self.medical_tpl(me_info_first));
+        $medical_tpl = $(INDEX.medical_tpl(me_info_first));
         $medical_info_box.append($medical_tpl);
       });
       GVR.INTERVAL.info_setInterval = setInterval(function() {
@@ -755,13 +768,12 @@ var index = {
           $medical_info_line.css({top: '0px'});
         });
       }, 60*1000);
-      self = null,  url = null, $medical_info_box = null, result = null,
+      url = null, $medical_info_box = null, result = null,
           $medical_tpl = null;
     }
   },
 
   device_num_total: function($ele, num) {
-    var self = this;
     var start = 0;
     var str_num = '0000';
     var html_num;
@@ -776,17 +788,17 @@ var index = {
     var num_clear = setInterval(function() {
       if(start >= num) {
         clearInterval(num_clear);
-        str_num = self.switch_num(num);
+        str_num = INDEX.switch_num(num);
         $deviceNumBg.each(function(index, dom) {
           html_num = str_num.slice(index, index + 1);
           $(dom).html(html_num);
           html_num = null;
         });
-        self = null, start = null, str_num = null, num_clear = null, $ele = null, num = null, $deviceNumBg = null;
+        start = null, str_num = null, num_clear = null, $ele = null, num = null, $deviceNumBg = null;
         return false;
       }
       start = parseInt(start) + 80;
-      str_num = self.switch_num(start);
+      str_num = INDEX.switch_num(start);
       $deviceNumBg.each(function(index, dom) {
         html_num = str_num.slice(index, index + 1);
         $(dom).html(html_num);
@@ -820,9 +832,9 @@ var index = {
 };
 
 $(function(){
-  index.ready_init();
+  INDEX.ready_init();
   $(window).resize(function() {
-    index.ready_init();
+    INDEX.ready_init();
   });
 })
 ;
