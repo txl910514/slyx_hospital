@@ -23,6 +23,7 @@ var index = {
     if (window.medatc) {
       window.medatc.hideLoading();
     }
+    COMMON_FUNC.setCookie('version', '0.0.0', location.pathname, location.hostname );
     dptStatus_data = JSON.parse(localStorage.getItem('dptStatus'));
     eqpCount_data = JSON.parse(localStorage.getItem('eqpCount'));
     eqpStatus_data = JSON.parse(localStorage.getItem('eqpStatus'));
