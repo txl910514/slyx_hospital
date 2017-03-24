@@ -23,8 +23,7 @@ var index = {
     if (window.medatc) {
       window.medatc.hideLoading();
     }
-    COMMON_FUNC.setCookie('version', '0.0.0', location.pathname, location.hostname );
-    dptStatus_data = JSON.parse(localStorage.getItem('dptStatus'));
+/*    dptStatus_data = JSON.parse(localStorage.getItem('dptStatus'));
     eqpCount_data = JSON.parse(localStorage.getItem('eqpCount'));
     eqpStatus_data = JSON.parse(localStorage.getItem('eqpStatus'));
     tktStatus_data = JSON.parse(localStorage.getItem('tktStatus'));
@@ -39,7 +38,7 @@ var index = {
     self.patrolStatus_apply(patrolStatus_data);
     self.completedStatus_apply(completedStatus_data);
     self.engineerStatus_apply(engineerStatus_data);
-    index.nameStatus_apply(nameStatus_data);
+    index.nameStatus_apply(nameStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
       self.WebSocket_dp();
     }
@@ -151,7 +150,6 @@ var index = {
           index.nameStatus_apply(socket_msg);
           break;
         case 'version':
-          localStorage.setItem('versionStatus', JSON.stringify(socket_msg));
           index.versionStatus_apply(socket_msg);
           break;
         default :
@@ -161,7 +159,6 @@ var index = {
 
     // 监听Socket的关闭
     socket.onclose = function(event) {
-      console.log('close', socket_close_time);
       if (!socket_error_time) {
         socket_close_time += 1;
         if (socket_close_time === 4) {
@@ -175,7 +172,6 @@ var index = {
     };
     socket.onerror = function(event) {
       socket_error_time += 1;
-      console.log('error', socket_error_time);
       if (socket_error_time === 4) {
         index.no_WebSocket();
       }
@@ -200,10 +196,12 @@ var index = {
   },
 
   versionStatus_apply: function(result) {
-    getCookie = COMMON_FUNC.getCookie('version');
-    if (getCookie !== result.data) {
-      COMMON_FUNC.setCookie('version', result.data, location.pathname, location.hostname );
-      COMMON_FUNC.get_url();
+    if (result.success) {
+      getCookie = JSON.parse(localStorage.getItem('versionStatus'));
+      if (getCookie.data !== result.data) {
+        localStorage.setItem('versionStatus', JSON.stringify(socket_msg));
+        COMMON_FUNC.get_url();
+      }
     }
   },
 
@@ -376,7 +374,7 @@ var index = {
   },
 
   eqpCount_apply: function(result) {
-    if (result) {
+    if (result.success) {
       var self = this;
       self.device_num_total($('#total-device-num'), result.data.total_count || 0);
       self.device_num_total($('#using-count'), result.data.using_count || 0);
@@ -386,7 +384,7 @@ var index = {
   },
 
   nameStatus_apply: function(result) {
-    if (result) {
+    if (result.success) {
       $('#header-title').text(result.data);
       result = null;
     }
@@ -405,7 +403,7 @@ var index = {
   },
 
   tktStatus_apply: function(result) {
-    if (result) {
+    if (result.success) {
       var status_total, wait_percent, get_percent, overdue_percent, wait_data, get_data, overdue_data;
       status_total = result.data.overdue_count + result.data.wait_count +
           result.data.get_count;
@@ -455,7 +453,7 @@ var index = {
   },
 
   patrolStatus_apply: function(result) {
-    if (result) {
+    if (result.success) {
       var month_check_data;
       month_check_data = {
         x: [],
@@ -486,7 +484,7 @@ var index = {
   },
 
   completedStatus_apply: function(result) {
-    if (result) {
+    if (result.success) {
       var fix_pct_data;
       fix_pct_data = {
         status: 'line',
@@ -520,7 +518,8 @@ var index = {
   },
 
   eqpStatus_apply:function(result) {
-    if (result) {
+    if (result.success) {
+      console.log(result);
       var self = this;
       var $update_info = $('#update-info');
       var $overdue_info = $('#overdue_info');
@@ -564,37 +563,21 @@ var index = {
           update.users_name = update.users_name || '-';
         }
         switch (update.status) {
-          case 1:
-            update.status_name = '报修';
+          case '待接修':
+            update.status_name = '待接修';
             update.status_color = 'repair_color';
             update.users_name = update.users_name || '未接修';
             break;
-          case 2:
-            update.status_name = '在修';
+          case '维修中':
+            update.status_name = '维修中';
             update.status_color = 'receive_color';
             break;
-          case 3:
+          case '待确认':
             update.status_name = '待确认';
             update.status_color = 'receive_color';
             break;
-          case 4:
-            update.status_name = '已结束';
-            update.status_color = 'finish_color';
-            break;
-          case 5:
-            update.status_name = '误报已结束';
-            update.status_color = 'finish_color';
-            break;
-          case 7:
-            update.status_name = '已留观';
-            update.status_color = 'receive_color';
-            break;
-          case 8:
-            update.status_name = '外修开始';
-            update.status_color = 'receive_color';
-            break;
-          case 9:
-            update.status_name = '外修结束';
+          case '维修完成':
+            update.status_name = '维修完成';
             update.status_color = 'finish_color';
             break;
           default :
@@ -612,6 +595,7 @@ var index = {
       });
       _.each(result.data.overdue_info, function(overdue) {
         overdue.updated_at = '';
+        overdue.categories_name = '-';
         overdue.over_due_time = overdue.over_due_time || '-';
         overdue.created_at = overdue.created_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
         if(overdue.status === 1) {
@@ -664,7 +648,7 @@ var index = {
   },
 
   dptStatus_apply: function(result) {
-    if(result) {
+    if(result.success) {
       var  dptuse_data, lack_length, dptusePct_sort ,dptuse_min, dptuse_color, x1_value;
       dptuse_data = {
         y:[],
@@ -747,7 +731,7 @@ var index = {
   },
 
   engineerStatus_apply: function(result) {
-    if (result) {
+    if (result.success) {
       var self = this;
       var $medical_info_box = $('#medical_info_box');
       var  $medical_tpl, $medical_info_line, $parent, height;
