@@ -14,7 +14,7 @@ var getCookie;
 var $body = $('body');
 var socket, socket_msg, socket_error_time = 0, socket_close_time = 0, socket_func, error_close_setTime;
 var dptStatus_data, eqpCount_data, eqpStatus_data, tktStatus_data, patrolStatus_data, completedStatus_data,
-    engineerStatus_data, nameStatus_data, hospital_id;
+    engineerStatus_data, nameStatus_data, hospital_id, hospital_ws;
 var INDEX = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
@@ -40,7 +40,8 @@ var INDEX = {
     INDEX.nameStatus_apply(nameStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
-      wsUrl = wsUrl + '?hos=' + hospital_id;
+      hospital_ws = null;
+      hospital_ws = wsUrl + '?hos=' + hospital_id;
       INDEX.WebSocket_dp();
     }
     else {
@@ -72,7 +73,7 @@ var INDEX = {
   },
 
   WebSocket_dp: function() {
-    socket = new WebSocket('<%=ws_url%>'+ wsUrl);
+    socket = new WebSocket('<%=ws_url%>'+ hospital_ws);
     socket_func = {
       timeout: 60*1000,//60ms
       timeoutObj: null,
