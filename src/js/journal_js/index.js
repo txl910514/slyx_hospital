@@ -70,6 +70,7 @@ var INDEX = {
   },
 
   WebSocket_dp: function() {
+    COMMON_FUNC.setCookie('hos', 3622, '/socketServer', '10.0.1.147' );
     socket = new WebSocket('<%=ws_url%>'+ wsUrl);
     socket_func = {
       timeout: 60*1000,//60ms
