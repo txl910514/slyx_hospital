@@ -1,7 +1,7 @@
 /**
  * Created by tangxl on 16-12-6.
  */
-var wsUrl = '/socketServer?code=14cb4c66fb26065ecdb583fb0135e49616002f90'
+var wsUrl = '/socketServer';
 var eqpCountUrl = '/hos/eqp_count?hosId=3622';
 var tktStatusUrl = '/hos/tkt_status?hosId=3622';
 var patrolStatusUrl = '/hos/patrol_status?hosId=3622';
@@ -14,7 +14,7 @@ var getCookie;
 var $body = $('body');
 var socket, socket_msg, socket_error_time = 0, socket_close_time = 0, socket_func, error_close_setTime;
 var dptStatus_data, eqpCount_data, eqpStatus_data, tktStatus_data, patrolStatus_data, completedStatus_data,
-    engineerStatus_data, nameStatus_data;
+    engineerStatus_data, nameStatus_data, hospital_id;
 var INDEX = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
@@ -39,6 +39,8 @@ var INDEX = {
     INDEX.engineerStatus_apply(engineerStatus_data);
     INDEX.nameStatus_apply(nameStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
+      hospital_id = COMMON_FUNC.getCookie('hospital_id');
+      wsUrl = wsUrl + '?hos=' + hospital_id;
       INDEX.WebSocket_dp();
     }
     else {
@@ -70,7 +72,6 @@ var INDEX = {
   },
 
   WebSocket_dp: function() {
-    COMMON_FUNC.setCookie('hos', 3622, '/socketServer', '10.0.1.147' );
     socket = new WebSocket('<%=ws_url%>'+ wsUrl);
     socket_func = {
       timeout: 60*1000,//60ms
@@ -169,7 +170,7 @@ var INDEX = {
       if (!socket_error_time) {
         socket_close_time += 1;
         if (socket_close_time === 4) {
-          INDEX.no_WebSocket();
+          /*INDEX.no_WebSocket();*/
         }
         error_close_setTime = setTimeout(function() {
           INDEX.WebSocket_dp();
@@ -180,7 +181,7 @@ var INDEX = {
     socket.onerror = function(event) {
       socket_error_time += 1;
       if (socket_error_time === 4) {
-        INDEX.no_WebSocket();
+     /*   INDEX.no_WebSocket();*/
       }
       error_close_setTime = setTimeout(function() {
         INDEX.WebSocket_dp();
