@@ -12,6 +12,7 @@ var engineerStatusUrl = '/hos/engineer_status?hosId=3622';
 var versionUrl = '<%=base%>' + '/version/get';
 var getCookie;
 var $body = $('body');
+var $error_init = $('.error_init');
 var socket, socket_msg, socket_error_time = 0, socket_close_time = 0, socket_func, error_close_setTime;
 var dptStatus_data, eqpCount_data, eqpStatus_data, tktStatus_data, patrolStatus_data, completedStatus_data,
     engineerStatus_data, nameStatus_data, hospital_id, hospital_ws;
@@ -39,6 +40,7 @@ var INDEX = {
     INDEX.engineerStatus_apply(engineerStatus_data);
     INDEX.nameStatus_apply(nameStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
+      COMMON_FUNC.setCookie('hospital_id', 3622, location.pathname, location.hostname);
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -98,6 +100,7 @@ var INDEX = {
       },
     };
     socket.onopen = function(event) {
+      $error_init.css('display','none');
       socket_close_time = 0;
       socket_error_time = 0;
       if (GVR.INTERVAL.VERSION_AJAX) {
@@ -168,6 +171,7 @@ var INDEX = {
 
     // 监听Socket的关闭
     socket.onclose = function(event) {
+      $error_init.css('display', 'block');
       if (!socket_error_time) {
         socket_close_time += 1;
         if (socket_close_time === 4) {
@@ -180,6 +184,7 @@ var INDEX = {
 
     };
     socket.onerror = function(event) {
+      $error_init.css('display', 'block');
       socket_error_time += 1;
       if (socket_error_time === 4) {
      /*   INDEX.no_WebSocket();*/

@@ -158,6 +158,29 @@ img{
   #small-bg {
     z-index: 0;
   }
+  .error_init {
+    position: absolute;
+    top:5%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: $color12;
+    display: none;
+    .error-content {
+      border: solid 1px $color12;
+      padding: $padding5 $padding10;
+      .error-icon {
+        background: url("../images/error_icon.png") no-repeat;
+        background-size: cover;
+        width: 20px;
+        height: 20px;
+        margin-right: $padding5;
+      }
+      .error-text {
+
+      }
+    }
+  }
   .header{
     color: $color1;
     position: relative;
