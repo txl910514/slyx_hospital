@@ -7,10 +7,10 @@ var get_time_stamp, version_href;
 var COMMON_FUNC = {
   ready_init: function() {
     COMMON_FUNC.get_time();
-    var code = COMMON_FUNC.search_location('code');
+/*    var code = COMMON_FUNC.search_location('code');
     COMMON_FUNC.setCookie('code', code, '/s/yybd', '121.42.187.170' );
     COMMON_FUNC.setCookie('code', code, '/cookie_home', '121.42.187.170' );
-    code = null;
+    code = null;*/
   },
 
   setCookie: function(name, value, path, domain) {
@@ -81,8 +81,7 @@ var COMMON_FUNC = {
   get_url: function() {
     version_time = new Date();
     get_time_stamp = version_time.getTime();
-    version_href = 'http://' + window.location.host + window.location.pathname + '?code=' + COMMON_FUNC.search_location('code') +
-        '&time_stamp='+ get_time_stamp;
+    version_href = 'http://' + window.location.host + window.location.pathname + '?time_stamp='+ get_time_stamp;
     window.location.assign(version_href);
     version_time = null, get_time_stamp = null, version_href = null;
   },

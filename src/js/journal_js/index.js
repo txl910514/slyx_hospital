@@ -40,6 +40,7 @@ var INDEX = {
     INDEX.engineerStatus_apply(engineerStatus_data);
     INDEX.nameStatus_apply(nameStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
+      //COMMON_FUNC.setCookie('hospital_id', 3622, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -210,10 +211,15 @@ var INDEX = {
 
   versionStatus_apply: function(result) {
     if (result.success) {
-      getCookie = JSON.parse(localStorage.getItem('versionStatus'));
-      if (getCookie.data !== result.data) {
+      getCookie = JSON.parse(localStorage.getItem('versionStatus')) || {};
+      if(getCookie.data) {
+        if (getCookie.data !== result.data) {
+          localStorage.setItem('versionStatus', JSON.stringify(socket_msg));
+          COMMON_FUNC.get_url();
+        }
+      }
+      else {
         localStorage.setItem('versionStatus', JSON.stringify(socket_msg));
-        COMMON_FUNC.get_url();
       }
     }
   },
@@ -840,8 +846,8 @@ var INDEX = {
 
 $(function(){
   INDEX.ready_init();
-  $(window).resize(function() {
+/*  $(window).resize(function() {
     INDEX.ready_init();
-  });
+  });*/
 })
 ;
