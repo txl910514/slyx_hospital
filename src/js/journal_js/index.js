@@ -15,7 +15,7 @@ var $body = $('body');
 var $error_init = $('.error_init');
 var socket, socket_msg, socket_error_time = 0, socket_close_time = 0, socket_func, error_close_setTime;
 var dptStatus_data, eqpCount_data, eqpStatus_data, tktStatus_data, patrolStatus_data, completedStatus_data,
-    engineerStatus_data, nameStatus_data, hospital_id, hospital_ws;
+    engineerStatus_data, nameStatus_data, valuableStatus_data, LifeSupportStatus_data,  hospital_id, hospital_ws;
 var INDEX = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
@@ -49,6 +49,29 @@ var INDEX = {
     else {
       INDEX.no_WebSocket();
     }
+  },
+
+  resize_dp: function() {
+    dptStatus_data = JSON.parse(localStorage.getItem('dptStatus')) || {};
+    eqpCount_data = JSON.parse(localStorage.getItem('eqpCount')) || {};
+    eqpStatus_data = JSON.parse(localStorage.getItem('eqpStatus')) || {};
+    tktStatus_data = JSON.parse(localStorage.getItem('tktStatus')) || {};
+    patrolStatus_data = JSON.parse(localStorage.getItem('patrolStatus')) || {};
+    completedStatus_data = JSON.parse(localStorage.getItem('completedStatus')) || {};
+    engineerStatus_data = JSON.parse(localStorage.getItem('engineerStatus')) || {};
+    nameStatus_data = JSON.parse(localStorage.getItem('nameStatus')) || {};
+    valuableStatus_data = JSON.parse(localStorage.getItem('valuableStatus')) || {};
+    LifeSupportStatus_data = JSON.parse(localStorage.getItem('LifeSupportStatus')) || {};
+    INDEX.dptStatus_apply(dptStatus_data);
+    INDEX.eqpCount_apply(eqpCount_data);
+    INDEX.eqpStatus_apply(eqpStatus_data);
+    INDEX.tktStatus_apply(tktStatus_data);
+    INDEX.patrolStatus_apply(patrolStatus_data);
+    INDEX.completedStatus_apply(completedStatus_data);
+    INDEX.engineerStatus_apply(engineerStatus_data);
+    INDEX.nameStatus_apply(nameStatus_data);
+    INDEX.valuableStatus_apply(valuableStatus_data);
+    INDEX.LifeSupportStatus_apply(LifeSupportStatus_data);
   },
 
   no_WebSocket: function() {
@@ -846,8 +869,8 @@ var INDEX = {
 
 $(function(){
   INDEX.ready_init();
-/*  $(window).resize(function() {
-    INDEX.ready_init();
-  });*/
+  $(window).resize(function() {
+    INDEX.resize_dp();
+  });
 })
 ;

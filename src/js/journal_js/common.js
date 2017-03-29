@@ -60,14 +60,76 @@ var COMMON_FUNC = {
       $jsYearText.text(time_text);
       timing_renovate = hour + ':' + min + ':' + second;
       switch (timing_renovate) {
+        case '00:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '01:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '02:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '03:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '04:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '05:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '06:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '07:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '08:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '09:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '10:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '11:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '12:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '13:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '14:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '15:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '16:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '17:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '18:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '19:00:00':
+          COMMON_FUNC.get_url();
+          break;
+        case '20:00:00':
+          COMMON_FUNC.get_url();
+          break;
         case '21:00:00':
           COMMON_FUNC.get_url();
           break;
-        case '00:00:00':
+        case '22:00:00':
+          COMMON_FUNC.get_url();
           break;
-        case '03:00:00':
-          break;
-        case '06:00:00':
+        case '23:00:00':
           COMMON_FUNC.get_url();
           break;
       }
