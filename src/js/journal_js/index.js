@@ -15,7 +15,8 @@ var $body = $('body');
 var $error_init = $('.error_init');
 var socket, socket_msg, socket_error_time = 0, socket_close_time = 0, socket_func, error_close_setTime;
 var dptStatus_data, eqpCount_data, eqpStatus_data, tktStatus_data, patrolStatus_data, completedStatus_data,
-    engineerStatus_data, nameStatus_data, valuableStatus_data, LifeSupportStatus_data,  hospital_id, hospital_ws;
+    engineerStatus_data, valuableStatus_data, LifeSupportStatus_data;
+var hospital_id, hospital_ws, hospital_name, token, user_id;
 var INDEX = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
@@ -30,20 +31,21 @@ var INDEX = {
     patrolStatus_data = JSON.parse(localStorage.getItem('patrolStatus'));
     completedStatus_data = JSON.parse(localStorage.getItem('completedStatus'));
     engineerStatus_data = JSON.parse(localStorage.getItem('engineerStatus'));
-    nameStatus_data = JSON.parse(localStorage.getItem('nameStatus'));
     INDEX.dptStatus_apply(dptStatus_data);
     INDEX.eqpCount_apply(eqpCount_data);
     INDEX.eqpStatus_apply(eqpStatus_data);
     INDEX.tktStatus_apply(tktStatus_data);
     INDEX.patrolStatus_apply(patrolStatus_data);
     INDEX.completedStatus_apply(completedStatus_data);
-    INDEX.engineerStatus_apply(engineerStatus_data);
-    INDEX.nameStatus_apply(nameStatus_data);*/
+    INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
       //COMMON_FUNC.setCookie('hospital_id', 3622, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
+      hospital_name = COMMON_FUNC.getCookie('hospital_name');
+      token = COMMON_FUNC.getCookie('token');
+      user_id = COMMON_FUNC.getCookie('user_id');
       hospital_ws = null;
-      hospital_ws = wsUrl + '?hos=' + hospital_id;
+      hospital_ws = wsUrl + '?hos=' + hospital_id + '&user=' + user_id + '&hname=' + hospital_name + '&token=' + token;
       INDEX.WebSocket_dp();
     }
     else {
@@ -59,9 +61,9 @@ var INDEX = {
     patrolStatus_data = JSON.parse(localStorage.getItem('patrolStatus')) || {};
     completedStatus_data = JSON.parse(localStorage.getItem('completedStatus')) || {};
     engineerStatus_data = JSON.parse(localStorage.getItem('engineerStatus')) || {};
-    nameStatus_data = JSON.parse(localStorage.getItem('nameStatus')) || {};
     valuableStatus_data = JSON.parse(localStorage.getItem('valuableStatus')) || {};
     LifeSupportStatus_data = JSON.parse(localStorage.getItem('LifeSupportStatus')) || {};
+    hospital_name = COMMON_FUNC.getCookie('hospital_name') || '-';
     INDEX.dptStatus_apply(dptStatus_data);
     INDEX.eqpCount_apply(eqpCount_data);
     INDEX.eqpStatus_apply(eqpStatus_data);
@@ -69,7 +71,7 @@ var INDEX = {
     INDEX.patrolStatus_apply(patrolStatus_data);
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);
-    INDEX.nameStatus_apply(nameStatus_data);
+    INDEX.nameStatus_apply(hospital_name);
     INDEX.valuableStatus_apply(valuableStatus_data);
     INDEX.LifeSupportStatus_apply(LifeSupportStatus_data);
   },
@@ -180,10 +182,6 @@ var INDEX = {
           localStorage.setItem('LifeSupportStatus', JSON.stringify(socket_msg));
           INDEX.LifeSupportStatus_apply(socket_msg);
           break;
-        case 'name':
-          localStorage.setItem('nameStatus', JSON.stringify(socket_msg));
-          INDEX.nameStatus_apply(socket_msg);
-          break;
         case 'version':
           INDEX.versionStatus_apply(socket_msg);
           break;
@@ -272,10 +270,10 @@ var INDEX = {
     }
   },
 
-  nameStatus_apply: function(result) {
-    if (result.success) {
-      $('#header-title').text(result.data);
-      result = null;
+  nameStatus_apply: function(name) {
+    if (name) {
+      $('#header-title').text(name);
+      name = null;
     }
   },
 
