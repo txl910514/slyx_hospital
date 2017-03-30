@@ -137,6 +137,8 @@ var INDEX = {
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
       }
+      hospital_name = COMMON_FUNC.getCookie('hospital_name') || '-';
+      INDEX.nameStatus_apply(hospital_name);
       // socket_func.start();
       // 关闭Socket....
      // socket.close();
