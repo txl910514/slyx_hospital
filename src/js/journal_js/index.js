@@ -248,11 +248,7 @@ var INDEX = {
   },
 
   eqpCount_ajax: function() {
-    var $highValue = $('#highValue');
     var url = '<%=base%>' + eqpCountUrl;
-    var jsonp_name = $highValue.attr('jsonp-callback');
-    var data, life_data, high_length, highValue_sort, life_length, lifeSupport_sort;
-    var life_min, high_min, life_max, high_max, min_color, dot_color, add;
     COMMON_FUNC.ajax_get(url, {}, '', function(result) {
       if (result.success) {
         localStorage.setItem('eqpCount', JSON.stringify(result));

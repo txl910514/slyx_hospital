@@ -27,7 +27,6 @@ var gulp = require('gulp'),
 	Q = require('q'),
 	del = require('del'),
 	pathConfig = {
-		dist: 'dp_test/',
 		src: 'src/',
 		rev: 'rev'
 	},
@@ -60,6 +59,18 @@ var gulp = require('gulp'),
 			}))
 			.pipe(gulp.dest("./rev"));
 	};
+if (yargs.pub) {
+	switch (yargs.pub) {
+		// 正式环境
+		case "url":
+			pathConfig.dist = 'dp_release/';
+			break;
+		//测试环境
+		case "test":
+			pathConfig.dist = 'dp_test/';
+			break;
+	}
+};
 var condition = function (file) {
 	// TODO: add business logic
 	var file_path = file.history[0].replace(file.cwd+'/', '');
