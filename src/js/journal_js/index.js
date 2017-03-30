@@ -41,11 +41,12 @@ var INDEX = {
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
       //COMMON_FUNC.setCookie('hospital_id', 3622, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
-      hospital_name = COMMON_FUNC.getCookie('hospital_name');
-      token = COMMON_FUNC.getCookie('token');
-      user_id = COMMON_FUNC.getCookie('user_id');
       hospital_ws = null;
-      hospital_ws = wsUrl + '?hos=' + hospital_id + '&user=' + user_id + '&hname=' + hospital_name + '&token=' + token;
+      hospital_ws = wsUrl + '?hos=' + hospital_id;
+      if(!hospital_id) {
+        window.location.href = "https://passport.test.medevicedata.com/wechat/?redirect=http%3A%2F%2F121.42.187.170%3A8081%2Fdp%2Fhos%2F";
+        return false;
+      }
       INDEX.WebSocket_dp();
     }
     else {
@@ -271,6 +272,7 @@ var INDEX = {
   nameStatus_apply: function(name) {
     if (name) {
       $('#header-title').text(name);
+      document.title = name;
       name = null;
     }
   },
