@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "gulp --pub test -w -s",
+    "test": "gulp rev --pub test -w -s",
     "bulid": "gulp  rev --pub url --w --s"
   },
   "author": "",
