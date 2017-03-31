@@ -1280,6 +1280,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var ecModel = this.getModel();
 	                var el = e.target;
 	                var params;
+
 	                // no e.target when 'globalout'.
 	                if (eveName === 'globalout') {
 	                    params = {};
