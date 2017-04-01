@@ -88,6 +88,7 @@ var ECHARTS_FUNC = {
         },
 
         data: [{
+          value: 1,
           itemStyle: {
             normal: {
               color: 'rgba(51,61,81,0.5)'
@@ -109,6 +110,7 @@ var ECHARTS_FUNC = {
           },
 
           data: [{
+            value: 1,
             itemStyle: {
               normal: {
                 color: '#1e2122'
@@ -309,6 +311,7 @@ var ECHARTS_FUNC = {
       backgroundColor: 'rgba(23,41,135,.1)',
       color: ['#3398DB'],
       tooltip : {
+        show: false,
         trigger: 'axis',
         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
           type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
@@ -496,6 +499,7 @@ var ECHARTS_FUNC = {
       backgroundColor: 'rgba(23,41,135,.1)',
       color: ['#71c8d9'],
       tooltip : {
+        show: false,
         trigger: 'axis'
       },
       grid: {
