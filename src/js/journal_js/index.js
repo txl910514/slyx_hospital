@@ -293,6 +293,7 @@ var INDEX = {
       var status_total, wait_percent, get_percent, overdue_percent, wait_data, get_data, overdue_data;
       status_total = result.data.overdue_count + result.data.wait_count +
           result.data.get_count;
+      status_total = status_total? status_total : 1;
       wait_percent = parseInt(result.data.wait_count/ status_total *100);
       get_percent = parseInt(result.data.get_count/ status_total *100);
       overdue_percent = parseInt(result.data.overdue_count/ status_total *100);
