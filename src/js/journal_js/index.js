@@ -39,7 +39,7 @@ var INDEX = {
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      //COMMON_FUNC.setCookie('hospital_id', 3094, location.pathname, location.hostname );
+      COMMON_FUNC.setCookie('hospital_id', 3094, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -102,6 +102,7 @@ var INDEX = {
 
   WebSocket_dp: function() {
     socket = new WebSocket('<%=ws_url%>'+ hospital_ws);
+    GVR.SOCKET.WEBSOCKET = socket;
     socket_func = {
       timeout: 60*1000,//60ms
       timeoutObj: null,
