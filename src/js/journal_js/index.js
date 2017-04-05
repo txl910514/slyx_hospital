@@ -196,6 +196,9 @@ var INDEX = {
     // 监听Socket的关闭
     socket.onclose = function(event) {
       $error_init.css('display', 'block');
+      if(error_close_setTime) {
+        clearTimeout(error_close_setTime);
+      }
       if (!socket_error_time) {
         socket_close_time += 1;
         if (socket_close_time === 4) {
@@ -209,6 +212,9 @@ var INDEX = {
     };
     socket.onerror = function(event) {
       $error_init.css('display', 'block');
+      if(error_close_setTime) {
+        clearTimeout(error_close_setTime);
+      }
       socket_error_time += 1;
       if (socket_error_time === 4) {
      /*   INDEX.no_WebSocket();*/
