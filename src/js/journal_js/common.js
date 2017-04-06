@@ -70,16 +70,18 @@ var COMMON_FUNC = {
     getTime_func();
   },
 
-  get_url: function() {
-    if(GVR.SOCKET.WEBSOCKET) {
-      GVR.SOCKET.WEBSOCKET.close();
-      GVR.SOCKET.WEBSOCKET = null;
-    }
-    version_time = new Date();
-    get_time_stamp = version_time.getTime();
-    version_href = 'http://' + window.location.host + window.location.pathname + '?time_stamp='+ get_time_stamp;
-    window.location.assign(version_href);
-    version_time = null, get_time_stamp = null, version_href = null;
+  get_url: function(version) {
+    MEDATC_FUNC.getNetworkStatus(version, function() {
+      if(GVR.SOCKET.WEBSOCKET) {
+        GVR.SOCKET.WEBSOCKET.close();
+        GVR.SOCKET.WEBSOCKET = null;
+      }
+      version_time = new Date();
+      get_time_stamp = version_time.getTime();
+      version_href = 'http://' + window.location.host + window.location.pathname + '?time_stamp='+ get_time_stamp;
+      window.location.assign(version_href);
+      version_time = null, get_time_stamp = null, version_href = null;
+    });
   },
 
   ajax_get: function(url, data, jsonpCall, callback){

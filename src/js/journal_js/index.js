@@ -21,9 +21,7 @@ var INDEX = {
   message_line_tpl: _.template($('#message_line_tpl').html()),
   medical_tpl: _.template($('#medical_tpl').html()),
   ready_init:function() {
-    if (window.medatc) {
-      window.medatc.hideLoading();
-    }
+    MEDATC_FUNC.hideLoading();
 /*    dptStatus_data = JSON.parse(localStorage.getItem('dptStatus'));
     eqpCount_data = JSON.parse(localStorage.getItem('eqpCount'));
     eqpStatus_data = JSON.parse(localStorage.getItem('eqpStatus'));
@@ -246,7 +244,7 @@ var INDEX = {
       if(getCookie.data) {
         if (getCookie.data !== result.data) {
           localStorage.setItem('versionStatus', JSON.stringify(socket_msg));
-          COMMON_FUNC.get_url();
+          COMMON_FUNC.get_url(result.data);
         }
       }
       else {
