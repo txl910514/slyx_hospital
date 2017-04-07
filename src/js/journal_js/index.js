@@ -194,6 +194,7 @@ var INDEX = {
 
     // 监听Socket的关闭
     socket.onclose = function(event) {
+      GVR.SOCKET.WEBSOCKET = null;
       $error_init.css('display', 'block');
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
@@ -205,12 +206,20 @@ var INDEX = {
             /*INDEX.no_WebSocket();*/
           }
           error_close_setTime = setTimeout(function() {
-            INDEX.WebSocket_dp();
+            if (GVR.SOCKET.WEBSOCKET) {
+              if(error_close_setTime) {
+                clearTimeout(error_close_setTime);
+              }
+            }
+            else {
+              INDEX.WebSocket_dp();
+            }
           }, 60*1000);
         }
       }
     };
     socket.onerror = function(event) {
+      GVR.SOCKET.WEBSOCKET = null;
       $error_init.css('display', 'block');
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
@@ -221,7 +230,14 @@ var INDEX = {
           /*   INDEX.no_WebSocket();*/
         }
         error_close_setTime = setTimeout(function() {
-          INDEX.WebSocket_dp();
+          if (GVR.SOCKET.WEBSOCKET) {
+            if(error_close_setTime) {
+              clearTimeout(error_close_setTime);
+            }
+          }
+          else {
+            INDEX.WebSocket_dp();
+          }
         }, 60*1000);
       }
 
