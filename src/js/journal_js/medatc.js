@@ -35,7 +35,7 @@ var MEDATC_FUNC = {
   getNetworkStatus: function(version,callback) {
     if(window.medatc) {
       online_network = window.medatc.getNetworkStatus();
-      if (online_network) {
+      if (online_network === 'connected') {
         version_change = null;
         if (typeof callback === 'function') {
           callback();
