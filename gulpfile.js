@@ -67,7 +67,7 @@ if (yargs.pub) {
 			break;
 		//测试环境
 		case "test":
-			pathConfig.dist = 'dp_test/';
+			pathConfig.dist = 'hos_dp/';
 			break;
 	}
 };
