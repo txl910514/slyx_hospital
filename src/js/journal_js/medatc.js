@@ -9,10 +9,18 @@ var MEDATC_FUNC = {
     if (window.medatc) {
       window.medatc.onNetworkStatusChanged = function(status) {
         if (status === 'connected') {
+          GVR.ONLINE = true;
           if (version_change) {
             COMMON_FUNC.get_url();
             version_change = null;
           }
+          else {
+            INDEX.WebSocket_dp();
+          }
+        }
+        else {
+          GVR.ONLINE = false;
+          COMMON_FUNC.close_socket();
         }
       };
     }

@@ -72,16 +72,20 @@ var COMMON_FUNC = {
 
   get_url: function(version) {
     MEDATC_FUNC.getNetworkStatus(version, function() {
-      if(GVR.SOCKET.WEBSOCKET) {
-        GVR.SOCKET.WEBSOCKET.close();
-        GVR.SOCKET.WEBSOCKET = null;
-      }
+      COMMON_FUNC.close_socket();
       version_time = new Date();
       get_time_stamp = version_time.getTime();
       version_href = 'http://' + window.location.host + window.location.pathname + '?time_stamp='+ get_time_stamp;
       window.location.assign(version_href);
       version_time = null, get_time_stamp = null, version_href = null;
     });
+  },
+
+  close_socket:function() {
+    if(GVR.SOCKET.WEBSOCKET) {
+      GVR.SOCKET.WEBSOCKET.close();
+      GVR.SOCKET.WEBSOCKET = null;
+    }
   },
 
   ajax_get: function(url, data, jsonpCall, callback){

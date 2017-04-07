@@ -100,7 +100,6 @@ var INDEX = {
 
   WebSocket_dp: function() {
     socket = new WebSocket('<%=ws_url%>'+ hospital_ws);
-    GVR.SOCKET.WEBSOCKET = socket;
     socket_func = {
       timeout: 60*1000,//60ms
       timeoutObj: null,
@@ -125,6 +124,7 @@ var INDEX = {
       },
     };
     socket.onopen = function(event) {
+      GVR.SOCKET.WEBSOCKET = socket;
       $error_init.css('display','none');
       socket_close_time = 0;
       socket_error_time = 0;
@@ -198,29 +198,32 @@ var INDEX = {
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
       }
-      if (!socket_error_time) {
-        socket_close_time += 1;
-        if (socket_close_time === 4) {
-          /*INDEX.no_WebSocket();*/
+      if (GVR.ONLINE) {
+        if (!socket_error_time) {
+          socket_close_time += 1;
+          if (socket_close_time === 4) {
+            /*INDEX.no_WebSocket();*/
+          }
+          error_close_setTime = setTimeout(function() {
+            INDEX.WebSocket_dp();
+          }, 60*1000);
         }
-        error_close_setTime = setTimeout(function() {
-          INDEX.WebSocket_dp();
-        }, 60*1000);
       }
-
     };
     socket.onerror = function(event) {
       $error_init.css('display', 'block');
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
       }
-      socket_error_time += 1;
-      if (socket_error_time === 4) {
-     /*   INDEX.no_WebSocket();*/
+      if (GVR.ONLINE) {
+        socket_error_time += 1;
+        if (socket_error_time === 4) {
+          /*   INDEX.no_WebSocket();*/
+        }
+        error_close_setTime = setTimeout(function() {
+          INDEX.WebSocket_dp();
+        }, 60*1000);
       }
-      error_close_setTime = setTimeout(function() {
-        INDEX.WebSocket_dp();
-      }, 60*1000);
 
     };
     window.onbeforeunload = function () {
