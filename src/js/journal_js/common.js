@@ -85,7 +85,6 @@ var COMMON_FUNC = {
   close_socket:function() {
     if(GVR.SOCKET.WEBSOCKET) {
       GVR.SOCKET.WEBSOCKET.close();
-      GVR.SOCKET.WEBSOCKET = null;
     }
   },
 
