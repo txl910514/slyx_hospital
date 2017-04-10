@@ -38,7 +38,7 @@ var INDEX = {
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      //COMMON_FUNC.setCookie('hospital_id', 3094, location.pathname, location.hostname );
+      COMMON_FUNC.setCookie('hospital_id', 3092, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -151,39 +151,57 @@ var INDEX = {
         socket_msg = JSON.parse(event.data);
         switch (socket_msg.message) {
           case 'eqp_count':
-            localStorage.setItem('eqpCount', JSON.stringify(socket_msg));
+            if (!window.medatc) {
+              localStorage.setItem('eqpCount', JSON.stringify(socket_msg));
+            }
             INDEX.eqpCount_apply(socket_msg);
             break;
           case 'dpt_status':
-            localStorage.setItem('dptStatus', JSON.stringify(socket_msg));
+            if (!window.medatc) {
+              localStorage.setItem('dptStatus', JSON.stringify(socket_msg));
+            }
             INDEX.dptStatus_apply(socket_msg);
             break;
           case 'tkt_status':
-            localStorage.setItem('tktStatus', JSON.stringify(socket_msg));
+            if (!window.medatc) {
+              localStorage.setItem('tktStatus', JSON.stringify(socket_msg));
+            }
             INDEX.tktStatus_apply(socket_msg);
             break;
           case 'completed_status':
-            localStorage.setItem('completedStatus', JSON.stringify(socket_msg));
+            if (!window.medatc) {
+              localStorage.setItem('completedStatus', JSON.stringify(socket_msg));
+            }
             INDEX.completedStatus_apply(socket_msg);
             break;
           case 'eqp_status':
-            localStorage.setItem('eqpStatus', JSON.stringify(socket_msg));
+            if (!window.medatc) {
+              localStorage.setItem('eqpStatus', JSON.stringify(socket_msg));
+            }
             INDEX.eqpStatus_apply(socket_msg);
             break;
           case 'engineer_status':
-            localStorage.setItem('engineerStatus', JSON.stringify(socket_msg));
+            if (!window.medatc) {
+              localStorage.setItem('engineerStatus', JSON.stringify(socket_msg));
+            }
             INDEX.engineerStatus_apply(socket_msg);
             break;
           case 'patrol_status':
-            localStorage.setItem('patrolStatus', JSON.stringify(socket_msg));
+            if (!window.medatc) {
+              localStorage.setItem('patrolStatus', JSON.stringify(socket_msg));
+            }
             INDEX.patrolStatus_apply(socket_msg);
             break;
           case 'valuable':
-            localStorage.setItem('valuableStatus', JSON.stringify(socket_msg));
+            if (!window.medatc) {
+              localStorage.setItem('valuableStatus', JSON.stringify(socket_msg));
+            }
             INDEX.valuableStatus_apply(socket_msg);
             break;
           case 'LifeSupport':
-            localStorage.setItem('LifeSupportStatus', JSON.stringify(socket_msg));
+            if (!window.medatc) {
+              localStorage.setItem('LifeSupportStatus', JSON.stringify(socket_msg));
+            }
             INDEX.LifeSupportStatus_apply(socket_msg);
             break;
           case 'version':
@@ -414,6 +432,9 @@ var INDEX = {
         });
         high_length = null;
       }
+      else {
+        result.data = result.data.slice(0,7);
+      }
       highValue_sort = _.sortBy(result.data, 'percent');
       _.each(highValue_sort, function(high_Value) {
         if (high_Value.category.length > 6) {
@@ -497,6 +518,9 @@ var INDEX = {
           });
         });
         life_length = null;
+      }
+      else {
+        result.data = result.data.slice(0,7);
       }
       lifeSupport_sort = _.sortBy(result.data, 'percent');
       _.each(lifeSupport_sort, function(lifeSupport) {
@@ -742,14 +766,17 @@ var INDEX = {
         status:'dptuse',
         min_arr:[]
       };
-      if (result.data.dptuse_pct.length < 5) {
-        lack_length = 5 -  result.data.dptuse_pct.length;
+      if (result.data.dptuse_pct.length < 7) {
+        lack_length = 7 -  result.data.dptuse_pct.length;
         _(lack_length).times(function(n){
           result.data.dptuse_pct.push({
             departments_name: '',
             use_percent: 0
           });
         });
+      }
+      else {
+        result.data.dptuse_pct = result.data.dptuse_pct.slice(0,7);
       }
       dptusePct_sort = _.sortBy(result.data.dptuse_pct, 'departments_name');
       _.each(dptusePct_sort, function(dptuse_pct) {
@@ -897,8 +924,10 @@ var INDEX = {
 
 $(function(){
   INDEX.ready_init();
-  $(window).resize(function() {
-    INDEX.resize_dp();
-  });
+  if (!window.medatc) {
+    $(window).resize(function() {
+      INDEX.resize_dp();
+    });
+  }
 })
 ;
