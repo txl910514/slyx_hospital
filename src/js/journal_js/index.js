@@ -201,7 +201,7 @@ var INDEX = {
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
       }
-      if (GVR.ONLINE) {
+      if (GVR.ONLINE && !GVR.RELOAD) {
         if (!socket_error_time) {
           socket_close_time += 1;
           if (socket_close_time === 4) {
@@ -227,7 +227,7 @@ var INDEX = {
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
       }
-      if (GVR.ONLINE) {
+      if (GVR.ONLINE && !GVR.RELOAD) {
         socket_error_time += 1;
         if (socket_error_time === 4) {
           /*   INDEX.no_WebSocket();*/

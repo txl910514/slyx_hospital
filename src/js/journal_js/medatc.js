@@ -15,6 +15,7 @@ var MEDATC_FUNC = {
           if (version_change) {
             COMMON_FUNC.get_url();
             version_change = null;
+            COMMON_FUNC.close_socket();
           }
           else {
             INDEX.WebSocket_dp();

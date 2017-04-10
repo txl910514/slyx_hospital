@@ -72,6 +72,7 @@ var COMMON_FUNC = {
 
   get_url: function(version) {
     MEDATC_FUNC.getNetworkStatus(version, function() {
+      GVR.RELOAD = true;
       COMMON_FUNC.close_socket();
       version_time = new Date();
       get_time_stamp = version_time.getTime();
