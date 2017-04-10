@@ -4,11 +4,13 @@
 ;
 var online_network;
 var version_change;
+GVR.ONLINE = true;
 var MEDATC_FUNC = {
   ready_init: function() {
     if (window.medatc) {
       window.medatc.onNetworkStatusChanged = function(status) {
         if (status === 'connected') {
+          $error_init.css('display', 'none');
           GVR.ONLINE = true;
           if (version_change) {
             COMMON_FUNC.get_url();
@@ -19,6 +21,8 @@ var MEDATC_FUNC = {
           }
         }
         else {
+          $error_text.text('网络断开...');
+          $error_init.css('display', 'block');
           GVR.ONLINE = false;
           COMMON_FUNC.close_socket();
         }

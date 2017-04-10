@@ -13,6 +13,7 @@ var versionUrl = '<%=base%>' + '/version/get';
 var getCookie;
 var $body = $('body');
 var $error_init = $('.error_init');
+var $error_text = $('.error-text');
 var socket, socket_msg, socket_error_time = 0, socket_close_time = 0, socket_func, error_close_setTime;
 var dptStatus_data, eqpCount_data, eqpStatus_data, tktStatus_data, patrolStatus_data, completedStatus_data,
     engineerStatus_data, valuableStatus_data, LifeSupportStatus_data;
@@ -195,6 +196,7 @@ var INDEX = {
     // 监听Socket的关闭
     socket.onclose = function(event) {
       GVR.SOCKET.WEBSOCKET = null;
+      $error_text.text('连接断开，正在重连...');
       $error_init.css('display', 'block');
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
@@ -220,6 +222,7 @@ var INDEX = {
     };
     socket.onerror = function(event) {
       GVR.SOCKET.WEBSOCKET = null;
+      $error_text.text('连接断开，正在重连...');
       $error_init.css('display', 'block');
       if(error_close_setTime) {
         clearTimeout(error_close_setTime);
