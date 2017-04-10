@@ -100,112 +100,138 @@ var INDEX = {
   },
 
   WebSocket_dp: function() {
-    socket = new WebSocket('<%=ws_url%>'+ hospital_ws);
-    socket_func = {
-      timeout: 60*1000,//60ms
-      timeoutObj: null,
-      serverTimeoutObj: null,
-      reset: function(){
-        if (this.timeoutObj) {
-          clearInterval(this.timeoutObj);
+    if (!GVR.SOCKET.WEBSOCKET) {
+      socket = new WebSocket('<%=ws_url%>'+ hospital_ws);
+      socket_func = {
+        timeout: 60*1000,//60ms
+        timeoutObj: null,
+        serverTimeoutObj: null,
+        reset: function(){
+          if (this.timeoutObj) {
+            clearInterval(this.timeoutObj);
+          }
+          if (this.serverTimeoutObj) {
+            clearInterval(this.serverTimeoutObj);
+          }
+          this.start();
+        },
+        start: function(){
+          var self = this;
+          this.timeoutObj = setInterval(function(){
+            socket.send("HeartBeat", "beat");
+            self.serverTimeoutObj = setInterval(function(){
+              socket.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
+            }, self.timeout)
+          }, this.timeout)
+        },
+      };
+      socket.onopen = function(event) {
+        GVR.SOCKET.WEBSOCKET = socket;
+        $error_init.css('display','none');
+        socket_close_time = 0;
+        socket_error_time = 0;
+        if (GVR.INTERVAL.VERSION_AJAX) {
+          clearInterval(GVR.INTERVAL.VERSION_AJAX);
         }
-        if (this.serverTimeoutObj) {
-          clearInterval(this.serverTimeoutObj);
+        if (GVR.INTERVAL.INIT_AJAX) {
+          clearInterval(GVR.INTERVAL.INIT_AJAX);
         }
-        this.start();
-      },
-      start: function(){
-        var self = this;
-        this.timeoutObj = setInterval(function(){
-          socket.send("HeartBeat", "beat");
-          self.serverTimeoutObj = setInterval(function(){
-            socket.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
-          }, self.timeout)
-        }, this.timeout)
-      },
-    };
-    socket.onopen = function(event) {
-      GVR.SOCKET.WEBSOCKET = socket;
-      $error_init.css('display','none');
-      socket_close_time = 0;
-      socket_error_time = 0;
-      if (GVR.INTERVAL.VERSION_AJAX) {
-        clearInterval(GVR.INTERVAL.VERSION_AJAX);
-      }
-      if (GVR.INTERVAL.INIT_AJAX) {
-        clearInterval(GVR.INTERVAL.INIT_AJAX);
-      }
-      if(error_close_setTime) {
-        clearTimeout(error_close_setTime);
-      }
-      hospital_name = COMMON_FUNC.getCookie('hospital_name') || '-';
-      INDEX.nameStatus_apply(hospital_name);
-      // socket_func.start();
-      // 关闭Socket....
-     // socket.close();
-    };
-    // 监听消息
-    socket.onmessage = function(event) {
-      // socket_func.reset();
-      socket_msg = JSON.parse(event.data);
-      switch (socket_msg.message) {
-        case 'eqp_count':
-          localStorage.setItem('eqpCount', JSON.stringify(socket_msg));
-          INDEX.eqpCount_apply(socket_msg);
-          break;
-        case 'dpt_status':
-          localStorage.setItem('dptStatus', JSON.stringify(socket_msg));
-          INDEX.dptStatus_apply(socket_msg);
-          break;
-        case 'tkt_status':
-          localStorage.setItem('tktStatus', JSON.stringify(socket_msg));
-          INDEX.tktStatus_apply(socket_msg);
-          break;
-        case 'completed_status':
-          localStorage.setItem('completedStatus', JSON.stringify(socket_msg));
-          INDEX.completedStatus_apply(socket_msg);
-          break;
-        case 'eqp_status':
-          localStorage.setItem('eqpStatus', JSON.stringify(socket_msg));
-          INDEX.eqpStatus_apply(socket_msg);
-          break;
-        case 'engineer_status':
-          localStorage.setItem('engineerStatus', JSON.stringify(socket_msg));
-          INDEX.engineerStatus_apply(socket_msg);
-          break;
-        case 'patrol_status':
-          localStorage.setItem('patrolStatus', JSON.stringify(socket_msg));
-          INDEX.patrolStatus_apply(socket_msg);
-          break;
-        case 'valuable':
-          localStorage.setItem('valuableStatus', JSON.stringify(socket_msg));
-          INDEX.valuableStatus_apply(socket_msg);
-          break;
-        case 'LifeSupport':
-          localStorage.setItem('LifeSupportStatus', JSON.stringify(socket_msg));
-          INDEX.LifeSupportStatus_apply(socket_msg);
-          break;
-        case 'version':
-          INDEX.versionStatus_apply(socket_msg);
-          break;
-        default :
-          break;
-      }
-    };
+        if(error_close_setTime) {
+          clearTimeout(error_close_setTime);
+        }
+        hospital_name = COMMON_FUNC.getCookie('hospital_name') || '-';
+        INDEX.nameStatus_apply(hospital_name);
+        // socket_func.start();
+        // 关闭Socket....
+        // socket.close();
+      };
+      // 监听消息
+      socket.onmessage = function(event) {
+        // socket_func.reset();
+        socket_msg = JSON.parse(event.data);
+        switch (socket_msg.message) {
+          case 'eqp_count':
+            localStorage.setItem('eqpCount', JSON.stringify(socket_msg));
+            INDEX.eqpCount_apply(socket_msg);
+            break;
+          case 'dpt_status':
+            localStorage.setItem('dptStatus', JSON.stringify(socket_msg));
+            INDEX.dptStatus_apply(socket_msg);
+            break;
+          case 'tkt_status':
+            localStorage.setItem('tktStatus', JSON.stringify(socket_msg));
+            INDEX.tktStatus_apply(socket_msg);
+            break;
+          case 'completed_status':
+            localStorage.setItem('completedStatus', JSON.stringify(socket_msg));
+            INDEX.completedStatus_apply(socket_msg);
+            break;
+          case 'eqp_status':
+            localStorage.setItem('eqpStatus', JSON.stringify(socket_msg));
+            INDEX.eqpStatus_apply(socket_msg);
+            break;
+          case 'engineer_status':
+            localStorage.setItem('engineerStatus', JSON.stringify(socket_msg));
+            INDEX.engineerStatus_apply(socket_msg);
+            break;
+          case 'patrol_status':
+            localStorage.setItem('patrolStatus', JSON.stringify(socket_msg));
+            INDEX.patrolStatus_apply(socket_msg);
+            break;
+          case 'valuable':
+            localStorage.setItem('valuableStatus', JSON.stringify(socket_msg));
+            INDEX.valuableStatus_apply(socket_msg);
+            break;
+          case 'LifeSupport':
+            localStorage.setItem('LifeSupportStatus', JSON.stringify(socket_msg));
+            INDEX.LifeSupportStatus_apply(socket_msg);
+            break;
+          case 'version':
+            INDEX.versionStatus_apply(socket_msg);
+            break;
+          default :
+            break;
+        }
+      };
 
-    // 监听Socket的关闭
-    socket.onclose = function(event) {
-      GVR.SOCKET.WEBSOCKET = null;
-      $error_text.text('连接断开，正在重连...');
-      $error_init.css('display', 'block');
-      if(error_close_setTime) {
-        clearTimeout(error_close_setTime);
-      }
-      if (GVR.ONLINE && !GVR.RELOAD) {
-        if (!socket_error_time) {
-          socket_close_time += 1;
-          if (socket_close_time === 4) {
-            /*INDEX.no_WebSocket();*/
+      // 监听Socket的关闭
+      socket.onclose = function(event) {
+        GVR.SOCKET.WEBSOCKET = null;
+        $error_text.text('连接断开，正在重连...');
+        $error_init.css('display', 'block');
+        if(error_close_setTime) {
+          clearTimeout(error_close_setTime);
+        }
+        if (GVR.ONLINE && !GVR.RELOAD) {
+          if (!socket_error_time) {
+            socket_close_time += 1;
+            if (socket_close_time === 4) {
+              /*INDEX.no_WebSocket();*/
+            }
+            error_close_setTime = setTimeout(function() {
+              if (GVR.SOCKET.WEBSOCKET) {
+                if(error_close_setTime) {
+                  clearTimeout(error_close_setTime);
+                }
+              }
+              else {
+                INDEX.WebSocket_dp();
+              }
+            }, 60*1000);
+          }
+        }
+      };
+      socket.onerror = function(event) {
+        GVR.SOCKET.WEBSOCKET = null;
+        $error_text.text('连接断开，正在重连...');
+        $error_init.css('display', 'block');
+        if(error_close_setTime) {
+          clearTimeout(error_close_setTime);
+        }
+        if (GVR.ONLINE && !GVR.RELOAD) {
+          socket_error_time += 1;
+          if (socket_error_time === 4) {
+            /*   INDEX.no_WebSocket();*/
           }
           error_close_setTime = setTimeout(function() {
             if (GVR.SOCKET.WEBSOCKET) {
@@ -218,33 +244,9 @@ var INDEX = {
             }
           }, 60*1000);
         }
-      }
-    };
-    socket.onerror = function(event) {
-      GVR.SOCKET.WEBSOCKET = null;
-      $error_text.text('连接断开，正在重连...');
-      $error_init.css('display', 'block');
-      if(error_close_setTime) {
-        clearTimeout(error_close_setTime);
-      }
-      if (GVR.ONLINE && !GVR.RELOAD) {
-        socket_error_time += 1;
-        if (socket_error_time === 4) {
-          /*   INDEX.no_WebSocket();*/
-        }
-        error_close_setTime = setTimeout(function() {
-          if (GVR.SOCKET.WEBSOCKET) {
-            if(error_close_setTime) {
-              clearTimeout(error_close_setTime);
-            }
-          }
-          else {
-            INDEX.WebSocket_dp();
-          }
-        }, 60*1000);
-      }
 
-    };
+      };
+    }
     window.onbeforeunload = function () {
       socket.close();
     }

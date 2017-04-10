@@ -17,9 +17,7 @@ var MEDATC_FUNC = {
             version_change = null;
           }
           else {
-            if (!GVR.SOCKET.WEBSOCKET) {
-              INDEX.WebSocket_dp();
-            }
+            INDEX.WebSocket_dp();
           }
         }
         else {
