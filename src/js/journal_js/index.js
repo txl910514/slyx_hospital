@@ -109,11 +109,11 @@ var INDEX = {
         serverTimeoutObj: null,
         reset: function(){
           if (this.timeoutObj) {
-            clearInterval(this.timeoutObj);
+            clearTimeout(this.timeoutObj);
             this.timeoutObj = null;
           }
           if (this.serverTimeoutObj) {
-            clearInterval(this.serverTimeoutObj);
+            clearTimeout(this.serverTimeoutObj);
             this.serverTimeoutObj = null;
           }
           if (GVR.SOCKET.WEBSOCKET) {
@@ -122,21 +122,21 @@ var INDEX = {
         },
         start: function(){
           var self = this;
-          this.timeoutObj = setInterval(function(){
+          this.timeoutObj = setTimeout(function(){
             socket.send("HeartBeat", "beat");
-/*            self.serverTimeoutObj = setInterval(function(){
+            self.serverTimeoutObj = setTimeout(function(){
               self.closeHeart();
               socket.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
-            }, self.closeTimeout)*/
+            }, self.closeTimeout)
           }, this.timeout);
         },
         closeHeart: function() {
           if (this.timeoutObj) {
-            clearInterval(this.timeoutObj);
+            clearTimeout(this.timeoutObj);
             this.timeoutObj = null;
           }
           if (this.serverTimeoutObj) {
-            clearInterval(this.serverTimeoutObj);
+            clearTimeout(this.serverTimeoutObj);
             this.serverTimeoutObj = null;
           }
         }
@@ -245,37 +245,7 @@ var INDEX = {
           clearTimeout(error_close_setTime);
         }
         if (GVR.ONLINE && !GVR.RELOAD) {
-          if (!socket_error_time) {
-            socket_close_time += 1;
-            if (socket_close_time === 4) {
-              /*INDEX.no_WebSocket();*/
-            }
-            error_close_setTime = setTimeout(function() {
-              if (GVR.SOCKET.WEBSOCKET) {
-                if(error_close_setTime) {
-                  clearTimeout(error_close_setTime);
-                }
-              }
-              else {
-                INDEX.WebSocket_dp();
-              }
-            }, 60*1000);
-          }
-        }
-      };
-      socket.onerror = function(event) {
-        socket_func.closeHeart();
-        GVR.SOCKET.WEBSOCKET = null;
-        $error_text.text('连接断开，正在重连...');
-        $error_init.css('display', 'block');
-        if(error_close_setTime) {
-          clearTimeout(error_close_setTime);
-        }
-        if (GVR.ONLINE && !GVR.RELOAD) {
-          socket_error_time += 1;
-          if (socket_error_time === 4) {
-            /*   INDEX.no_WebSocket();*/
-          }
+          $error_text.text('close');
           error_close_setTime = setTimeout(function() {
             if (GVR.SOCKET.WEBSOCKET) {
               if(error_close_setTime) {
@@ -287,6 +257,32 @@ var INDEX = {
             }
           }, 60*1000);
         }
+      };
+      socket.onerror = function(event) {
+/*        socket_func.closeHeart();
+        GVR.SOCKET.WEBSOCKET = null;
+        $error_text.text('连接断开，正在重连...error');
+        $error_init.css('display', 'block');
+        if(error_close_setTime) {
+          clearTimeout(error_close_setTime);
+        }
+        if (GVR.ONLINE && !GVR.RELOAD) {
+          $error_text.text('error');
+          socket_error_time += 1;
+          if (socket_error_time === 4) {
+            /!*   INDEX.no_WebSocket();*!/
+          }
+          error_close_setTime = setTimeout(function() {
+            if (GVR.SOCKET.WEBSOCKET) {
+              if(error_close_setTime) {
+                clearTimeout(error_close_setTime);
+              }
+            }
+            else {
+              INDEX.WebSocket_dp();
+            }
+          }, 10*1000);
+        }*/
 
       };
     }
