@@ -38,7 +38,7 @@ var INDEX = {
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      //COMMON_FUNC.setCookie('hospital_id', 3493, location.pathname, location.hostname );
+      //COMMON_FUNC.setCookie('hospital_id', 3092, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -157,13 +157,13 @@ var INDEX = {
         }
         hospital_name = COMMON_FUNC.getCookie('hospital_name') || '-';
         INDEX.nameStatus_apply(hospital_name);
-        socket_func.reset();
+        //socket_func.reset();
         // 关闭Socket....
         // socket.close();
       };
       // 监听消息
       socket.onmessage = function(event) {
-        socket_func.reset();
+        //socket_func.reset();
         try
         {
           socket_msg = JSON.parse(event.data);
@@ -693,14 +693,14 @@ var INDEX = {
       _.each(update_sort, function(update) {
         update.categories_name = update.categories_name || '-';
         update.updated_at = update.updated_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
-        if (update.status !== 1) {
+        if (update.status !== '待接修') {
           update.users_name = update.users_name || '-';
         }
         switch (update.status) {
           case '待接修':
             update.status_name = '待接修';
             update.status_color = 'repair_color';
-            update.users_name = update.users_name || '未接修';
+            update.users_name = update.users_name || update.status;
             break;
           case '维修中':
             update.status_name = '维修中';
@@ -732,8 +732,8 @@ var INDEX = {
         overdue.categories_name = '-';
         overdue.over_due_time = overdue.over_due_time || '-';
         overdue.created_at = overdue.created_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
-        if(overdue.status === 1) {
-          overdue.users_name = overdue.users_name || '未接修';
+        if(overdue.status === '待接修') {
+          overdue.users_name = overdue.users_name || overdue.status;
         }
         else {
           overdue.users_name = overdue.users_name || '-';
