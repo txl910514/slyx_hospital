@@ -38,7 +38,7 @@ var INDEX = {
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      //COMMON_FUNC.setCookie('hospital_id', 3622, location.pathname, location.hostname );
+      //COMMON_FUNC.setCookie('hospital_id', 3493, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -358,8 +358,7 @@ var INDEX = {
   tktStatus_apply: function(result) {
     if (result.success) {
       var status_total, wait_percent, get_percent, overdue_percent, wait_data, get_data, overdue_data;
-      status_total = result.data.overdue_count + result.data.wait_count +
-          result.data.get_count;
+      status_total = result.data.wait_count + result.data.get_count;
       status_total = status_total? status_total : 1;
       wait_percent = parseInt(result.data.wait_count/ status_total *100);
       get_percent = parseInt(result.data.get_count/ status_total *100);
@@ -440,10 +439,13 @@ var INDEX = {
         unit:'台',
         min_arr:[]
       };
-      if (result.data.length < 7) {
-        high_length = 7 -  result.data.length;
+      highValue_sort = _.sortBy(result.data, function(sort) {
+        return -sort.percent;
+      });
+      if (highValue_sort.length < 7) {
+        high_length = 7 - highValue_sort.length;
         _(high_length).times(function(){
-          result.data.push({
+          highValue_sort.push({
             category: '',
             total_count:0,
             use_count:0,
@@ -453,9 +455,8 @@ var INDEX = {
         high_length = null;
       }
       else {
-        result.data = result.data.slice(0,7);
+        highValue_sort = highValue_sort.slice(highValue_sort.length - 7, highValue_sort.length);
       }
-      highValue_sort = _.sortBy(result.data, 'percent');
       _.each(highValue_sort, function(high_Value) {
         if (high_Value.category.length > 6) {
           high_Value.category = high_Value.category.slice(0,6);
@@ -527,10 +528,13 @@ var INDEX = {
         unit:'台',
         min_arr:[]
       };
-      if (result.data.length < 7) {
-        life_length = 7 -  result.data.length;
+      lifeSupport_sort = _.sortBy(result.data, function(sort) {
+        return - sort.percent;
+      });
+      if (lifeSupport_sort.length < 7) {
+        life_length = 7 -  lifeSupport_sort.length;
         _(life_length).times(function(n){
-          result.data.push({
+          lifeSupport_sort.push({
             category: '',
             total_count:0,
             use_count:0,
@@ -540,9 +544,8 @@ var INDEX = {
         life_length = null;
       }
       else {
-        result.data = result.data.slice(0,7);
+        lifeSupport_sort = lifeSupport_sort.slice(lifeSupport_sort.length - 7,lifeSupport_sort.length);
       }
-      lifeSupport_sort = _.sortBy(result.data, 'percent');
       _.each(lifeSupport_sort, function(lifeSupport) {
         if (lifeSupport.category.length > 6) {
           lifeSupport.category = lifeSupport.category.slice(0,6);
@@ -651,7 +654,7 @@ var INDEX = {
       var overdue_line_height = $overdue_info.height() / 4 - 2;
       var screen_height = $(window).height();
       var $update_line, $overdue_line, $update_first, $overdue_first;
-      var $update_tpl, $overdue_tpl;
+      var $update_tpl, $overdue_tpl, update_sort, overdue_sort;
       if (screen_height >= 1200) {
         update_line_height = $update_info.height() / 8 - 2;
         overdue_line_height = $overdue_info.height() / 6 - 2;
@@ -680,7 +683,14 @@ var INDEX = {
       GVR.INTERVAL.message_setInterval = null;
       $update_info.html('');
       $overdue_info.html('');
-      _.each(result.data.update_info, function(update) {
+      update_sort = _.sortBy(result.data.update_info, function(sort) {
+        return -new Date(sort.updated_at);
+        //return sort.updated_at.charCodeAt() * -1;
+      });
+      overdue_sort = _.sortBy(result.data.overdue_info, function(sort) {
+        return -new Date(sort.created_at);
+      });
+      _.each(update_sort, function(update) {
         update.categories_name = update.categories_name || '-';
         update.updated_at = update.updated_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
         if (update.status !== 1) {
@@ -717,7 +727,7 @@ var INDEX = {
         $update_info.append($update_tpl);
         update = null, $update_tpl = null;
       });
-      _.each(result.data.overdue_info, function(overdue) {
+      _.each(overdue_sort, function(overdue) {
         overdue.updated_at = '';
         overdue.categories_name = '-';
         overdue.over_due_time = overdue.over_due_time || '-';
@@ -755,7 +765,7 @@ var INDEX = {
         });
       }, 60*1000);
       url = null,  screen_height = null,  result = null, $overdue_tpl = null,
-          $update_tpl = null;
+          $update_tpl = null, update_sort = null, overdue_sort = null;
     }
   },
 
@@ -786,19 +796,21 @@ var INDEX = {
         status:'dptuse',
         min_arr:[]
       };
-      if (result.data.dptuse_pct.length < 7) {
-        lack_length = 7 -  result.data.dptuse_pct.length;
+      dptusePct_sort = _.sortBy(result.data.dptuse_pct, function(sort) {
+        return -sort.use_percent;
+      });
+      if (dptusePct_sort.length < 7) {
+        lack_length = 7 -  dptusePct_sort.length;
         _(lack_length).times(function(n){
-          result.data.dptuse_pct.push({
+          dptusePct_sort.unshift({
             departments_name: '',
             use_percent: 0
           });
         });
       }
       else {
-        result.data.dptuse_pct = result.data.dptuse_pct.slice(0,7);
+        dptusePct_sort = dptusePct_sort.slice(dptusePct_sort.length -7, dptusePct_sort.length);
       }
-      dptusePct_sort = _.sortBy(result.data.dptuse_pct, 'departments_name');
       _.each(dptusePct_sort, function(dptuse_pct) {
         if (dptuse_pct.departments_name.length > 6) {
           dptuse_pct.departments_name = dptuse_pct.departments_name.slice(0,6);
