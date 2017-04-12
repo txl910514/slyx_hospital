@@ -38,7 +38,7 @@ var INDEX = {
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      //COMMON_FUNC.setCookie('hospital_id', 3092, location.pathname, location.hostname );
+      //COMMON_FUNC.setCookie('hospital_id', 3622, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -103,7 +103,8 @@ var INDEX = {
     if (!GVR.SOCKET.WEBSOCKET) {
       socket = new WebSocket('<%=ws_url%>'+ hospital_ws);
       socket_func = {
-        timeout: 30*1000,//30秒
+        timeout: 3*1000,//3秒
+        closeTimeout: 60*1000,
         timeoutObj: null,
         serverTimeoutObj: null,
         reset: function(){
@@ -123,7 +124,7 @@ var INDEX = {
             socket.send("HeartBeat", "beat");
             self.serverTimeoutObj = setInterval(function(){
               socket.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
-            }, 2*self.timeout)
+            }, self.closeTimeout)
           }, this.timeout)
         },
         closeHeart: function() {
@@ -160,7 +161,14 @@ var INDEX = {
       // 监听消息
       socket.onmessage = function(event) {
         socket_func.reset();
-        socket_msg = JSON.parse(event.data);
+        try
+        {
+          socket_msg = JSON.parse(event.data);
+        }
+        catch(err)
+        {
+          socket_msg = {};
+        }
         switch (socket_msg.message) {
           case 'eqp_count':
             if (!window.medatc) {
