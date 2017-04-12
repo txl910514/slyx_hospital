@@ -157,13 +157,13 @@ var INDEX = {
         }
         hospital_name = COMMON_FUNC.getCookie('hospital_name') || '-';
         INDEX.nameStatus_apply(hospital_name);
-        //socket_func.reset();
+        socket_func.reset();
         // 关闭Socket....
         // socket.close();
       };
       // 监听消息
       socket.onmessage = function(event) {
-        //socket_func.reset();
+        socket_func.reset();
         try
         {
           socket_msg = JSON.parse(event.data);
