@@ -103,15 +103,17 @@ var INDEX = {
     if (!GVR.SOCKET.WEBSOCKET) {
       socket = new WebSocket('<%=ws_url%>'+ hospital_ws);
       socket_func = {
-        timeout: 60*1000,//60ms
+        timeout: 30*1000,//30秒
         timeoutObj: null,
         serverTimeoutObj: null,
         reset: function(){
           if (this.timeoutObj) {
             clearInterval(this.timeoutObj);
+            this.timeoutObj = null;
           }
           if (this.serverTimeoutObj) {
             clearInterval(this.serverTimeoutObj);
+            this.serverTimeoutObj = null;
           }
           this.start();
         },
@@ -121,9 +123,19 @@ var INDEX = {
             socket.send("HeartBeat", "beat");
             self.serverTimeoutObj = setInterval(function(){
               socket.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
-            }, self.timeout)
+            }, 2*self.timeout)
           }, this.timeout)
         },
+        closeHeart: function() {
+          if (this.timeoutObj) {
+            clearInterval(this.timeoutObj);
+            this.timeoutObj = null;
+          }
+          if (this.serverTimeoutObj) {
+            clearInterval(this.serverTimeoutObj);
+            this.serverTimeoutObj = null;
+          }
+        }
       };
       socket.onopen = function(event) {
         GVR.SOCKET.WEBSOCKET = socket;
@@ -141,13 +153,13 @@ var INDEX = {
         }
         hospital_name = COMMON_FUNC.getCookie('hospital_name') || '-';
         INDEX.nameStatus_apply(hospital_name);
-        // socket_func.start();
+        socket_func.reset();
         // 关闭Socket....
         // socket.close();
       };
       // 监听消息
       socket.onmessage = function(event) {
-        // socket_func.reset();
+        socket_func.reset();
         socket_msg = JSON.parse(event.data);
         switch (socket_msg.message) {
           case 'eqp_count':
@@ -214,6 +226,7 @@ var INDEX = {
 
       // 监听Socket的关闭
       socket.onclose = function(event) {
+        socket_func.closeHeart();
         GVR.SOCKET.WEBSOCKET = null;
         $error_text.text('连接断开，正在重连...');
         $error_init.css('display', 'block');
@@ -240,6 +253,7 @@ var INDEX = {
         }
       };
       socket.onerror = function(event) {
+        socket_func.closeHeart();
         GVR.SOCKET.WEBSOCKET = null;
         $error_text.text('连接断开，正在重连...');
         $error_init.css('display', 'block');
