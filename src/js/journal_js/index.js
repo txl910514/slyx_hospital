@@ -116,16 +116,19 @@ var INDEX = {
             clearInterval(this.serverTimeoutObj);
             this.serverTimeoutObj = null;
           }
-          this.start();
+          if (GVR.SOCKET.WEBSOCKET) {
+            this.start();
+          }
         },
         start: function(){
           var self = this;
           this.timeoutObj = setInterval(function(){
             socket.send("HeartBeat", "beat");
-            self.serverTimeoutObj = setInterval(function(){
+/*            self.serverTimeoutObj = setInterval(function(){
+              self.closeHeart();
               socket.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
-            }, self.closeTimeout)
-          }, this.timeout)
+            }, self.closeTimeout)*/
+          }, this.timeout);
         },
         closeHeart: function() {
           if (this.timeoutObj) {
