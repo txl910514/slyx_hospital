@@ -38,7 +38,7 @@ var INDEX = {
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      //COMMON_FUNC.setCookie('hospital_id', 3092, location.pathname, location.hostname );
+      //COMMON_FUNC.setCookie('hospital_id', 3622, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -103,7 +103,7 @@ var INDEX = {
     if (!GVR.SOCKET.WEBSOCKET) {
       socket = new WebSocket('<%=ws_url%>'+ hospital_ws);
       socket_func = {
-        timeout: 3*1000,//3秒
+        timeout: 30*1000,//30秒
         closeTimeout: 60*1000,
         timeoutObj: null,
         serverTimeoutObj: null,
@@ -436,7 +436,7 @@ var INDEX = {
         x3:[],
         name3: '可用设备比例',
         label:[],
-        unit:'台',
+        unit:'',
         min_arr:[]
       };
       highValue_sort = _.sortBy(result.data, function(sort) {
@@ -525,7 +525,7 @@ var INDEX = {
         x3:[],
         name3: '可用设备比例',
         label:[],
-        unit:'台',
+        unit:'',
         min_arr:[]
       };
       lifeSupport_sort = _.sortBy(result.data, function(sort) {
