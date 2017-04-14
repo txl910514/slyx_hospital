@@ -254,7 +254,7 @@ var INDEX = {
             else {
               INDEX.WebSocket_dp();
             }
-          }, 60*1000);
+          }, 30*1000);
         }
       };
       socket.onerror = function(event) {
@@ -799,8 +799,8 @@ var INDEX = {
       dptusePct_sort = _.sortBy(result.data.dptuse_pct, function(sort) {
         return -sort.use_percent;
       });
-      if (dptusePct_sort.length < 7) {
-        lack_length = 7 -  dptusePct_sort.length;
+      if (dptusePct_sort.length < 5) {
+        lack_length = 5 -  dptusePct_sort.length;
         _(lack_length).times(function(n){
           dptusePct_sort.unshift({
             departments_name: '',
@@ -809,7 +809,7 @@ var INDEX = {
         });
       }
       else {
-        dptusePct_sort = dptusePct_sort.slice(dptusePct_sort.length -7, dptusePct_sort.length);
+        dptusePct_sort = dptusePct_sort.slice(dptusePct_sort.length -5, dptusePct_sort.length);
       }
       _.each(dptusePct_sort, function(dptuse_pct) {
         if (dptuse_pct.departments_name.length > 6) {
