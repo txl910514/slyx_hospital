@@ -368,21 +368,21 @@ var INDEX = {
         name: '',
         percent: wait_percent / 100,
         num: result.data.wait_count,
-        unit: '次'
+        unit: '单'
       };
       get_data = {
         status_name: '在修',
         name: '',
         percent: get_percent / 100,
         num: result.data.get_count,
-        unit: '次'
+        unit: '单'
       };
       overdue_data = {
         status_name: '超时',
         name: '',
         percent: overdue_percent / 100,
         num: result.data.overdue_count,
-        unit: '次'
+        unit: '单'
       };
       ECHARTS_FUNC.status_pie('wait-status', wait_data);
       ECHARTS_FUNC.status_pie('repair-status', get_data);
@@ -410,7 +410,7 @@ var INDEX = {
       month_check_data = {
         x: [],
         y:[],
-        unit:'次',
+        unit:'单',
         name: '月质控统计'
       };
       _.each(result.data.month_check, function(check) {
@@ -622,7 +622,7 @@ var INDEX = {
         y1:[],
         y2:[],
         legend_data: ['当月报修', '当月完修'],
-        unit: '次'
+        unit: '单'
       };
       _.each(result.data.fix_pct, function(fix_pct_line) {
         fix_pct_data.x.push(fix_pct_line.mon + '月');
