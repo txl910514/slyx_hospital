@@ -38,7 +38,7 @@ var INDEX = {
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      //COMMON_FUNC.setCookie('hospital_id', 3492, location.pathname, location.hostname );
+      //COMMON_FUNC.setCookie('hospital_id', 3493, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -729,7 +729,7 @@ var INDEX = {
       });
       _.each(overdue_sort, function(overdue) {
         overdue.updated_at = '';
-        overdue.categories_name = '-';
+        overdue.categories_name = overdue.categories_name || '-';
         overdue.over_due_time = overdue.over_due_time || '-';
         overdue.created_at = overdue.created_at.replace(/-/g,'/').replace(/^\d{2}/g,'').replace(/:\d{2}$/g,'');
         if(overdue.status === '待接修') {
