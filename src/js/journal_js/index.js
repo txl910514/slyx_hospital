@@ -932,7 +932,7 @@ var INDEX = {
   switch_num: function(start, num) {
     var length = start.toString().length;
     var str_num;
-    if (num > 4) {
+    if (num > 10000) {
       switch (length) {
         case 1:
           str_num = '0000' + start;
