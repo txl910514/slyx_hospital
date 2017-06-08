@@ -38,7 +38,7 @@ var INDEX = {
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      //COMMON_FUNC.setCookie('hospital_id', 3493, location.pathname, location.hostname );
+      // COMMON_FUNC.setCookie('hospital_id', 3636, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -902,16 +902,15 @@ var INDEX = {
     var html_num;
     var $deviceNumBg = $ele.find('.device-num-bg');
     if(num >= 10000) {
-      num = parseInt(num / 10000);
-      $ele.find('.device-unit').text('万台');
+      $ele.find('.device-num-bg').eq(4).text(0).css('display','inline-block')
     }
     else {
-      $ele.find('.device-unit').text('台');
+      $ele.find('.device-num-bg').eq(4).text(0).css('display','none')
     }
     var num_clear = setInterval(function() {
       if(start >= num) {
         clearInterval(num_clear);
-        str_num = INDEX.switch_num(num);
+        str_num = INDEX.switch_num(num, num);
         $deviceNumBg.each(function(index, dom) {
           html_num = str_num.slice(index, index + 1);
           $(dom).html(html_num);
@@ -920,8 +919,8 @@ var INDEX = {
         start = null, str_num = null, num_clear = null, $ele = null, num = null, $deviceNumBg = null;
         return false;
       }
-      start = parseInt(start) + 80;
-      str_num = INDEX.switch_num(start);
+      start = parseInt(start) + 81;
+      str_num = INDEX.switch_num(start, num);
       $deviceNumBg.each(function(index, dom) {
         html_num = str_num.slice(index, index + 1);
         $(dom).html(html_num);
@@ -930,25 +929,48 @@ var INDEX = {
     }, 2)
   },
 
-  switch_num: function(start) {
+  switch_num: function(start, num) {
     var length = start.toString().length;
     var str_num;
-    switch (length) {
-      case 1:
-        str_num = '000' + start;
-        break;
-      case 2:
-        str_num = '00' + start;
-        break;
-      case 3:
-        str_num = '0' + start;
-        break;
-      case 4:
-        str_num = '' + start;
-        break;
-      default :
-        break;
+    if (num > 4) {
+      switch (length) {
+        case 1:
+          str_num = '0000' + start;
+          break;
+        case 2:
+          str_num = '000' + start;
+          break;
+        case 3:
+          str_num = '00' + start;
+          break;
+        case 4:
+          str_num = '0' + start;
+          break;
+        default :
+          str_num = '' + start;
+          break;
+      }
     }
+    else {
+      switch (length) {
+        case 1:
+          str_num = '000' + start;
+          break;
+        case 2:
+          str_num = '00' + start;
+          break;
+        case 3:
+          str_num = '0' + start;
+          break;
+        case 4:
+          str_num = '' + start;
+          break;
+        default :
+          str_num = '' + start;
+          break;
+      }
+    }
+
     length = null, start = null;
     return str_num;
   }
