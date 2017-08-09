@@ -763,7 +763,7 @@ var INDEX = {
           $overdue_info.append($overdue_first);
           $overdue_line.css({top: '0px'});
         });
-      }, 60*1000);
+      }, 30*1000);
       url = null,  screen_height = null,  result = null, $overdue_tpl = null,
           $update_tpl = null, update_sort = null, overdue_sort = null;
     }
@@ -890,7 +890,7 @@ var INDEX = {
           $parent.append($medical_info_line.first());
           $medical_info_line.css({top: '0px'});
         });
-      }, 60*1000);
+      }, 30*1000);
       url = null, $medical_info_box = null, result = null,
           $medical_tpl = null;
     }
