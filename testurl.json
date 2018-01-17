@@ -1,4 +1,4 @@
 {
-    "base":"http://121.42.187.170:8081",
-    "ws_url":"ws://121.42.187.170:8081/dp"
+    "base":"https://linda.test.medatc.com/dp",
+    "ws_url":"wss://linda.test.medatc.com/dp"
 }
