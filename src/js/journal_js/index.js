@@ -38,7 +38,7 @@ var INDEX = {
     INDEX.completedStatus_apply(completedStatus_data);
     INDEX.engineerStatus_apply(engineerStatus_data);*/
     if (!!window.WebSocket && window.WebSocket.prototype.send) {
-      // COMMON_FUNC.setCookie('hospital_id', 3493, location.pathname, location.hostname );
+      // COMMON_FUNC.setCookie('hospital_id', 3622, location.pathname, location.hostname );
       hospital_id = COMMON_FUNC.getCookie('hospital_id');
       hospital_ws = null;
       hospital_ws = wsUrl + '?hos=' + hospital_id;
@@ -464,7 +464,7 @@ var INDEX = {
         data.y.push(high_Value.category);
         data.x1.push(high_Value.total_count);
         data.x2.push(high_Value.using_count);
-        data.x3.push(high_Value.percent* 100);
+        data.x3.push(parseInt((high_Value.percent* 100).toFixed(0)));
         if(high_Value.category) {
           data.min_arr.push(high_Value.percent* 100);
         }
@@ -553,7 +553,7 @@ var INDEX = {
         life_data.y.push(lifeSupport.category);
         life_data.x1.push(lifeSupport.total_count);
         life_data.x2.push(lifeSupport.using_count);
-        life_data.x3.push(lifeSupport.percent* 100);
+        life_data.x3.push(parseInt((lifeSupport.percent* 100).toFixed(0)));
         if(lifeSupport.category) {
           life_data.min_arr.push(lifeSupport.percent* 100);
         }
@@ -818,7 +818,7 @@ var INDEX = {
         dptuse_data.y.push(dptuse_pct.departments_name);
         dptuse_data.x2.push(parseInt(dptuse_pct.use_percent*100));
         if(dptuse_pct.departments_name) {
-          dptuse_data.min_arr.push(parseInt(dptuse_pct.use_percent*100));
+          dptuse_data.min_arr.push(parseInt((dptuse_pct.use_percent*100).toFixed(0)));
         }
       });
       dptuse_min = _.min(dptuse_data.min_arr);

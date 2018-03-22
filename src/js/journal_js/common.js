@@ -19,13 +19,7 @@ var COMMON_FUNC = {
   },
 
   getCookie: function(name) {
-    get_reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-    if(get_arr = document.cookie.match(get_reg)){
-      return unescape(get_arr[2]);
-    }
-    else{
-      return null;
-    }
+      return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(name).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
   },
 
   search_location: function(key) {
