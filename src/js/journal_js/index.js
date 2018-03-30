@@ -328,7 +328,7 @@ var INDEX = {
   },
 
   eqpCount_apply: function(result) {
-    if (result.success) {
+    if (result.success && result.data) {
       INDEX.device_num_total($('#total-device-num'), result.data.total_count || 0);
       INDEX.device_num_total($('#using-count'), result.data.using_count || 0);
       INDEX.device_num_total($('#fix-count'), result.data.finish_count || 0);
@@ -356,7 +356,7 @@ var INDEX = {
   },
 
   tktStatus_apply: function(result) {
-    if (result.success) {
+    if (result.success && result.data) {
       var status_total, wait_percent, get_percent, overdue_percent, wait_data, get_data, overdue_data;
       status_total = result.data.wait_count + result.data.get_count;
       status_total = status_total? status_total : 1;
@@ -405,7 +405,7 @@ var INDEX = {
   },
 
   patrolStatus_apply: function(result) {
-    if (result.success) {
+    if (result.success && result.data) {
       var month_check_data;
       month_check_data = {
         x: [],
@@ -424,7 +424,7 @@ var INDEX = {
   },
 
   valuableStatus_apply: function(result) {
-    if(result.success) {
+    if(result.success && (result.data || []).length) {
       var data, high_length, highValue_sort;
       var high_min,  high_max, min_color, dot_color, add;
       data = {
@@ -513,7 +513,7 @@ var INDEX = {
   },
 
   LifeSupportStatus_apply: function(result) {
-    if (result.success) {
+    if (result.success && (result.data || []).length) {
       var life_data, life_length, lifeSupport_sort;
       var life_min, life_max, min_color, dot_color, add;
       life_data = {
@@ -614,7 +614,7 @@ var INDEX = {
   },
 
   completedStatus_apply: function(result) {
-    if (result.success) {
+    if (result.success && result.data) {
       var fix_pct_data;
       fix_pct_data = {
         status: 'line',
@@ -647,7 +647,7 @@ var INDEX = {
   },
 
   eqpStatus_apply:function(result) {
-    if (result.success) {
+    if (result.success && result.data) {
       var $update_info = $('#update-info');
       var $overdue_info = $('#overdue_info');
       var update_line_height = $update_info.height() / 6 - 2;
@@ -781,7 +781,7 @@ var INDEX = {
   },
 
   dptStatus_apply: function(result) {
-    if(result.success) {
+    if(result.success && result.data) {
       var  dptuse_data, lack_length, dptusePct_sort ,dptuse_min, dptuse_color, x1_value;
       dptuse_data = {
         y:[],
@@ -868,7 +868,7 @@ var INDEX = {
   },
 
   engineerStatus_apply: function(result) {
-    if (result.success) {
+    if (result.success && (result.data || []).length) {
       var $medical_info_box = $('#medical_info_box');
       var  $medical_tpl, $medical_info_line, $parent, height;
       clearInterval(GVR.INTERVAL.info_setInterval);
